@@ -15,6 +15,5 @@ export class MongoConfig {
         }
     }
 }
-
 const uri = process.env.MONGO_URI
 export const mongoConfig = new MongoConfig(uri, mongoSetup)
