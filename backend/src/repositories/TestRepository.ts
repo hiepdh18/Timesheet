@@ -9,6 +9,3 @@ class TestRepository extends BaseRepository {
   }
 }
 export = new TestRepository();
-
-
-

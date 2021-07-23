@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Server = void 0;
 const express_1 = __importDefault(require("express"));
 const MasterRouter_1 = __importDefault(require("./routes/MasterRouter"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config({
+    path: ".env",
+});
 /**
  * Express server application class.
  * @description Will later contain the routing system.
@@ -17,4 +21,4 @@ class Server {
     }
 }
 exports.Server = Server;
-//# sourceMappingURL=Server.js.map
+//# sourceMappingURL=server.js.map

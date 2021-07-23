@@ -1,28 +1,27 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Application = void 0;
-const Server_1 = require("./Server");
-const dotenv_1 = __importDefault(require("dotenv"));
+const server_1 = require("./server");
+const logger_1 = require("./services/logger");
+const mongo_1 = require("./services/mongo");
 /**
  * Application class.
  * @description Handle init config and components.
  */
-dotenv_1.default.config({
-    path: ".env",
-});
 class Application {
     init() {
         this.initServer();
+        this.connectToDatabase();
     }
     initServer() {
-        this.server = new Server_1.Server();
+        this.server = new server_1.Server();
+    }
+    connectToDatabase() {
+        mongo_1.mongoConfig.connect();
     }
     start() {
         ((port = process.env.APP_PORT || 5000) => {
-            this.server.app.listen(port, () => console.log(`> Listening on port ${port}`));
+            this.server.app.listen(port, () => logger_1.logger.info(`> Listening on port ${port}!!`));
             this.server.app.use('/api', this.server.router);
         })();
     }

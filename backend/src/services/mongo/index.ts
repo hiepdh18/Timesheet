@@ -1,0 +1,1 @@
+export { MongoConfig, mongoConfig } from './MongoService'
