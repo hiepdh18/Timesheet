@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mongoConfig = exports.MongoConfig = void 0;
+exports.mongoService = exports.MongoService = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const logger_1 = require("../logger");
-const MongoConst_1 = require("./MongoConst");
-class MongoConfig {
+const config_1 = require("../../config");
+class MongoService {
     constructor(uri, config) {
         this.uri = uri;
         this.config = config;
@@ -34,7 +34,7 @@ class MongoConfig {
         });
     }
 }
-exports.MongoConfig = MongoConfig;
+exports.MongoService = MongoService;
 const uri = process.env.MONGO_URI;
-exports.mongoConfig = new MongoConfig(uri, MongoConst_1.mongoSetup);
+exports.mongoService = new MongoService(uri, config_1.mongoConfig);
 //# sourceMappingURL=MongoService.js.map

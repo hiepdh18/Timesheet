@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 const AuthLoginRouter_1 = __importDefault(require("./AuthLoginRouter"));
 const BaseRouter_1 = require("./BaseRouter");
 const TestRouter_1 = __importDefault(require("./TestRouter"));
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 class MasterRouter extends BaseRouter_1.BaseRouter {
     constructor() {
         super();
@@ -15,9 +15,9 @@ class MasterRouter extends BaseRouter_1.BaseRouter {
     }
     configure() {
         // define onfigurations
-        this.router.use(cors());
-        this.router.use(bodyParser.json()); // to support JSON-encoded bodies
-        this.router.use(bodyParser.urlencoded({
+        this.router.use(cors_1.default());
+        this.router.use(express_1.default.json()); // to support JSON-encoded bodies
+        this.router.use(express_1.default.urlencoded({
             // to support URL-encoded bodies
             extended: true,
         }));

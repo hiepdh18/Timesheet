@@ -9,6 +9,7 @@ const logger_1 = require("./services/logger");
 const mongo_1 = require("./services/mongo");
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
+const express_list_endpoints_1 = __importDefault(require("express-list-endpoints"));
 /**
  * Application class.
  * @description Handle init config and components.
@@ -16,20 +17,23 @@ const path_1 = __importDefault(require("path"));
 class Application {
     init() {
         this.initServer();
-        this.connectToDatabase();
+        this.initDatabase();
+    }
+    start() {
+        ((port = process.env.APP_PORT || 5000) => {
+            this.server.app.listen(port, () => {
+                logger_1.logger.info(`> Listening on port ${port}!!`);
+            });
+            this.server.app.use('/api', this.server.router);
+            console.log(express_list_endpoints_1.default(this.server.app)); // log out all routes that server serve
+        })();
     }
     initServer() {
         this.server = new server_1.Server();
         this.server.app.use('/avatars', express_1.default.static(path_1.default.join(__dirname + '/../public/avatars')));
     }
-    connectToDatabase() {
-        mongo_1.mongoConfig.connect();
-    }
-    start() {
-        ((port = process.env.APP_PORT || 5000) => {
-            this.server.app.listen(port, () => logger_1.logger.info(`> Listening on port ${port}!!`));
-            this.server.app.use('/api', this.server.router);
-        })();
+    initDatabase() {
+        mongo_1.mongoService.connect();
     }
 }
 exports.Application = Application;

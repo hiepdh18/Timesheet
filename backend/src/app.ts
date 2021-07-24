@@ -1,8 +1,9 @@
 import { Server } from "./server";
 import { logger } from './services/logger';
-import { mongoConfig } from './services/mongo';
+import { mongoService } from './services/mongo';
 import express from 'express';
 import path from 'path';
+import allRoutes from 'express-list-endpoints';
 
 
 /**
@@ -15,24 +16,27 @@ export class Application {
 
   init() {
     this.initServer();
-    this.connectToDatabase();
+    this.initDatabase();
+  }
+
+  start() {
+    ((port = process.env.APP_PORT || 5000) => {
+      this.server.app.listen(port, () => {
+        logger.info(`> Listening on port ${port}!!`);
+      });
+      this.server.app.use('/api', this.server.router);
+      console.log(allRoutes(this.server.app)) // log out all routes that server serve
+    })();
   }
 
   private initServer() {
     this.server = new Server();
     this.server.app.use('/avatars', express.static(path.join(__dirname + '/../public/avatars')))
+
   }
 
-  private connectToDatabase() {
-    mongoConfig.connect()
+  private initDatabase() {
+    mongoService.connect()
   }
 
-  start() {
-    ((port = process.env.APP_PORT || 5000) => {
-      this.server.app.listen(port, () =>
-        logger.info(`> Listening on port ${port}!!`)
-      );
-      this.server.app.use('/api', this.server.router);
-    })();
-  }
 }

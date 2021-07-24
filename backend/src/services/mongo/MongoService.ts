@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 import { IMongoConfig } from "../../interfaces";
 import { logger } from "../logger";
-import { mongoSetup } from './MongoConst'
+import { mongoConfig } from '../../config'
 
-export class MongoConfig {
+export class MongoService {
     constructor(private readonly uri: string, private readonly config: IMongoConfig) { }
     public async connect() {
         try {
@@ -16,4 +16,4 @@ export class MongoConfig {
     }
 }
 const uri = process.env.MONGO_URI
-export const mongoConfig = new MongoConfig(uri, mongoSetup)
+export const mongoService = new MongoService(uri, mongoConfig)

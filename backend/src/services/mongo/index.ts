@@ -1,1 +1,1 @@
-export { MongoConfig, mongoConfig } from './MongoService'
+export { MongoService, mongoService } from './MongoService'
