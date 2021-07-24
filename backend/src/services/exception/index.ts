@@ -1,0 +1,1 @@
+export { handleError, handleNotfound } from './ExceptionService'

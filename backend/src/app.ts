@@ -5,7 +5,6 @@ import express from 'express';
 import path from 'path';
 import allRoutes from 'express-list-endpoints';
 
-
 /**
  * Application class.
  * @description Handle init config and components.
