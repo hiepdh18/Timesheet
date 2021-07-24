@@ -56,8 +56,6 @@ const fakeData = {
  * @description AuthLoginRouter
  */
 class AuthLoginRouter extends BaseRouter{
-
-
   constructor() {
     super();
     this.init();

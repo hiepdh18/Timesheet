@@ -34,6 +34,7 @@
     name
     surname
     sex
+    avatar
     code
     isActive
     isStopWorking
@@ -100,3 +101,10 @@
 
 * src
 
+# Services
+
+* Validate data : request data validation using celebrate
+* logging: using winston and morgan
+* Testing: unit and integration tests using Jest
+* Error handling: centralized error handling mechanism
+* API documentation

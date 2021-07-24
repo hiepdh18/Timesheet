@@ -20,6 +20,7 @@ export class Application {
 
   private initServer() {
     this.server = new Server();
+    this.server.app.use('/avatars', express.static(path.join(__dirname + '/../public/avatars')))
   }
 
   private connectToDatabase() {

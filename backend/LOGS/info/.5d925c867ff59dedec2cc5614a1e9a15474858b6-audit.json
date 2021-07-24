@@ -1,0 +1,14 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 30
+    },
+    "auditLog": "/home/hiepdh/Hiep/Node/project/timesheet-nodejs/backend/LOGS/info/.5d925c867ff59dedec2cc5614a1e9a15474858b6-audit.json",
+    "files": [
+        {
+            "date": 1627086800477,
+            "name": "/home/hiepdh/Hiep/Node/project/timesheet-nodejs/backend/LOGS/info/24-07-2021.info.log",
+            "hash": "2cb4053f89e4abcf86a4b4151af61937"
+        }
+    ]
+}
