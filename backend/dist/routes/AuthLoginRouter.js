@@ -49,6 +49,14 @@ const fakeData = {
     unAuthorizedRequest: false,
     __abp: true
 };
+const fakeData2 = {
+    result: null,
+    targetUrl: null,
+    success: true,
+    error: null,
+    unAuthorizedRequest: false,
+    __abp: true
+};
 /**
  * @description AuthLoginRouter
  */
@@ -63,6 +71,9 @@ class AuthLoginRouter extends BaseRouter_1.BaseRouter {
     init() {
         this.router.get("/Session/GetCurrentLoginInformations", (req, res, next) => {
             res.status(200).json(fakeData);
+        });
+        this.router.get("/Configuration/GetGoogleClientAppId", (req, res, next) => {
+            res.status(200).json(fakeData2);
         });
     }
 }

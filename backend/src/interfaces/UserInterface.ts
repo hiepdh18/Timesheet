@@ -2,16 +2,24 @@ import { Document } from 'mongoose';
 import { IBase } from './BaseInterface';
 
 export interface IUser extends IBase, Document {
-    _id: string;
-    username: string;
-    password: string;
-    email: string;
-    name: string;
-    surName: string;
-    sex: string;
-    code: string;
-    isActive: string;
-    isStopWorking: string;
-    salary: string;
-    salary_at: string;
+    name: string
+    username: string
+    password: string
+    email: string
+    surname: string
+    sex: string
+    avatar: string
+    code: string
+    isActive: boolean
+    isStopWorking: boolean
+    salary: number
+    salary_at: Date
+    start_at: Date
+    phone: string
+    address: string
+    branch: string
+    manager: string
+    role: string
+    type: string
+    level: string
 }

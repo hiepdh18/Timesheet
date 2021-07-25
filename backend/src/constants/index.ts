@@ -1,0 +1,1 @@
+export { schemaOption } from './SchemaOption'

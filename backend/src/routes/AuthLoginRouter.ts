@@ -30,7 +30,7 @@ const fakeData = {
       emailAddress: "admin@aspnetboilerplate.com",
       allowedLeaveDay: 0.0,
       type: null,
-      level: null, 
+      level: null,
       sex: null,
       branch: 1,
       avatarPath: "/avatars/hiep-avatar.jpg",
@@ -51,11 +51,19 @@ const fakeData = {
   unAuthorizedRequest: false,
   __abp: true
 };
+const fakeData2 = {
+  result: null,
+  targetUrl: null,
+  success: true,
+  error: null,
+  unAuthorizedRequest: false,
+  __abp: true
+}
 
 /**
  * @description AuthLoginRouter
  */
-class AuthLoginRouter extends BaseRouter{
+class AuthLoginRouter extends BaseRouter {
   constructor() {
     super();
     this.init();
@@ -69,6 +77,12 @@ class AuthLoginRouter extends BaseRouter{
       "/Session/GetCurrentLoginInformations",
       (req: Request, res: Response, next: NextFunction) => {
         res.status(200).json(fakeData);
+      }
+    );
+    this.router.get(
+      "/Configuration/GetGoogleClientAppId",
+      (req: Request, res: Response, next: NextFunction) => {
+        res.status(200).json(fakeData2);
       }
     );
   }

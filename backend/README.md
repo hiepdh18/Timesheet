@@ -28,10 +28,10 @@
 # Database
 
 - Users
+    name
     username
     password
     email
-    name
     surname
     sex
     avatar

@@ -1,5 +1,4 @@
 import { Router } from "express";
-import bodyParser = require("body-parser");
 
 export abstract class BaseRouter {
   private _router = Router();
@@ -7,6 +6,5 @@ export abstract class BaseRouter {
   get router() {
     return this._router;
   }
-
   protected abstract init();
 }

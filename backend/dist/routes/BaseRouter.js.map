@@ -1,1 +1,1 @@
-{"version":3,"file":"BaseRouter.js","sourceRoot":"","sources":["../../src/routes/BaseRouter.ts"],"names":[],"mappings":";;;AAAA,qCAAiC;AAGjC,MAAsB,UAAU;IAAhC;QACU,YAAO,GAAG,gBAAM,EAAE,CAAC;IAO7B,CAAC;IALC,IAAI,MAAM;QACR,OAAO,IAAI,CAAC,OAAO,CAAC;IACtB,CAAC;CAGF;AARD,gCAQC"}
+{"version":3,"file":"BaseRouter.js","sourceRoot":"","sources":["../../src/routes/BaseRouter.ts"],"names":[],"mappings":";;;AAAA,qCAAiC;AAEjC,MAAsB,UAAU;IAAhC;QACU,YAAO,GAAG,gBAAM,EAAE,CAAC;IAM7B,CAAC;IAJC,IAAI,MAAM;QACR,OAAO,IAAI,CAAC,OAAO,CAAC;IACtB,CAAC;CAEF;AAPD,gCAOC"}
