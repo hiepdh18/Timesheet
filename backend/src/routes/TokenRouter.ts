@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-// import TestService from "../services/test/TestService";
 import { BaseRouter } from "./BaseRouter";
-import { ReqLoginDTO } from "./dtos/ReqLoginDto";
+import { AuthenticateDTO } from "./indtos";
+import { AuthenticateResultDTO } from "./outdtos";
 
 /**
  * @description TokenRouter.
  */
 
-const fake = {
+const fake: AuthenticateResultDTO = {
   result:
   {
     accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJBc3BOZXQuSWRlbnRpdHkuU2VjdXJpdHlTdGFtcCI6Ijk5NjU5ZDVlLTFjMGUtODI3Mi03YzI2LTM5ZmRiYmI1NDViZiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwic3ViIjoiMSIsImp0aSI6IjRkNTdkOTVkLWMxN2YtNGI1ZS1iZWY4LTNjN2QzZWQ1YTEzYSIsImlhdCI6MTYyNzE4MTg1NiwibmJmIjoxNjI3MTgxODU2LCJleHAiOjE2MzU4MjE4NTYsImlzcyI6IlRpbWVzaGVldCIsImF1ZCI6IlRpbWVzaGVldCJ9.EBAQNSuYp9cg-ZZK6OdJrUbcOoCiqbq6g2hadlCRMww",
@@ -27,12 +27,9 @@ class TokenAuthRouter extends BaseRouter {
   /**
    * Connect routes to their matching controller endpoints.
    */
-
-  
-
   protected init() {
     this.router.post("/Authenticate", (req: Request, res: Response, next: NextFunction) => {
-      const user: ReqLoginDTO = req.body;
+      const user: AuthenticateDTO = req.body;
       res.status(200).json(fake)
     });
   }

@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from "express";
-// import TestService from "../services/test/TestService";
+import UserService from "../services/user/UserService";
 import { BaseRouter } from "./BaseRouter";
 
 /**
  * @description UserRouter.
  */
 class UserRouter extends BaseRouter {
-  private _service
+  private _service = UserService
 
   constructor() {
     super();
@@ -17,9 +16,15 @@ class UserRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.get("/", (req: Request, res: Response, next: NextFunction) => {
-      res.status(200).json(this._service.defaultMethod());
-    });
+    this.router.post("/Create",
+      this._service.createUser
+    );
+    this.router.post("/Update",
+      this._service.updateUser
+    );
+    this.router.post("/Delete",
+      this._service.deleteUser
+    );
   }
 }
 

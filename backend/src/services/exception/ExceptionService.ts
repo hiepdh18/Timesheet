@@ -1,19 +1,25 @@
 import { HttpError } from './HttpError'
-import { IResError } from '../../interfaces/'
+import { IResponse } from '../../interfaces/'
 import { Request, Response, NextFunction } from 'express'
 import { logger } from '../logger';
 
 export const handleError = (error: HttpError, req: Request, res: Response, next: NextFunction) => {
   try {
     console.log(error);
-    const name: string = error.name || 'Internal server error!';
     const status: number = error.status || 500;
     const message: string = error.message || 'Something went wrong!!!'
-    const resError: IResError = {
-      name,
-      status,
-      message,
-      timestamp: new Date(Date.now()).toLocaleDateString()
+    const resError: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: {
+        code: status,
+        message,
+        details: error.stack,
+        validationErrors: null
+      },
+      unAuthorizedRequest: false,
+      __abp: true
     };
     logger.error(resError)
     res.status(status).json({ ...resError })
@@ -23,11 +29,18 @@ export const handleError = (error: HttpError, req: Request, res: Response, next:
 };
 
 export const handleNotfound = (req: Request, res: Response) => {
-  const resError: IResError = {
-    name: 'Page not found!!!',
-    status: 404,
-    message: `${req.method} ${req.url} not found!!!`,
-    timestamp: new Date(Date.now()).toLocaleDateString()
+  const response: IResponse = {
+    result: null,
+    targetUrl: null,
+    success: false,
+    error: {
+      code: 404,
+      message: `${req.method} ${req.url} not found!!!`,
+      details: null,
+      validationErrors: null
+    },
+    unAuthorizedRequest: false,
+    __abp: true
   }
   return res.json()
 }

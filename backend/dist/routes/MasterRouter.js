@@ -2,12 +2,15 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const AuthLoginRouter_1 = __importDefault(require("./AuthLoginRouter"));
 const BaseRouter_1 = require("./BaseRouter");
 const TestRouter_1 = __importDefault(require("./TestRouter"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const ServiceRouter_1 = __importDefault(require("./ServiceRouter"));
 const TokenRouter_1 = __importDefault(require("./TokenRouter"));
+/**
+ * @description MasterRouter
+ */
 class MasterRouter extends BaseRouter_1.BaseRouter {
     constructor() {
         super();
@@ -28,7 +31,7 @@ class MasterRouter extends BaseRouter_1.BaseRouter {
      */
     init() {
         this.router.use("/test", TestRouter_1.default);
-        this.router.use("/services/app", AuthLoginRouter_1.default);
+        this.router.use("/services/app", ServiceRouter_1.default);
         this.router.use("/TokenAuth", TokenRouter_1.default);
     }
 }

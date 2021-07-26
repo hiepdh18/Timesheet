@@ -1,10 +1,10 @@
 import TestRepository from "../../repositories/TestRepository";
-import { ITestServiceInterface } from "./TestServiceInterface";
+import { IService } from "../../interfaces";
 
 /**
  * @description TestServive.
  */
-class TestServive implements ITestServiceInterface  {
+class TestServive implements IService  {
   private testRepository = TestRepository;
 
   defaultMethod() {
