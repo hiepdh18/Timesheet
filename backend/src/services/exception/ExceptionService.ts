@@ -1,31 +1,27 @@
-import { HttpError } from './HttpError'
-import { IResponse } from '../../interfaces/'
-import { Request, Response, NextFunction } from 'express'
+import { HttpError } from './HttpError';
+import { IResponse } from '../../interfaces/';
+import { Request, Response, NextFunction } from 'express';
 import { logger } from '../logger';
 
 export const handleError = (error: HttpError, req: Request, res: Response, next: NextFunction) => {
-  try {
-    console.log(error);
-    const status: number = error.status || 500;
-    const message: string = error.message || 'Something went wrong!!!'
-    const resError: IResponse = {
-      result: null,
-      targetUrl: null,
-      success: false,
-      error: {
-        code: status,
-        message,
-        details: error.stack,
-        validationErrors: null
-      },
-      unAuthorizedRequest: false,
-      __abp: true
-    };
-    logger.error(resError)
-    res.status(status).json({ ...resError })
-  } catch (error) {
-    next(error)
-  }
+  console.log(error);
+  const status: number = error.status || 500;
+  const message: string = error.message || 'Something went wrong!!!';
+  const response: IResponse = {
+    result: null,
+    targetUrl: null,
+    success: false,
+    error: {
+      code: status,
+      message,
+      details: error.stack,
+      validationErrors: null
+    },
+    unAuthorizedRequest: false,
+    __abp: true
+  };
+  logger.error(response);
+  return res.status(status).json(response);
 };
 
 export const handleNotfound = (req: Request, res: Response) => {
@@ -42,5 +38,6 @@ export const handleNotfound = (req: Request, res: Response) => {
     unAuthorizedRequest: false,
     __abp: true
   }
-  return res.json()
+  logger.error(response);
+  return res.json(response);
 }

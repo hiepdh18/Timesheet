@@ -4,8 +4,10 @@ import { mongoService } from './services/mongo';
 import express from 'express';
 import path from 'path';
 import allRoutes from 'express-list-endpoints';
-import { Level } from "./models";
-import { Types } from "mongoose";
+import { handleError, handleNotfound } from "./services/exception";
+// import { Level, User } from "./models";
+// import { Types } from "mongoose";
+// import UserRepository from "./repositories/UserRepository";
 
 /**
  * Application class.
@@ -15,9 +17,21 @@ import { Types } from "mongoose";
 export class Application {
   server: Server;
 
-  init() {
+  async init() {
     this.initServer();
     this.initDatabase();
+
+    // const sv = UserRepository;
+    // await sv.createUser({
+    //   id: 3,
+    //   userName: "hhaongi",
+    //   name: "Hiepg",
+    //   surname: "Hoangg",
+    //   fullName: "Hoang hiep",
+    //   emailAddress: "ABaddsC@gmail.com",
+    // })
+    // console.log(await sv.getLastId());
+
   }
 
   start() {
@@ -27,6 +41,8 @@ export class Application {
       });
       this.server.app.use('/api', this.server.router);
       console.log(allRoutes(this.server.app)); // log out all routes that server serve
+      this.server.app.use(handleError);
+      this.server.app.use(handleNotfound);
     })();
   }
 

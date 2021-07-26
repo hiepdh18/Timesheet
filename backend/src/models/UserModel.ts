@@ -1,31 +1,44 @@
 import { model, Schema, Types, Model } from 'mongoose'
-import { schemaOption } from '../constants'
+import { Branch, Level, schemaOption, Sex, Type } from '../constants'
 import { IUser } from '../interfaces'
 
 export interface IUserModel extends Model<IUser> { };
 
 const UserSchema: Schema = new Schema({
   _id: Types.ObjectId,
+  id: { type: Number, require: true, unique: true },
+  userName: { type: String, require: true },
   name: { type: String, require: true },
-  username: { type: String, require: true, unique: true },
-  password: { type: String, require: true },
-  email: { type: String, require: true, unique: true },
   surname: { type: String, require: true },
-  sex: { type: String, require: true },
-  avatar: { type: String },
-  code: { type: String, require: true, unique: true },
-  isActive: { type: String, require: true, default: false },
-  isStopWorking: { type: String, require: true, default: false },
-  salary: { type: String, require: true },
-  salary_at: { type: String, require: true },
-  start_at: { type: String, require: true, unique: true },
-  phone: { type: String, require: true, default: '' },
-  address: { type: String, require: true, default: '' },
-  branch: { type: Types.ObjectId, require: true },
-  manager: { type: Types.ObjectId, require: true },
-  role: { type: Types.ObjectId, require: true },
-  type: { type: Types.ObjectId, require: true },
-  level: { type: Types.ObjectId, require: true },
+  fullName: { type: String, require: true },
+  emailAddress: { type: String, require: true, unique: true },
+  phoneNumber: { type: String },
+  address: { type: String },
+  isActive: { type: Boolean },
+  roleNames: [
+    String
+  ],
+  password: { type: String, require: true },
+  type: { type: Type },
+  jobTitle: { type: String },
+  level: { type: Level },
+  registerWorkDay: { type: String },
+  allowedLeaveDay: { type: String },
+  startDateAt: { type: String },
+  salary: { type: Number },
+  salaryAt: { type: String },
+  userCode: { type: String },
+  managerId: { type: String },
+  branch: { type: Branch },
+  sex: { type: Sex },
+  morningWorking: { type: String },
+  morningStartAt: { type: String },
+  morningEndAt: { type: String },
+  afternoonWorking: { type: String },
+  afternoonStartAt: { type: String },
+  afternoonEndAt: { type: String },
+  isWorkingTimeDefault: { type: Boolean },
+  avatarPath: { type: String },
 }, schemaOption);
 
 export const User: IUserModel = model<IUser, IUserModel>('User', UserSchema, 'users');

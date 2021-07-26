@@ -1,6 +1,7 @@
 import { IService } from "../../interfaces";
 import { Request, Response, NextFunction } from "express";
 import { SessionResultDTO } from "../../routes/outdtos/SessionResultDto";
+import { AuthenticateDTO } from "../../routes/indtos";
 
 const fakeData: SessionResultDTO = {
   result: {
@@ -25,6 +26,8 @@ class SessionService implements IService {
   };
 
   getCurrentLogin = (req: Request, res: Response, next: NextFunction) => {
+const authen : AuthenticateDTO = req.body;
+
     res.status(200).json(fakeData);
   };
 }
