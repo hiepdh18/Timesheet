@@ -33,17 +33,6 @@ export class Application {
   private initServer() {
     this.server = new Server();
     this.server.app.use('/avatars', express.static(path.join(__dirname + '/../public/avatars')));
-    this.createLevel();
-
-  }
-
-  private createLevel = async () => {
-    const level = new Level({
-      _id :Types.ObjectId(),
-      name :'intern'
-    });
-    await level.save();
-    console.log(level)
   }
 
   private initDatabase() {

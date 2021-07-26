@@ -1,8 +1,13 @@
-import authLoginRouter from "./AuthLoginRouter";
 import { BaseRouter } from "./BaseRouter";
 import testRouter from "./TestRouter";
 import express from "express";
 import cors from "cors";
+import ServiceRouter from "./ServiceRouter";
+import TokenAuthRouter from "./TokenRouter";
+
+/**
+ * @description MasterRouter
+ */
 
 class MasterRouter extends BaseRouter {
   constructor() {
@@ -29,7 +34,8 @@ class MasterRouter extends BaseRouter {
    */
   protected init() {
     this.router.use("/test", testRouter);
-    this.router.use("/services/app", authLoginRouter);
+    this.router.use("/services/app", ServiceRouter);
+    this.router.use("/TokenAuth", TokenAuthRouter);
   }
 }
 
