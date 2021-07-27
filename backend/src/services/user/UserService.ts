@@ -4,7 +4,6 @@ import { Request, Response, NextFunction } from "express";
 import { CreateUserDTO } from "../../routes/indtos/CreateUserDto";
 import UserRepository from "../../repositories/UserRepository";
 import { CreateUserResultDTO } from "../../routes/outdtos/CreateUserResultDto";
-import { UserDTO } from "../../routes/indtos/UserDto";
 import { HttpError } from "../exception/HttpError";
 /**
  * @description Userservice
@@ -47,6 +46,9 @@ class UserService implements IService {
     } catch (error) {
       next(error);
     }
+
+  };
+  getAllPagging = (req: Request, res: Response, next: NextFunction) => {
 
   };
   updateUser = (req: Request, res: Response, next: NextFunction) => {

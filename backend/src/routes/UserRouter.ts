@@ -19,6 +19,9 @@ class UserRouter extends BaseRouter {
     this.router.post("/Create",
       this._service.createUser
     );
+    this.router.post("/GetAllPagging",
+      this._service.getAllPagging
+    );
     this.router.post("/Update",
       this._service.updateUser
     );

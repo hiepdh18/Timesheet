@@ -1,7 +1,6 @@
-import { NextFunction, Request, Response } from "express";
 import { BaseRouter } from "./BaseRouter";
-import { AuthenticateDTO } from "./indtos";
 import { AuthenticateResultDTO } from "./outdtos";
+import TokenService from "../services/token/TokenService";
 
 /**
  * @description TokenRouter.
@@ -17,7 +16,7 @@ const fake: AuthenticateResultDTO = {
   }, targetUrl: null, success: true, error: null, unAuthorizedRequest: false, __abp: true
 }
 class TokenAuthRouter extends BaseRouter {
-  // private _service = TestService;
+  private _service = TokenService;
 
   constructor() {
     super();
@@ -28,10 +27,11 @@ class TokenAuthRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.post("/Authenticate", (req: Request, res: Response, next: NextFunction) => {
-      const user: AuthenticateDTO = req.body;
-      res.status(200).json(fake)
-    });
+    this.router.post("/Authenticate", this._service.authenticate );
+    // this.router.post("/Authenticate", (req: Request, res: Response, next: NextFunction) => {
+    //   const user: AuthenticateDTO = req.body;
+    //   res.status(200).json(fake)
+    // });
   }
 }
 

@@ -4,6 +4,8 @@ import { UserDTO } from "../routes/indtos/UserDto";
 import { Type } from "../constants";
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
+import { IUser } from "../interfaces";
+
 class UserRepository extends BaseRepository {
   constructor() {
     super()
@@ -11,7 +13,7 @@ class UserRepository extends BaseRepository {
 
   public async createUser(user) {
     const id = await this.getLastId() + 1;
-    const newUser: UserDTO = new User(
+    const newUser: IUser = new User(
       {
         _id: Types.ObjectId(),
         ...user,
@@ -27,33 +29,43 @@ class UserRepository extends BaseRepository {
     }
   }
 
-  public async findById(id: number) {
+  public async findById(id: number): Promise<IUser> {
     try {
       const user = User.findOne({ id: id });
-      if (user) return user;
-      return false;
+      return user;
     } catch (error) {
       logger.error(error)
     }
   }
-  public async findByUsername(userName: string) {
+
+  public async findByUsername(userName: string): Promise<IUser> {
     try {
       const user = User.findOne({ userName: userName });
-      if (user) return user;
-      return false;
+      return user;
     } catch (error) {
       logger.error(error)
     }
   }
-  public async findByEmail(email: string) {
+
+  public async findByEmail(email: string): Promise<IUser> {
     try {
       const user = User.findOne({ emailAddress: email });
-      if (user) return user;
-      return false;
+      return user;
     } catch (error) {
       logger.error(error)
     }
   }
+
+  public async findByUsernameOrEmail(userNameOrEmail: string): Promise<IUser> {
+    try {
+      const user = this.findByUsername(userNameOrEmail);
+      if (user) return user;
+      return this.findByEmail(userNameOrEmail);
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   public async getLastId() {
     try {
       const lastUser = await User.findOne().sort({ id: -1 });
@@ -63,6 +75,7 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
+
 }
 
 export = new UserRepository()

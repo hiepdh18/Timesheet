@@ -28,6 +28,7 @@
     "express-list-endpoints": "^5.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.3",
+    "morgan": "^1.10.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.5"
   }

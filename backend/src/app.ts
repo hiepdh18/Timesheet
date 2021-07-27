@@ -5,6 +5,7 @@ import express from 'express';
 import path from 'path';
 import allRoutes from 'express-list-endpoints';
 import { handleError, handleNotfound } from "./services/exception";
+import morgan from "morgan"
 // import { Level, User } from "./models";
 // import { Types } from "mongoose";
 // import UserRepository from "./repositories/UserRepository";
@@ -39,10 +40,11 @@ export class Application {
       this.server.app.listen(port, () => {
         logger.info(`> Listening on port ${port}!!`);
       });
+      this.server.app.use(morgan('dev'));
       this.server.app.use('/api', this.server.router);
       console.log(allRoutes(this.server.app)); // log out all routes that server serve
-      this.server.app.use(handleError);
       this.server.app.use(handleNotfound);
+      this.server.app.use(handleError);
     })();
   }
 

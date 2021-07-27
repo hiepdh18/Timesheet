@@ -1,4 +1,4 @@
-import { IResponse } from "../../interfaces";
+import { IResponse, IUser } from "../../interfaces";
 
 export interface SessionResultDTO extends IResponse {
   result: {
@@ -7,7 +7,7 @@ export interface SessionResultDTO extends IResponse {
       releaseDate: string,
       features: {},
     },
-    user: null,
+    user: object | null,
     tenant: null,
   }
 }

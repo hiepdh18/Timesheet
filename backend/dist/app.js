@@ -20,6 +20,7 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const express_list_endpoints_1 = __importDefault(require("express-list-endpoints"));
 const exception_1 = require("./services/exception");
+const morgan_1 = __importDefault(require("morgan"));
 // import { Level, User } from "./models";
 // import { Types } from "mongoose";
 // import UserRepository from "./repositories/UserRepository";
@@ -49,10 +50,11 @@ class Application {
             this.server.app.listen(port, () => {
                 logger_1.logger.info(`> Listening on port ${port}!!`);
             });
+            this.server.app.use(morgan_1.default('dev'));
             this.server.app.use('/api', this.server.router);
             console.log(express_list_endpoints_1.default(this.server.app)); // log out all routes that server serve
-            this.server.app.use(exception_1.handleError);
             this.server.app.use(exception_1.handleNotfound);
+            this.server.app.use(exception_1.handleError);
         })();
     }
     initServer() {
