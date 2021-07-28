@@ -7,7 +7,7 @@ const TestRouter_1 = __importDefault(require("./TestRouter"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const ServiceRouter_1 = __importDefault(require("./ServiceRouter"));
-const TokenRouter_1 = __importDefault(require("./TokenRouter"));
+const AuthRouter_1 = __importDefault(require("./AuthRouter"));
 /**
  * @description MasterRouter
  */
@@ -32,7 +32,7 @@ class MasterRouter extends BaseRouter_1.BaseRouter {
     init() {
         this.router.use("/test", TestRouter_1.default);
         this.router.use("/services/app", ServiceRouter_1.default);
-        this.router.use("/TokenAuth", TokenRouter_1.default);
+        this.router.use("/TokenAuth", AuthRouter_1.default);
     }
 }
 module.exports = new MasterRouter().router;
