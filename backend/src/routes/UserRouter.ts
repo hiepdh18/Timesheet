@@ -16,6 +16,12 @@ class UserRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
+    this.router.get("/GetAllManager",
+      this._service.getAllManager
+    );
+    this.router.get("/getUserNotPagging",
+      this._service.getUserNotPagging
+    );
     this.router.post("/Create",
       this._service.createUser
     );

@@ -6,9 +6,6 @@ import path from 'path';
 import allRoutes from 'express-list-endpoints';
 import { handleError, handleNotfound } from "./services/exception";
 import morgan from "morgan"
-// import { Level, User } from "./models";
-// import { Types } from "mongoose";
-// import UserRepository from "./repositories/UserRepository";
 
 /**
  * Application class.
@@ -18,21 +15,9 @@ import morgan from "morgan"
 export class Application {
   server: Server;
 
-  async init() {
+  init() {
     this.initServer();
     this.initDatabase();
-
-    // const sv = UserRepository;
-    // await sv.createUser({
-    //   id: 3,
-    //   userName: "hhaongi",
-    //   name: "Hiepg",
-    //   surname: "Hoangg",
-    //   fullName: "Hoang hiep",
-    //   emailAddress: "ABaddsC@gmail.com",
-    // })
-    // console.log(await sv.getLastId());
-
   }
 
   start() {
@@ -43,8 +28,8 @@ export class Application {
       this.server.app.use(morgan('dev'));
       this.server.app.use('/api', this.server.router);
       console.log(allRoutes(this.server.app)); // log out all routes that server serve
-      this.server.app.use(handleNotfound);
       this.server.app.use(handleError);
+      this.server.app.use(handleNotfound);
     })();
   }
 

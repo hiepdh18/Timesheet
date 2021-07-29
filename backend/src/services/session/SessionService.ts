@@ -17,7 +17,7 @@ class SessionService implements IService {
         result: {
           application: {
             version: "4.3.0.0",
-            releaseDate: "2021-07-20T15:49:07.1350156+07:00",
+            releaseDate: new Date().toString(),
             features: {},
           },
           user: null,
@@ -29,24 +29,23 @@ class SessionService implements IService {
         unAuthorizedRequest: false,
         __abp: true
       }
-      if (!req.headers.authorization) {
-        return res.status(200).json(response);
-      }
-      const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, process.env.JWT_KEY);
-      if (!decoded) {
-        return res.status(200).json(response);
-      }
-      const user: IUser = await this._repository.findById(decoded.id);
-      const userSelect = pick(user, ['name', 'surname', 'userName', 'emailAddress', 'allowedLeaveDay', 'type', 'level', 'sex', 'branch', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'id']);
-      console.log(userSelect);
+      if (!req.headers.authorization) return res.status(200).json(response);
 
+      const token = req.headers.authorization.split(" ")[1];
+      let decoded;
+      try {
+        decoded = jwt.verify(token, process.env.JWT_KEY);
+      } catch (error) { return res.status(200).json(response); }
+
+      const user: IUser = await this._repository.findById(decoded.id);
+
+      const userSelect = pick(user, ['name', 'surname', 'userName', 'emailAddress', 'allowedLeaveDay', 'type', 'level', 'sex', 'branch', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'id']);
       response = {
         ...response,
         result: {
           application: {
             version: "4.3.0.0",
-            releaseDate: "2021-07-20T15:49:07.1350156+07:00",
+            releaseDate: new Date().toString(),
             features: {},
           },
           user: userSelect,

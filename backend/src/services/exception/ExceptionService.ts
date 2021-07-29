@@ -13,7 +13,7 @@ export const handleError = (error: HttpError, req: Request, res: Response, next:
     success: false,
     error: {
       code: status,
-      message :error.message,
+      message: message,
       details: error.stack,
       validationErrors: null
     },
