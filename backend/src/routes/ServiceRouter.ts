@@ -3,8 +3,8 @@ import SessionRouter from './SessionRouter';
 // import CustomerRouter from './CustomerRouter';
 // import MyTimeSheetRouter from './MyTimeSheetRouter';
 // import ProjectRouter from './ProjectRouter';
-// import TaskRouter from './TaskRouter';
-import UserRouter from './UserRouter';
+import taskRouter from './TaskRouter';
+import userRouter from './UserRouter';
 /**
  * @description ServiceRouter
  */
@@ -22,8 +22,8 @@ class ServiceRouter extends BaseRouter {
     // this.router.use('/Customer', CustomerRouter);
     // this.router.use('/MyTimesheets', MyTimeSheetRouter);
     // this.router.use('/Project', ProjectRouter);
-    // this.router.use('/Task', TaskRouter);
-    this.router.use('/User', UserRouter);
+    this.router.use('/Task', taskRouter);
+    this.router.use('/User', userRouter);
   }
 }
 

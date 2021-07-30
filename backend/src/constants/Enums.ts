@@ -19,3 +19,6 @@ export enum Level {
   Senior,
   "Senior+"
 };
+export enum ProjectStatus { 'Created', 'In process','Done' };
+export enum TaskType { 'Common Task', 'Other Task' };
+export enum ProjectType { 'Time & Materials', 'Fixed Fee', 'Non-Billable', 'ODC'};

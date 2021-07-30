@@ -10,7 +10,15 @@ class UserRepository extends BaseRepository {
   constructor() {
     super()
   }
-
+  public async getLastId() {
+    try {
+      const lastUser = await User.findOne().sort({ id: -1 });
+      if (lastUser) return await lastUser.id;
+      return 0;
+    } catch (error) {
+      logger.error(error)
+    }
+  }
   public async createUser(user: IUser) {
     const id = await this.getLastId() + 1;
     const newUser: IUser = new User(
@@ -37,6 +45,7 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
+
   public async findUserHavingManager(): Promise<IUser[]> {
     try {
       const users = User.find().where('managerId').ne(null);
@@ -84,15 +93,7 @@ class UserRepository extends BaseRepository {
     }
   }
 
-  public async getLastId() {
-    try {
-      const lastUser = await User.findOne().sort({ id: -1 });
-      if (lastUser) return await lastUser.id;
-      return 0;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
+
 }
 
 export = new UserRepository()

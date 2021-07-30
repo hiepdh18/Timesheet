@@ -9,4 +9,6 @@ export { IRole } from './RoleInterface';
 export { ISchemaOption } from './SchemaOptionInterface';
 export { IService } from './ServiceInterface';
 export { IUser } from './UserInterface';
+export { IProject } from './ProjectInterface';
 export { IUserType } from './UserTypeInterface';
+export { ITask } from './TaskInterface';

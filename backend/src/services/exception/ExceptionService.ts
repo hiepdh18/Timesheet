@@ -20,7 +20,7 @@ export const handleError = (error: HttpError, req: Request, res: Response, next:
     unAuthorizedRequest: false,
     __abp: true
   };
-  logger.error(response);
+  logger.error(error);
   return res.status(status).json(response);
 };
 
