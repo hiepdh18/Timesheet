@@ -1,5 +1,5 @@
 import { BaseRouter } from "./BaseRouter";
-import authService from "../services/auth/AuthService";
+import authService from "../services/AuthService";
 
 /**
  * @description AuthRouter.

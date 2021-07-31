@@ -1,4 +1,4 @@
-import SessionService = require("../services/session/SessionService");
+import SessionService = require("../services/SessionService");
 import { BaseRouter } from "./BaseRouter";
 
 /**

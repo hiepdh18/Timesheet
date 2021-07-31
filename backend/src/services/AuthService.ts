@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { IService, IUser } from "../../interfaces";
-import UserRepository from "../../repositories/UserRepository";
-import { AuthenticateDTO } from "../../routes/indtos";
+import { IService, IUser } from "../interfaces";
+import UserRepository from "../repositories/UserRepository";
+import { AuthenticateDTO } from "../routes/indtos";
 import bcrypt from "bcrypt";
-import { AuthenticateErrorDTO, AuthenticateResultDTO } from "../../routes/outdtos";
-import { logger } from "../logger";
-import { generateToken } from "../token/TokenService";
+import { AuthenticateErrorDTO, AuthenticateResultDTO } from "../routes/outdtos";
+import { logger } from "./logger";
+import { generateToken } from "./TokenService";
 
 /**
  * @description TokenService

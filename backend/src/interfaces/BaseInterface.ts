@@ -1,6 +1,6 @@
 export interface IBase {
     creationTime?: Date;
-    updatedTime?: Date;
+    updateTime?: Date;
     createBy?: string;
     updatedBy?: string;
 }

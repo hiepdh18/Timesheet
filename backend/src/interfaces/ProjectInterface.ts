@@ -1,6 +1,8 @@
-import { ProjectStatus, ProjectType, TaskType } from "../constants/Enums"
+import { Document } from "mongoose";
+import { ProjectStatus, ProjectType } from "../constants/Enums"
+import { IBase } from "./BaseInterface";
 
-export interface IProject {
+export interface IProject extends IBase, Document{
   name: string,
   code: string,
   status: ProjectStatus,

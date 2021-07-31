@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { IResponse, IService } from "../../interfaces";
-import { TaskDTO } from "../../routes/indtos/TaskDto";
-import taskRepository from '../../repositories/TaskRepository'
+import { IResponse, IService } from "../interfaces";
+import { TaskDTO } from "../routes/indtos/TaskDto";
+import taskRepository from '../repositories/TaskRepository'
 
 /**
- * @description TaskServive.
+ * @description TaskService.
  */
 class TaskServive implements IService {
   private _taskRepository = taskRepository;
@@ -40,6 +40,19 @@ class TaskServive implements IService {
     } catch (error) {
       next(error);
     }
+  }
+
+  getAllTask = async (req: Request, res: Response, next: NextFunction) => {
+
+  }
+  archiveTask = async (req: Request, res: Response, next: NextFunction) => {
+
+  }
+  deleteTask = async (req: Request, res: Response, next: NextFunction) => {
+
+  }
+  deArchiveTask = async (req: Request, res: Response, next: NextFunction) => {
+
   }
 }
 

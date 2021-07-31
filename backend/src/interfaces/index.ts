@@ -1,14 +1,11 @@
 export { IBase } from './BaseInterface';
-export { IBranch } from './BranchInterface';
 export { IConfig } from './ConfigInterface';
 export { IError } from './ErrorInterface';
-export { ILevel } from './LevelInterface';
 export { IMongoConfig } from './MongoConfigInterface';
 export { IResponse } from './ResponseInterface';
-export { IRole } from './RoleInterface';
 export { ISchemaOption } from './SchemaOptionInterface';
 export { IService } from './ServiceInterface';
 export { IUser } from './UserInterface';
 export { IProject } from './ProjectInterface';
-export { IUserType } from './UserTypeInterface';
 export { ITask } from './TaskInterface';
+export { ICustomer } from './CustomerInterface';

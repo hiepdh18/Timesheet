@@ -1,13 +1,12 @@
 import bcrypt from "bcrypt";
-import { IResponse, IService, IUser } from "../../interfaces";
+import { IResponse, IService, IUser } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
-import { CreateUserDTO } from "../../routes/indtos/CreateUserDto";
-import userRepository from "../../repositories/UserRepository";
-import { CreateUserResultDTO } from "../../routes/outdtos/CreateUserResultDto";
-import { UserGetAllPaggingDTO } from "../../routes/indtos/UserGetAllPaggingDto";
-import { HttpError } from "../exception/HttpError";
-import { User } from "../../models";
-import pick from "../../utils/pick";
+import { CreateUserDTO } from "../routes/indtos/CreateUserDto";
+import userRepository from "../repositories/UserRepository";
+import { CreateUserResultDTO } from "../routes/outdtos/CreateUserResultDto";
+import { UserGetAllPaggingDTO } from "../routes/indtos/UserGetAllPaggingDto";
+import { HttpError } from "./exception/HttpError";
+import pick from "../utils/pick";
 /**
  * @description Userservice
  */
