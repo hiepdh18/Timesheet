@@ -1,6 +1,6 @@
 import { TaskType } from "../../constants/Enums";
 import { IResponse, ITask } from "../../interfaces";
 
-export interface GetAllTaskResultDTO extends IResponse {
+export interface GetAllTaskResDTO extends IResponse {
   result:  ITask[]
 }

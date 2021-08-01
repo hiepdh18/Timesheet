@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import { IResponse, IService, IUser } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
-import { CreateUserDTO } from "../routes/indtos/CreateUserDto";
+import { CreateUserReqDTO } from "../routes/reqdtos/CreateUserReqDto";
 import userRepository from "../repositories/UserRepository";
-import { CreateUserResultDTO } from "../routes/outdtos/CreateUserResultDto";
-import { UserGetAllPaggingDTO } from "../routes/indtos/UserGetAllPaggingDto";
+import { CreateUserResDTO } from "../routes/resdtos/CreateUserResDto";
+import { UserGetAllPaggingReqDTO } from "../routes/reqdtos/UserGetAllPaggingReqDto";
 import { HttpError } from "./exception/HttpError";
 import pick from "../utils/pick";
 /**
@@ -17,7 +17,7 @@ class UserService implements IService {
   };
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
-    let user: CreateUserDTO = req.body;
+    let user: CreateUserReqDTO = req.body;
 
     if (!user.userName || !user.emailAddress || !user.password) {
       const error = new HttpError(400, 'Missing username, email and/or password');
@@ -38,7 +38,7 @@ class UserService implements IService {
       user['password'] = hash;
       const newUser = await this._repository.createUser(user);
       delete newUser.password;
-      const response: CreateUserResultDTO = {
+      const response: CreateUserResDTO = {
         result: newUser,
         targetUrl: null,
         success: true,
@@ -92,7 +92,7 @@ class UserService implements IService {
   };
 
   getAllPagging = async (req: Request, res: Response, next: NextFunction) => {
-    let filter: UserGetAllPaggingDTO = req.body;
+    let filter: UserGetAllPaggingReqDTO = req.body;
 
 
     let response: IResponse = {

@@ -1,6 +1,6 @@
 import { IResponse, IUser } from "../../interfaces";
 
-export interface SessionResultDTO extends IResponse {
+export interface SessionResDTO extends IResponse {
   result: {
     application: {
       version: string,

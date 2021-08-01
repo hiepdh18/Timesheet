@@ -14,7 +14,7 @@ class CustomerRouter extends BaseRouter {
     this.router.get('/GetAll', this._service.getAll);
     this.router.post('/GetAllPagging', this._service.getAllPagging);
     this.router.post('/Save', this._service.save);
-    this.router.delete('/Delete', this._service.delete);
+    this.router.delete('/Delete', this._service.deleteCustomer);
   }
 }
 

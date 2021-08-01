@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import { IService, IUser } from "../interfaces";
 import UserRepository from "../repositories/UserRepository";
-import { AuthenticateDTO } from "../routes/indtos";
+import { AuthenticateReqDTO } from "../routes/reqdtos";
 import bcrypt from "bcrypt";
-import { AuthenticateErrorDTO, AuthenticateResultDTO } from "../routes/outdtos";
+import {  AuthenticateResDTO } from "../routes/resdtos";
 import { logger } from "./logger";
 import { generateToken } from "./TokenService";
 
@@ -16,8 +16,8 @@ class AuthService implements IService {
   };
 
   authenticate = async (req: Request, res: Response, next: NextFunction) => {
-    const user: AuthenticateDTO = req.body;
-    let response: AuthenticateResultDTO | AuthenticateErrorDTO = {
+    const user: AuthenticateReqDTO = req.body;
+    let response: AuthenticateResDTO = {
       result: null,
       targetUrl: null,
       success: true,

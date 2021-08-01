@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { IResponse, IService } from "../interfaces";
-import { TaskDTO } from "../routes/indtos/TaskDto";
-import { GetAllTaskResultDTO } from "../routes/outdtos";
+import { TaskDTO } from "../routes/reqdtos/TaskDto";
 import taskRepository from '../repositories/TaskRepository'
 import pick from "../utils/pick";
+import { GetAllTaskResDTO } from "../routes/resdtos";
 
 /**
  * @description TaskService.
@@ -54,7 +54,7 @@ class TaskServive implements IService {
   }
 
   getAllTask = async (req: Request, res: Response, next: NextFunction) => {
-    let response: GetAllTaskResultDTO = {
+    let response: GetAllTaskResDTO = {
       result: null,
       targetUrl: null,
       success: true,

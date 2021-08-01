@@ -1,5 +1,5 @@
 
-export interface UserGetAllPaggingDTO {
+export interface UserGetAllPaggingReqDTO {
   sort: string,
   sortDirection: number,
   filterItems: [

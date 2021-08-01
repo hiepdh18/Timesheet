@@ -1,6 +1,6 @@
 import { BaseRepository } from "./BaseRepository";
 import { User } from '../models'
-import { UserDTO } from "../routes/indtos/UserDto";
+import { UserDTO } from "../routes/reqdtos/UserDto";
 import { Type } from "../constants";
 import { Types } from "mongoose";
 import { logger } from "../services/logger";

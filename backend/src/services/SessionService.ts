@@ -1,6 +1,6 @@
 import { IService, IUser } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
-import { SessionResultDTO } from "../routes/outdtos/SessionResultDto";
+import { SessionResDTO } from "../routes/resdtos/SessionResDto";
 import userRepository from "../repositories/UserRepository";
 import jwt from "jsonwebtoken";
 import pick from "../utils/pick";
@@ -13,7 +13,7 @@ class SessionService implements IService {
 
   getCurrentLogin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      let response: SessionResultDTO = {
+      let response: SessionResDTO = {
         result: {
           application: {
             version: "4.3.0.0",
