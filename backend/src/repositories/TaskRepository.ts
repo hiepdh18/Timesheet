@@ -21,6 +21,15 @@ class TaskRepository extends BaseRepository {
     }
   }
 
+  public async findById(id: number): Promise<ITask> {
+    try {
+      const task = await Task.findOne({ id: id });
+      return task;
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   public async createTask(task: ITask) {
     const id = await this.getLastId() + 1;
     const newTask: ITask = new Task(
@@ -32,20 +41,20 @@ class TaskRepository extends BaseRepository {
       }
     );
     try {
-      if (!this.findByName(newTask.name)) {
+      if (! await this.findByName(newTask.name)) {
         await newTask.save();
         return newTask;
-
       }
       return undefined;
     } catch (error) {
       logger.error(error)
     }
   }
+
   public async updateTask(task: ITask) {
     try {
-      let taskFound = await Task.findOneAndUpdate({ id: task.id }, { task });
-      return taskFound;
+      Task.updateOne({ id: task.id }, task);
+      return this.findById(task.id);
     } catch (error) {
       logger.error(error)
     }
@@ -68,5 +77,18 @@ class TaskRepository extends BaseRepository {
       logger.error(error)
     }
   }
+
+  public async deleteTask(id: number): Promise<boolean> {
+    try {
+      let task = await this.findById(id);
+      if (!task) return false;
+      await Task.deleteOne({ id: id });
+      return true;
+    } catch (error) {
+      console.log('lloi roi')
+    }
+
+  }
+
 }
 export = new TaskRepository()

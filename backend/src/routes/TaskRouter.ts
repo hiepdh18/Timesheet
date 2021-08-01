@@ -13,9 +13,9 @@ class TaskRouter extends BaseRouter {
   protected init() {
     this.router.get('/GetAll', this._service.getAllTask);
     this.router.post('/Save', this._service.saveTask);
+    this.router.delete('/Archive', this._service.archiveTask);
     this.router.post('/DeArchive', this._service.deArchiveTask);
     this.router.delete('/Delete', this._service.deleteTask);
-    this.router.delete('/Archive', this._service.archiveTask);
   }
 }
 

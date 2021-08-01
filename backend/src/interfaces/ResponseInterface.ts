@@ -1,8 +1,8 @@
 export interface IResponse {
-  result:  object | null
+  result: null | object 
   targetUrl: string
   success: boolean
-  error: object | null
+  error: null | object
   unAuthorizedRequest: boolean
   __abp: boolean
 };
