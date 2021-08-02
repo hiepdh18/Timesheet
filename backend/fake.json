@@ -1,27 +1,66 @@
 {
-  "result": {
-    "name": "newTask",
-    "type": 0,
-    "isDeleted": false,
-    "id": 112
-  },
-  "targetUrl": null,
-  "success": true,
-  "error": null,
-  "unAuthorizedRequest": false,
-  "__abp": true
-}
-{
-  "name": "newTask",
-  "type": 0
-}
-{
-  "result": {
-    "name": "Khong xoa duoc 334",
-    "type": 0,
-    "isDeleted": false,
-    "id": 3
-  },
+  "result": [
+    {
+      "name": "Khong xoa duoc 1",
+      "type": 1,
+      "isDeleted": false,
+      "id": 1
+    },
+    {
+      "name": "Khong xoa duoc 2",
+      "type": 1,
+      "isDeleted": false,
+      "id": 2
+    },
+    {
+      "name": "Khong xoa duoc 334",
+      "type": 0,
+      "isDeleted": false,
+      "id": 3
+    },
+    {
+      "name": "khong xoa duoc 5",
+      "type": 0,
+      "isDeleted": false,
+      "id": 4
+    },
+    {
+      "name": "khong xoa duoc 6",
+      "type": 1,
+      "isDeleted": false,
+      "id": 6
+    },
+    {
+      "name": "khong xoa duoc 7",
+      "type": 0,
+      "isDeleted": false,
+      "id": 8
+    },
+    {
+      "name": "khong xoa duoc 4",
+      "type": 1,
+      "isDeleted": false,
+      "id": 46
+    },
+    {
+      "name": "newTask",
+      "type": 0,
+      "isDeleted": false,
+      "id": 112
+    },
+    {
+      "name": "AFSD",
+      "type": 0,
+      "isDeleted": true,
+      "id": 113
+    },
+    {
+      "name": "SDGA",
+      "type": 0,
+      "isDeleted": false,
+      "id": 114
+    }
+  ],
   "targetUrl": null,
   "success": true,
   "error": null,

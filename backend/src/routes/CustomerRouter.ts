@@ -18,4 +18,4 @@ class CustomerRouter extends BaseRouter {
   }
 }
 
-export = new CustomerRouter();
+export = new CustomerRouter().router;

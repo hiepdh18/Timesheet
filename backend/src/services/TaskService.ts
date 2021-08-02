@@ -31,13 +31,15 @@ class TaskServive implements IService {
         newTask = await this._taskRepository.createTask(task);
       else
         newTask = await this._taskRepository.updateTask(task);
-      if (newTask !== undefined)
+      if (newTask) {
         response = {
           ...response,
           success: true,
           result: pick(newTask, ['id', 'name', 'type', 'isDeleted'])
         }
-      else
+        res.status(200).json(response);
+      }
+      else {
         response = {
           ...response,
           error: {
@@ -47,7 +49,8 @@ class TaskServive implements IService {
             validationErrors: null
           }
         }
-      res.status(200).json(response);
+        res.status(500).json(response);
+      }
     } catch (error) {
       next(error);
     }
@@ -73,9 +76,7 @@ class TaskServive implements IService {
       next(error);
     }
   }
-  archiveTask = async (req: Request, res: Response, next: NextFunction) => {
 
-  }
   deleteTask = async (req: Request, res: Response, next: NextFunction) => {
     const id: number = Number(req.query.Id);
     let response: IResponse = {
@@ -86,32 +87,78 @@ class TaskServive implements IService {
       unAuthorizedRequest: true,
       __abp: true
     }
-    let success = await this._taskRepository.deleteTask(id);
-
-    if (success) {
-      response = {
-        ...response,
-        success: true
-      }
-      res.status(200).json(response);
-
-    } else {
-      response = {
-        ...response,
-        success: false,
-        error: {
-          code: 0,
-          message: "Task not found!",
-          details: null,
-          validationErrors: null
+    try {
+      if (await this._taskRepository.deleteTask(id)) {
+        response = {
+          ...response,
+          success: true
         }
+        res.status(200).json(response);
+      } else {
+        response = {
+          ...response,
+          success: false,
+          error: {
+            code: 0,
+            message: "Task not found!",
+            details: null,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
       }
+    } catch (error) {
 
-      res.status(404).json(response);
     }
   }
-  deArchiveTask = async (req: Request, res: Response, next: NextFunction) => {
 
+  archiveTask = async (req: Request, res: Response, next: NextFunction) => {
+    let id = Number(req.query.Id);
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: null,
+      error: null,
+      unAuthorizedRequest: true,
+      __abp: true
+    }
+    try {
+      if (await this._taskRepository.findById(id)) {
+        const test = await this._taskRepository.archiveTask(id);
+        console.log(test);
+        response = {
+          ...response,
+          success: true
+        }
+        res.status(200).json(response);
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  deArchiveTask = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.body.id;
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: null,
+      error: null,
+      unAuthorizedRequest: true,
+      __abp: true
+    }
+    try {
+      if (await this._taskRepository.findById(id)) {
+        await this._taskRepository.deArchiveTask(id);
+        response = {
+          ...response,
+          success: true
+        }
+        res.status(200).json(response);
+      }
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

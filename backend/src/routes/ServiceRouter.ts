@@ -1,6 +1,6 @@
 import { BaseRouter } from "./BaseRouter";
-import SessionRouter from './SessionRouter';
-// import CustomerRouter from './CustomerRouter';
+import sessionRouter from './SessionRouter';
+import customerRouter from './CustomerRouter';
 // import MyTimeSheetRouter from './MyTimeSheetRouter';
 // import ProjectRouter from './ProjectRouter';
 import taskRouter from './TaskRouter';
@@ -18,8 +18,8 @@ class ServiceRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.use('/Session', SessionRouter);
-    // this.router.use('/Customer', CustomerRouter);
+    this.router.use('/Session', sessionRouter);
+    this.router.use('/Customer', customerRouter);
     // this.router.use('/MyTimesheets', MyTimeSheetRouter);
     // this.router.use('/Project', ProjectRouter);
     this.router.use('/Task', taskRouter);

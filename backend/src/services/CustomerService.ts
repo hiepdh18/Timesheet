@@ -38,6 +38,7 @@ class CustomerService implements IService {
           items: customers
         }
       }
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }
@@ -69,6 +70,7 @@ class CustomerService implements IService {
   };
 
   save = async (req: Request, res: Response, next: NextFunction) => {
+
     let customer: CreateCustomerReqDTO = req.body;
     let response: CreateCustomerResDTO = {
       result: null,
@@ -135,7 +137,7 @@ class CustomerService implements IService {
   };
 
   deleteCustomer = async (req: Request, res: Response, next: NextFunction) => {
-    let id = Number(req.query.id);
+    let id = Number(req.query.Id);
     let response: DeleteCustomerResDTO = {
       result: null,
       targetUrl: null,
@@ -143,9 +145,7 @@ class CustomerService implements IService {
       error: null,
       unAuthorizedRequest: false,
       __abp: true
-
     }
-
     let check = await this._customerRepository.deleteCustomer(id);
     if (check) {
       response = {
