@@ -2,7 +2,7 @@ import { Document } from "mongoose";
 import { ProjectStatus, ProjectType } from "../constants/Enums"
 import { IBase } from "./BaseInterface";
 
-export interface IProject extends IBase, Document{
+export interface IProject extends IBase, Document {
   name: string,
   code: string,
   status: ProjectStatus,
@@ -14,6 +14,6 @@ export interface IProject extends IBase, Document{
   tasks: [],
   users: [],
   projectTargetUsers: [],
-  isAllUserBelongTo: boolean,
+  isAllUserBelongTo?: boolean,
   id: number
 }

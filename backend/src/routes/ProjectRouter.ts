@@ -1,6 +1,8 @@
 import { BaseRouter } from "./BaseRouter";
+import projectService from "../services/ProjectService";
 
 class ProjectRouter extends BaseRouter {
+  private _service = projectService;
   constructor() {
     super();
     this.init();
@@ -10,9 +12,12 @@ class ProjectRouter extends BaseRouter {
    */
   protected init() {
     this.router.get('/Get');
-    this.router.get('/GetAll');
-    this.router.post('/Save');
+    this.router.get('/GetAll', this._service.getAllProject);
+    this.router.post('/Save', this._service.saveProject);
+    this.router.post('/Inactive');
+    this.router.post('/Active');
+    this.router.delete('/Delete');
   }
 }
 
-export = new ProjectRouter();
+export = new ProjectRouter().router;
