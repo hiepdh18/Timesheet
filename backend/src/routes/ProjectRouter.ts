@@ -14,9 +14,9 @@ class ProjectRouter extends BaseRouter {
     this.router.get('/Get');
     this.router.get('/GetAll', this._service.getAllProject);
     this.router.post('/Save', this._service.saveProject);
-    this.router.post('/Inactive');
-    this.router.post('/Active');
-    this.router.delete('/Delete');
+    this.router.post('/Inactive', this._service.inactiveProject);
+    this.router.post('/Active', this._service.activeProject);
+    this.router.delete('/Delete', this._service.deleteProject);
   }
 }
 

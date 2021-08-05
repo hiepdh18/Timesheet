@@ -1,15 +1,22 @@
 import { Document } from "mongoose";
-import { ProjectStatus, ProjectType,ProjectMemberType } from "../constants/Enums"
+import { ProjectStatus, ProjectType, ProjectMemberType } from "../constants/Enums"
 import { IBase } from "./BaseInterface";
 
 interface IUsers {
-  userId : number,
-  type : ProjectMemberType
+  userId: number,
+  type: ProjectMemberType,
+  id: number
 }
 interface ITasks {
   taskId: number,
-  billable : boolean
+  billable: boolean,
+  id: number
+}
 
+interface ProjectTargetUser {
+  userId: number,
+  roleName: string,
+  id: number
 }
 
 export interface IProject extends IBase, Document {
@@ -23,7 +30,7 @@ export interface IProject extends IBase, Document {
   customerId: number,
   tasks: ITasks[],
   users: IUsers[],
-  projectTargetUsers: [],
+  projectTargetUsers: ProjectTargetUser[],
   isAllUserBelongTo?: boolean,
   id: number
 }

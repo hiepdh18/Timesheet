@@ -119,6 +119,7 @@ class UserService implements IService {
       next(error);
     }
   };
+  
   updateUser = (req: Request, res: Response, next: NextFunction) => {
 
   };

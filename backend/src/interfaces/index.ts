@@ -1,11 +1,11 @@
 export { IBase } from './BaseInterface';
 export { IConfig } from './ConfigInterface';
+export { ICustomer } from './CustomerInterface';
 export { IError } from './ErrorInterface';
 export { IMongoConfig } from './MongoConfigInterface';
+export { IProject } from './ProjectInterface';
 export { IResponse } from './ResponseInterface';
 export { ISchemaOption } from './SchemaOptionInterface';
 export { IService } from './ServiceInterface';
-export { IUser } from './UserInterface';
-export { IProject } from './ProjectInterface';
 export { ITask } from './TaskInterface';
-export { ICustomer } from './CustomerInterface';
+export { IUser } from './UserInterface';

@@ -5,6 +5,8 @@ import { CreateCustomerReqDTO, GetAllPaggingReqDTO } from "../routes/reqdtos";
 import { GetAllCustomerResDTO } from "../routes/resdtos/GetAllCustomerResDto";
 import { CreateCustomerResDTO } from "../routes/resdtos/CreateCustomerResDto";
 import { DeleteCustomerResDTO } from "../routes/resdtos/DeleteCustomerResDto";
+import { GetCustomerAllPaggingResDTO } from "../routes/resdtos";
+import pick from "../utils/pick";
 
 
 
@@ -19,7 +21,7 @@ class CustomerService implements IService {
 
   getAllPagging = async (req: Request, res: Response, next: NextFunction) => {
     let filter: GetAllPaggingReqDTO = req.body;
-    let response: GetAllCustomerResDTO = {
+    let response: GetCustomerAllPaggingResDTO = {
       result: null,
       targetUrl: null,
       success: false,
@@ -55,13 +57,11 @@ class CustomerService implements IService {
     }
     try {
       let customers = await this._customerRepository.findAll();
+
       response = {
         ...response,
-        result: {
-          totalCount: customers.length,
-          items: customers
-        }
-
+        success: true,
+        result: customers
       }
       res.status(200).json(response);
     } catch (error) {
@@ -69,7 +69,7 @@ class CustomerService implements IService {
     }
   };
 
-  save = async (req: Request, res: Response, next: NextFunction) => {
+  saveCustomer = async (req: Request, res: Response, next: NextFunction) => {
 
     let customer: CreateCustomerReqDTO = req.body;
     let response: CreateCustomerResDTO = {

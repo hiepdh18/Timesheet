@@ -3,7 +3,6 @@ import { User } from '../models';
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
 import { IProject, IUser } from "../interfaces";
-import { ProjectMemberType } from "../constants/Enums";
 
 class UserRepository extends BaseRepository {
   constructor() {

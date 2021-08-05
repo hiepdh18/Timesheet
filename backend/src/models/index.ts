@@ -1,5 +1,5 @@
 
-export { User } from './UserModel';
-export { Task } from './TaskModel';
 export { Customer } from './CustomerModel';
 export { Project } from './ProjectModel';
+export { Task } from './TaskModel';
+export { User } from './UserModel';

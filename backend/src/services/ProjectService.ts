@@ -5,7 +5,7 @@ import userRepository from '../repositories/UserRepository'
 import { CreateProjectResDTO } from "../routes/resdtos";
 import { CreateProjectReqDTO } from "../routes/reqdtos/CreateProjectReqDto";
 import { GetAllProjectResDTO } from "../routes/resdtos/GetAllProjectResDto";
-import { IService } from "../interfaces";
+import { IResponse, IService } from "../interfaces";
 import pick from "../utils/pick";
 
 /**
@@ -79,7 +79,16 @@ class ProjectService implements IService {
       __abp: true
     };
     try {
-      if (project.id) {
+      if (project.id && await this._projectRepository.findById(project.id)) {
+        let updatedProject = await this._projectRepository.updateProject(project);
+        response = {
+          ...response,
+          success: true,
+          result: updatedProject
+        }
+        res.status(200).json(response);
+      }
+      else {
         if (await this._projectRepository.findByName(project.name)) {
           response = {
             ...response,
@@ -102,124 +111,93 @@ class ProjectService implements IService {
           res.status(200).json(response);
         }
       }
-      else {
-        let updatedProject = await this._projectRepository.updateProject(project);
-        response = {
-          ...response,
-          success: true,
-          result: updatedProject
-        }
-        res.status(200).json(response);
-      }
     } catch (error) {
       next(error);
     }
   }
 
-  // getAllTask = async (req: Request, res: Response, next: NextFunction) => {
-  //   let response: GetAllTaskResDTO = {
-  //     result: null,
-  //     targetUrl: null,
-  //     success: true,
-  //     error: null,
-  //     unAuthorizedRequest: false,
-  //     __abp: true
-  //   }
-  //   try {
-  //     const tasks = await this._taskRepository.findAll();
-  //     response = {
-  //       ...response,
-  //       result: tasks
-  //     }
-  //     res.status(200).json(response);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+  inactiveProject = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.body.id;
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: true,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      await this._projectRepository.inactiveProject(id);
+      response = {
+        ...response,
+        success: true
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-  // deleteTask = async (req: Request, res: Response, next: NextFunction) => {
-  //   const id: number = Number(req.query.Id);
-  //   let response: IResponse = {
-  //     result: null,
-  //     targetUrl: null,
-  //     success: null,
-  //     error: null,
-  //     unAuthorizedRequest: true,
-  //     __abp: true
-  //   }
-  //   try {
-  //     if (await this._taskRepository.deleteTask(id)) {
-  //       response = {
-  //         ...response,
-  //         success: true
-  //       }
-  //       res.status(200).json(response);
-  //     } else {
-  //       response = {
-  //         ...response,
-  //         success: false,
-  //         error: {
-  //           code: 0,
-  //           message: "Task not found!",
-  //           details: null,
-  //           validationErrors: null
-  //         }
-  //       }
-  //       res.status(500).json(response);
-  //     }
-  //   } catch (error) {
+  activeProject = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.body.id;
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: true,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      await this._projectRepository.activeProject(id);
+      response = {
+        ...response,
+        success: true
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
 
-  //   }
-  // }
+  deleteProject = async (req: Request, res: Response, next: NextFunction) => {
+    const id: number = Number(req.query.Id);
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: null,
+      error: null,
+      unAuthorizedRequest: true,
+      __abp: true
+    }
+    try {
+      let project = await this._projectRepository.findById(id);
+      if (project) {
+        await this._projectRepository.deleteProject(id);
+        response = {
+          ...response,
+          success: true
+        }
+        res.status(200).json(response);
+      }
+      else {
+        response = {
+          ...response,
+          success: false,
+          error: {
+            code: 0,
+            message: "Project not found!",
+            details: null,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
 
-  // archiveTask = async (req: Request, res: Response, next: NextFunction) => {
-  //   let id = Number(req.query.Id);
-  //   let response: IResponse = {
-  //     result: null,
-  //     targetUrl: null,
-  //     success: null,
-  //     error: null,
-  //     unAuthorizedRequest: true,
-  //     __abp: true
-  //   }
-  //   try {
-  //     if (await this._taskRepository.findById(id)) {
-  //       const test = await this._taskRepository.archiveTask(id);
-  //       console.log(test);
-  //       response = {
-  //         ...response,
-  //         success: true
-  //       }
-  //       res.status(200).json(response);
-  //     }
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
-
-  // deArchiveTask = async (req: Request, res: Response, next: NextFunction) => {
-  //   let id = req.body.id;
-  //   let response: IResponse = {
-  //     result: null,
-  //     targetUrl: null,
-  //     success: null,
-  //     error: null,
-  //     unAuthorizedRequest: true,
-  //     __abp: true
-  //   }
-  //   try {
-  //     if (await this._taskRepository.findById(id)) {
-  //       await this._taskRepository.deArchiveTask(id);
-  //       response = {
-  //         ...response,
-  //         success: true
-  //       }
-  //       res.status(200).json(response);
-  //     }
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // }
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 export = new ProjectService();

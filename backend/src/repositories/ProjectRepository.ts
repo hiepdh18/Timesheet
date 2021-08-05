@@ -58,7 +58,8 @@ class ProjectRepository extends BaseRepository {
       {
         _id: Types.ObjectId(),
         ...project,
-        id
+        id,
+        status: 0
       }
     );
     try {
@@ -82,6 +83,24 @@ class ProjectRepository extends BaseRepository {
       return await this.findById(project.id);
     } catch (error) {
       logger.error(error)
+    }
+  }
+
+  public async inactiveProject(projectId: number): Promise<boolean> {
+    try {
+      await Project.updateOne({ id: projectId }, { status: 1 });
+      return true;
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  public async activeProject(projectId: number): Promise<boolean> {
+    try {
+      await Project.updateOne({ id: projectId }, { status: 0 });
+      return true;
+    } catch (error) {
+      logger.error(error);
     }
   }
 
