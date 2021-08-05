@@ -1,9 +1,8 @@
 import { BaseRepository } from "./BaseRepository";
-import { Project, Task } from '../models'
+import { Project, User } from '../models'
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IProject, ITask } from "../interfaces";
-import { IProjectModel } from "../models/ProjectModel";
+import { IProject } from "../interfaces";
 import { ProjectStatus } from "../constants/Enums";
 
 class ProjectRepository extends BaseRepository {
@@ -36,7 +35,7 @@ class ProjectRepository extends BaseRepository {
       logger.error(error)
     }
   }
-  
+
   public async findByName(name: string): Promise<IProject> {
     try {
       return await Project.findOne({ name });
@@ -70,6 +69,13 @@ class ProjectRepository extends BaseRepository {
     }
   }
 
+  public getActiveMembers = async (project: IProject): Promise<number> => {
+    let activeMembers = project.users.filter((member, index, array) => {
+      return member.type != 3;
+    });
+    return activeMembers.length;
+  }
+
   public async updateProject(project: IProject): Promise<IProject> {
     try {
       await Project.updateOne({ id: project.id }, project);
@@ -81,7 +87,7 @@ class ProjectRepository extends BaseRepository {
 
   public async deleteProject(id: number): Promise<boolean> {
     try {
-      await Task.deleteOne({ id: id });
+      await Project.deleteOne({ id: id });
       return true;
     } catch (error) {
       logger.error(error);

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import projectRepository from '../repositories/ProjectRepository'
 import customerRepository from '../repositories/CustomerRepository'
+import userRepository from '../repositories/UserRepository'
 import { CreateProjectResDTO } from "../routes/resdtos";
 import { CreateProjectReqDTO } from "../routes/reqdtos/CreateProjectReqDto";
 import { GetAllProjectResDTO } from "../routes/resdtos/GetAllProjectResDto";
@@ -13,6 +14,7 @@ import pick from "../utils/pick";
 class ProjectService implements IService {
   private _projectRepository = projectRepository;
   private _customerRepository = customerRepository;
+  private _userRepository = userRepository;
 
   defaultMethod(req: Request, res: Response, next: NextFunction) {
   };
@@ -31,20 +33,36 @@ class ProjectService implements IService {
     try {
       let projects = await this._projectRepository.findByStatus(status);
       let list = projects.map(p => {
-        let project = pick(p, ['name', 'code', 'status', 'projectType', 'timeStart','timeEnd', 'id']);
-        // let customer = this._customerRepository.findById(p.customerId);
-        return {
-          ...project, 
-          customerName : null,
-          pms:null,
+        let project = pick(p, ['name', 'code', 'status', 'projectType', 'timeStart', 'timeEnd', 'id']);
+        let customerName;
+        let pms = [];
+        let activeMember;
 
+        Promise.all(
+          [
+            this._customerRepository.findById(p.customerId),
+            this._userRepository.getProjectManagers(p),
+            this._projectRepository.getActiveMembers(p),
+          ]
+        )
+          .then(values => {
+            customerName = values[0].name;
+            pms = values[1];
+            activeMember = values[2];
+          })
+        return {
+          ...project,
+          customerName,
+          pms,
+          activeMember
         }
       })
       response = {
         ...response,
-        result : list,
-        success : true
+        result: list,
+        success: true
       }
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }

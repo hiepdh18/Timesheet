@@ -1,14 +1,13 @@
 import { BaseRepository } from "./BaseRepository";
-import { User } from '../models'
-import { UserDTO } from "../routes/reqdtos/UserDto";
-import { Type } from "../constants";
+import { User } from '../models';
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IUser } from "../interfaces";
+import { IProject, IUser } from "../interfaces";
+import { ProjectMemberType } from "../constants/Enums";
 
 class UserRepository extends BaseRepository {
   constructor() {
-    super()
+    super();
   }
   public async getLastId() {
     try {
@@ -19,6 +18,7 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
+
   public async createUser(user: IUser) {
     const id = await this.getLastId() + 1;
     const newUser: IUser = new User(
@@ -35,7 +35,7 @@ class UserRepository extends BaseRepository {
     } catch (error) {
       logger.error(error)
     }
-    }
+  }
 
   public async findAll(): Promise<IUser[]> {
     try {
@@ -50,10 +50,18 @@ class UserRepository extends BaseRepository {
     try {
       const users = User.find().where('managerId').ne(null);
       return users;
-
     } catch (error) {
       logger.error(error)
     }
+  }
+
+  public async getProjectManagers(project: IProject) {
+    let users = project.users;
+    let pmIds = users.reduce((arr, user) => {
+      if (user.type == 1)
+        return arr.concat(user.userId);
+    }, []);
+    return pmIds;
   }
 
   public async findById(id: number): Promise<IUser> {
@@ -89,10 +97,9 @@ class UserRepository extends BaseRepository {
       if (user) return user;
       return this.findByEmail(userNameOrEmail);
     } catch (error) {
-      logger.error(error)
+      logger.error(error);
     }
   }
-
 
 }
 
