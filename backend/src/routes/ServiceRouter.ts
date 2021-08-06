@@ -1,7 +1,7 @@
 import { BaseRouter } from "./BaseRouter";
 import sessionRouter from './SessionRouter';
 import customerRouter from './CustomerRouter';
-// import MyTimeSheetRouter from './MyTimeSheetRouter';
+import myTimeSheetRouter from './MyTimeSheetRouter';
 import ProjectRouter from './ProjectRouter';
 import taskRouter from './TaskRouter';
 import userRouter from './UserRouter';
@@ -20,7 +20,7 @@ class ServiceRouter extends BaseRouter {
   protected init() {
     this.router.use('/Session', sessionRouter);
     this.router.use('/Customer', customerRouter);
-    // this.router.use('/MyTimesheets', MyTimeSheetRouter);
+    this.router.use('/MyTimesheets', myTimeSheetRouter);
     this.router.use('/Project', ProjectRouter);
     this.router.use('/Task', taskRouter);
     this.router.use('/User', userRouter);

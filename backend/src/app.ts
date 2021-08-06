@@ -37,6 +37,7 @@ export class Application {
     this.server = new Server();
     this.server.app.use('/avatars', express.static(path.join(__dirname + '/../public/avatars')));
   }
+  
 
   private initDatabase() {
     mongoService.connect();

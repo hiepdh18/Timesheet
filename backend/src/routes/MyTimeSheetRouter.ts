@@ -1,6 +1,8 @@
 import { BaseRouter } from "./BaseRouter";
+import myTimeSheetService from "../services/MyTimeSheetService"
 
 class MyTimeSheetRouter extends BaseRouter {
+  private _service  = myTimeSheetService;
   constructor() {
     super();
     this.init();
@@ -9,7 +11,7 @@ class MyTimeSheetRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.post('/Create');
+    this.router.post('/Create', this._service.createMyTimeSheet);
     this.router.put('/Update');
     this.router.get('/Get');
     this.router.post('/SaveList');
@@ -22,4 +24,4 @@ class MyTimeSheetRouter extends BaseRouter {
   }
 }
 
-export = new MyTimeSheetRouter();
+export = new MyTimeSheetRouter().router;
