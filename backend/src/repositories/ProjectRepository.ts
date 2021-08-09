@@ -30,7 +30,11 @@ class ProjectRepository extends BaseRepository {
 
   public async findByStatus(status: ProjectStatus): Promise<IProject[]> {
     try {
-      return await Project.find({ status });
+      if (status) {
+        return await Project.find({ status: status });
+      }
+      else
+        return await Project.find();
     } catch (error) {
       logger.error(error)
     }
@@ -68,13 +72,6 @@ class ProjectRepository extends BaseRepository {
     } catch (error) {
       logger.error(error)
     }
-  }
-
-  public getActiveMembers = async (project: IProject): Promise<number> => {
-    let activeMembers = project.users.filter((member, index, array) => {
-      return member.type != 3;
-    });
-    return activeMembers.length;
   }
 
   public async updateProject(project: IProject): Promise<IProject> {

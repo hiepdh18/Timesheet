@@ -57,7 +57,7 @@ class CustomerService implements IService {
     }
     try {
       let customers = await this._customerRepository.findAll();
-
+      customers = pick(customers,['name', 'id']);
       response = {
         ...response,
         success: true,

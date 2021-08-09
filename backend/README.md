@@ -81,7 +81,7 @@
     note
     - client
     - type
-    - menbers
+    - members
     - tasks
 
 - project_type

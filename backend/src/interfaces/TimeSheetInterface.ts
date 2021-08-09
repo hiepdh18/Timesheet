@@ -7,7 +7,7 @@ export interface ITimeSheet extends IBase, Document {
   status: MytimeSheetStatus,
   workingTime: number,
   dateAt: string,
-  projectId: number,
+  projectTaskId:number,
   userId: number,
   taskId: number,
   mytimesheetNote: string,

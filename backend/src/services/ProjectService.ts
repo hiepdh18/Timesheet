@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import projectRepository from '../repositories/ProjectRepository'
 import customerRepository from '../repositories/CustomerRepository'
+import projectUserRepository from '../repositories/ProjectUserRepository'
 import userRepository from '../repositories/UserRepository'
-import { CreateProjectResDTO } from "../routes/resdtos";
+import { CreateProjectResDTO, ProjectDTO } from "../routes/resdtos";
 import { CreateProjectReqDTO } from "../routes/reqdtos/CreateProjectReqDto";
 import { GetAllProjectResDTO } from "../routes/resdtos/GetAllProjectResDto";
 import { IResponse, IService } from "../interfaces";
@@ -12,9 +13,10 @@ import pick from "../utils/pick";
  * @description ProjectService.
  */
 class ProjectService implements IService {
-  private _projectRepository = projectRepository;
-  private _customerRepository = customerRepository;
-  private _userRepository = userRepository;
+  private _projectUserRepo = projectUserRepository;
+  private _projectRepo = projectRepository;
+  private _customerRepo = customerRepository;
+  private _userRepo = userRepository;
 
   defaultMethod(req: Request, res: Response, next: NextFunction) {
   };
@@ -31,35 +33,27 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      let projects = await this._projectRepository.findByStatus(status);
-      let list = projects.map(p => {
-        let project = pick(p, ['name', 'code', 'status', 'projectType', 'timeStart', 'timeEnd', 'id']);
-        let customerName;
-        let pms = [];
-        let activeMember;
+      let projects = await this._projectRepo.findByStatus(status);
+      let newProjects =[];
 
-        Promise.all(
-          [
-            this._customerRepository.findById(p.customerId),
-            this._userRepository.getProjectManagers(p),
-            this._projectRepository.getActiveMembers(p),
-          ]
-        )
-          .then(values => {
-            customerName = values[0].name;
-            pms = values[1];
-            activeMember = values[2];
-          })
-        return {
-          ...project,
-          customerName,
+      for (let p of projects) {
+        let base = pick(p, ['name', 'code', 'status', 'projectType', 'timeStart', 'timeEnd', 'id']);
+        let customer = await this._customerRepo.findById(p.customerId)
+        let pms = await this._userRepo.getProjectManagers(p.id);
+        let activeMember = await this._projectUserRepo.getActiveMembers(p.id);
+        let project = {
+          ...base,
+          customerName: customer.name,
           pms,
           activeMember
         }
-      })
+        newProjects.push(project);
+      }
+      console.log( newProjects);
+    
       response = {
         ...response,
-        result: list,
+        result: newProjects,
         success: true
       }
       res.status(200).json(response);
@@ -79,8 +73,8 @@ class ProjectService implements IService {
       __abp: true
     };
     try {
-      if (project.id && await this._projectRepository.findById(project.id)) {
-        let updatedProject = await this._projectRepository.updateProject(project);
+      if (project.id && await this._projectRepo.findById(project.id)) {
+        let updatedProject = await this._projectRepo.updateProject(project);
         response = {
           ...response,
           success: true,
@@ -89,7 +83,7 @@ class ProjectService implements IService {
         res.status(200).json(response);
       }
       else {
-        if (await this._projectRepository.findByName(project.name)) {
+        if (await this._projectRepo.findByName(project.name)) {
           response = {
             ...response,
             error: {
@@ -102,7 +96,7 @@ class ProjectService implements IService {
           res.status(500).json(response);
         }
         else {
-          let createdProject = await this._projectRepository.createProject(project);
+          let createdProject = await this._projectRepo.createProject(project);
           response = {
             ...response,
             success: true,
@@ -127,7 +121,7 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      await this._projectRepository.inactiveProject(id);
+      await this._projectRepo.inactiveProject(id);
       response = {
         ...response,
         success: true
@@ -149,7 +143,7 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      await this._projectRepository.activeProject(id);
+      await this._projectRepo.activeProject(id);
       response = {
         ...response,
         success: true
@@ -171,9 +165,9 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      let project = await this._projectRepository.findById(id);
+      let project = await this._projectRepo.findById(id);
       if (project) {
-        await this._projectRepository.deleteProject(id);
+        await this._projectRepo.deleteProject(id);
         response = {
           ...response,
           success: true

@@ -9,3 +9,5 @@ export { ISchemaOption } from './SchemaOptionInterface';
 export { IService } from './ServiceInterface';
 export { ITask } from './TaskInterface';
 export { IUser } from './UserInterface';
+export { IProjectTask } from './ProjectTaskInterface';
+export { IProjectUser } from './ProjectUserInterface';

@@ -3,11 +3,13 @@ import { User } from '../models';
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
 import { IProject, IUser } from "../interfaces";
+import projectUserRepo from "./ProjectUserRepository"
 
 class UserRepository extends BaseRepository {
   constructor() {
     super();
   }
+
   public async getLastId() {
     try {
       const lastUser = await User.findOne().sort({ id: -1 });
@@ -44,25 +46,7 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
-  public async findUserHavingManager(): Promise<IUser[]> {
-    try {
-      const users = User.find().where('managerId').ne(null);
-      return users;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async getProjectManagers(project: IProject) {
-    let users = project.users;
-    let pmIds = users.reduce((arr, user) => {
-      if (user.type == 1)
-        return arr.concat(user.userId);
-    }, []);
-    return pmIds;
-  }
-
+  
   public async findById(id: number): Promise<IUser> {
     try {
       const user = User.findOne({ id: id });
@@ -76,6 +60,15 @@ class UserRepository extends BaseRepository {
     try {
       const user = User.findOne({ userName: userName });
       return user;
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  public async findUserHavingManager(): Promise<IUser[]> {
+    try {
+      const users = User.find().where('managerId').ne(null);
+      return users;
     } catch (error) {
       logger.error(error)
     }
@@ -95,6 +88,19 @@ class UserRepository extends BaseRepository {
       const user = this.findByUsername(userNameOrEmail);
       if (user) return user;
       return this.findByEmail(userNameOrEmail);
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  public async getProjectManagers(projectId: number) {
+    try {
+      let members = await projectUserRepo.getByProjectId(projectId);
+      let pmIds = members.reduce((arr, member) => {
+        if (member.type == 1)
+          return arr.concat(member.userId);
+      }, []);
+      return pmIds;
     } catch (error) {
       logger.error(error);
     }

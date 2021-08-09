@@ -21,7 +21,7 @@ class CustomerRepository extends BaseRepository {
 
   public async findAll(): Promise<ICustomer[]> {
     try {
-      return await Customer.find().select('name address id');
+      return await Customer.find();
     } catch (error) {
       logger.error(error)
     }
