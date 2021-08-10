@@ -1,8 +1,10 @@
+import { IError } from "./ErrorInterface";
+
 export interface IResponse {
-  result: null | object 
+  result: object
   targetUrl: string
   success: boolean
-  error: null | object
+  error: IError
   unAuthorizedRequest: boolean
   __abp: boolean
 };

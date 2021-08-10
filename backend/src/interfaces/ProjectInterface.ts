@@ -12,4 +12,6 @@ export interface IProject extends IBase, Document {
   note: string,
   projectType: ProjectType,
   customerId: number
+  projectTargetUsers: object,
+  isAllUserBelongTo: boolean,
 }

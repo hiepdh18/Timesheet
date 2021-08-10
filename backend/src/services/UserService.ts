@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import { IResponse, IService, IUser } from "../interfaces";
+import { IResponse, IService } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
-import { CreateUserReqDTO } from "../routes/reqdtos/CreateUserReqDto";
+import { UserDTO } from "../routes/reqdtos";
 import userRepository from "../repositories/UserRepository";
 import { CreateUserResDTO } from "../routes/resdtos/CreateUserResDto";
 import { UserGetAllPaggingReqDTO } from "../routes/reqdtos/UserGetAllPaggingReqDto";
@@ -17,7 +17,7 @@ class UserService implements IService {
   };
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
-    let user: CreateUserReqDTO = req.body;
+    let user: UserDTO = req.body;
 
     if (!user.userName || !user.emailAddress || !user.password) {
       const error = new HttpError(400, 'Missing username, email and/or password');
@@ -119,7 +119,7 @@ class UserService implements IService {
       next(error);
     }
   };
-  
+
   updateUser = (req: Request, res: Response, next: NextFunction) => {
 
   };

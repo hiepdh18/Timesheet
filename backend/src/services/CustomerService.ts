@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { IService } from "../interfaces";
 import customerRepository from "../repositories/CustomerRepository";
-import { CreateCustomerReqDTO, GetAllPaggingReqDTO } from "../routes/reqdtos";
+import { CustomerDTO, GetAllPaggingReqDTO } from "../routes/reqdtos";
 import { GetAllCustomerResDTO } from "../routes/resdtos/GetAllCustomerResDto";
 import { CreateCustomerResDTO } from "../routes/resdtos/CreateCustomerResDto";
 import { DeleteCustomerResDTO } from "../routes/resdtos/DeleteCustomerResDto";
@@ -57,12 +57,12 @@ class CustomerService implements IService {
     }
     try {
       let customers = await this._customerRepository.findAll();
-      customers = pick(customers,['name', 'id']);
       response = {
         ...response,
         success: true,
         result: customers
       }
+      console.log( response);
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -71,7 +71,7 @@ class CustomerService implements IService {
 
   saveCustomer = async (req: Request, res: Response, next: NextFunction) => {
 
-    let customer: CreateCustomerReqDTO = req.body;
+    let customer: CustomerDTO = req.body;
     let response: CreateCustomerResDTO = {
       result: null,
       targetUrl: null,

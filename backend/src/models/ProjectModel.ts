@@ -16,7 +16,6 @@ const ProjectSchema: Schema = new Schema({
   note: { type: String },
   projectType: { type: ProjectType },
   customerId: { type: Number },
-  projectTargetUsers: [],
   isAllUserBelongTo: { type: Boolean },
 }, schemaOption);
 

@@ -2,9 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import projectRepository from '../repositories/ProjectRepository'
 import customerRepository from '../repositories/CustomerRepository'
 import projectUserRepository from '../repositories/ProjectUserRepository'
+import projectTaskRepository from '../repositories/ProjectTaskRepository'
+import taskRepository from '../repositories/TaskRepository'
 import userRepository from '../repositories/UserRepository'
-import { CreateProjectResDTO, ProjectDTO } from "../routes/resdtos";
-import { CreateProjectReqDTO } from "../routes/reqdtos/CreateProjectReqDto";
+import { CreateProjectResDTO } from "../routes/resdtos";
+import { ProjectDTO } from "../routes/reqdtos/";
 import { GetAllProjectResDTO } from "../routes/resdtos/GetAllProjectResDto";
 import { IResponse, IService } from "../interfaces";
 import pick from "../utils/pick";
@@ -13,10 +15,12 @@ import pick from "../utils/pick";
  * @description ProjectService.
  */
 class ProjectService implements IService {
-  private _projectUserRepo = projectUserRepository;
   private _projectRepo = projectRepository;
+  private _projectUserRepo = projectUserRepository;
+  private _projectTaskRepo = projectTaskRepository;
   private _customerRepo = customerRepository;
   private _userRepo = userRepository;
+  private _taskRepo = taskRepository;
 
   defaultMethod(req: Request, res: Response, next: NextFunction) {
   };
@@ -34,7 +38,7 @@ class ProjectService implements IService {
     }
     try {
       let projects = await this._projectRepo.findByStatus(status);
-      let newProjects =[];
+      let newProjects = [];
 
       for (let p of projects) {
         let base = pick(p, ['name', 'code', 'status', 'projectType', 'timeStart', 'timeEnd', 'id']);
@@ -49,8 +53,7 @@ class ProjectService implements IService {
         }
         newProjects.push(project);
       }
-      console.log( newProjects);
-    
+
       response = {
         ...response,
         result: newProjects,
@@ -63,7 +66,8 @@ class ProjectService implements IService {
   };
 
   saveProject = async (req: Request, res: Response, next: NextFunction) => {
-    const project: CreateProjectReqDTO = req.body;
+    const project: ProjectDTO = req.body;
+    const { tasks, projectTargetUsers, users } = project;
     let response: CreateProjectResDTO = {
       result: null,
       targetUrl: null,
@@ -74,11 +78,17 @@ class ProjectService implements IService {
     };
     try {
       if (project.id && await this._projectRepo.findById(project.id)) {
-        let updatedProject = await this._projectRepo.updateProject(project);
+        for (let user of users) {
+          await this._projectUserRepo.create(user, project.id);
+        }
+        for (let task of tasks) {
+          await this._projectTaskRepo.create(task, project.id);
+        }
+        await this._projectRepo.updateProject(project);
         response = {
           ...response,
           success: true,
-          result: updatedProject
+          result: project
         }
         res.status(200).json(response);
       }
@@ -97,10 +107,16 @@ class ProjectService implements IService {
         }
         else {
           let createdProject = await this._projectRepo.createProject(project);
+          for (let user of users) {
+            await this._projectUserRepo.create(user, createdProject.id);
+          }
+          for (let task of tasks) {
+            await this._projectTaskRepo.create(task, createdProject.id);
+          }
           response = {
             ...response,
             success: true,
-            result: createdProject
+            result: project
           }
           res.status(200).json(response);
         }
@@ -192,6 +208,59 @@ class ProjectService implements IService {
       next(error);
     }
   }
+  getProjectsIncludingTasks = async (req: Request, res: Response, next: NextFunction) => {
+    let userId = 1;
+    let response = {
+      result: null,
+      targetUrl: null,
+      success: null,
+      error: null,
+      unAuthorizedRequest: true,
+      __abp: true
+    }
+    try {
+
+      let projectUsers = await this._projectUserRepo.getByUserId(userId);
+      let result = [];
+      for (let x of projectUsers) {
+        let project = await this._projectRepo.findById(x.projectId);
+        let customer = await this._customerRepo.findById(project.customerId);
+        let pms = await this._userRepo.getProjectManagers(project.id);
+        let projectTasks = await this._projectTaskRepo.getByProjectId(project.id);
+        let tasks = [];
+        for (let x of projectTasks) {
+          let task = await this._taskRepo.findById(x.taskId);
+          tasks.push({
+            projectTaskId: x.id,
+            taskName: task.name,
+            billable: false
+          })
+        }
+
+        console.log(tasks)
+        result.push({
+          projectName: project.name,
+          customerName: customer.name,
+          projectCode: project.code,
+          projectUserType: project.projectType,
+          listPM: pms,
+          tasks,
+          targetUsers: [],
+          id: x.id
+        });
+      }
+      response = {
+        ...response,
+        result,
+        success: true
+      }
+      console.log(response);
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 export = new ProjectService();

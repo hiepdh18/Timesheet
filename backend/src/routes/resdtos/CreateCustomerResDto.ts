@@ -1,5 +1,4 @@
-import { ICustomer, IError, IResponse } from '../../interfaces';
+import { ICustomer, IResponse } from '../../interfaces';
 export interface CreateCustomerResDTO extends IResponse {
-  result: ICustomer,
-  error : IError
+  result: ICustomer
 };

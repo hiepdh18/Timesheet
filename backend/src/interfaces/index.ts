@@ -11,3 +11,4 @@ export { ITask } from './TaskInterface';
 export { IUser } from './UserInterface';
 export { IProjectTask } from './ProjectTaskInterface';
 export { IProjectUser } from './ProjectUserInterface';
+export { ITimeSheet } from './TimeSheetInterface';

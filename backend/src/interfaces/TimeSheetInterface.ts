@@ -1,19 +1,19 @@
 import { Document } from "mongoose";
-import { Branch, MytimeSheetStatus, MytimeSheetType, TyOfWork } from "../constants/Enums";
+import { Branch, TimeSheetStatus, TimeSheetType, TypeOfWork } from "../constants/Enums";
 import { IBase } from "./BaseInterface";
 
 export interface ITimeSheet extends IBase, Document {
   id: number,
-  status: MytimeSheetStatus,
+  status: TimeSheetStatus,
   workingTime: number,
   dateAt: string,
-  projectTaskId:number,
+  projectTaskId: number,
   userId: number,
   taskId: number,
   mytimesheetNote: string,
-  typeOfWork: TyOfWork,
+  typeOfWork: TypeOfWork,
   isCharged: boolean,
-  isUserInProject: boolean,
   branch: Branch,
-  type: MytimeSheetType
+  type: TimeSheetType,
+  billable: boolean
 }

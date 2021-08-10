@@ -46,7 +46,7 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-  
+
   public async findById(id: number): Promise<IUser> {
     try {
       const user = User.findOne({ id: id });
@@ -93,14 +93,18 @@ class UserRepository extends BaseRepository {
     }
   }
 
-  public async getProjectManagers(projectId: number) {
+  public async getProjectManagers(projectId: number): Promise<string[]> {
     try {
       let members = await projectUserRepo.getByProjectId(projectId);
-      let pmIds = members.reduce((arr, member) => {
-        if (member.type == 1)
-          return arr.concat(member.userId);
-      }, []);
-      return pmIds;
+      members = members.filter((member) => {
+        return member.type == 1;
+      });
+      let pms = [];
+      for (let x of members) {
+        let user = await this.findById(x.userId);
+        pms.push(user.name);
+      }
+      return pms;
     } catch (error) {
       logger.error(error);
     }

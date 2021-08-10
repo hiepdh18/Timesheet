@@ -110,5 +110,23 @@ class ProjectRepository extends BaseRepository {
     }
   }
 
+  // public async getName(id: number): Promise<string> {
+  //   try {
+  //     let project = await this.findById(id);
+  //     return project.name;
+  //   } catch (error) {
+  //     logger.error(error);
+  //   }
+  // }
+
+  // public async getCode(id: number): Promise<string> {
+  //   try {
+  //     let project = await this.findById(id);
+  //     return project.code;
+  //   } catch (error) {
+  //     logger.error(error);
+  //   }
+  // }
+
 }
 export = new ProjectRepository();

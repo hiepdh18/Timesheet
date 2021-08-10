@@ -23,7 +23,7 @@ export enum ProjectMemberType { 'Member', 'Project Manager', 'Shadow', 'Deactive
 export enum ProjectStatus { 'Active', 'Deactive' };
 export enum TaskType { 'Common Task', 'Other Task' };
 export enum ProjectType { 'Time & Materials', 'Fixed Fee', 'Non-Billable', 'ODC' };
-export enum TyOfWork { 'Normal working hours', 'Overtime' };
+export enum TypeOfWork { 'Normal working hours', 'Overtime' };
 
-export enum MytimeSheetStatus { 'khong', 'mot', 'hai', 'ba', 'tru mot' };
-export enum MytimeSheetType { 'khong', 'mot', 'hai', 'ba', 'tru mot' };
+export enum TimeSheetStatus { 'khong', 'mot', 'hai', 'ba', 'tru mot' };
+export enum TimeSheetType { 'khong', 'mot', 'hai', 'ba', 'tru mot' };

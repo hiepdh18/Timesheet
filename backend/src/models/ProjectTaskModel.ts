@@ -8,7 +8,8 @@ const ProjectTaskSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number },
   projectId: Number,
-  taskId: Number
+  taskId: Number,
+  billable : Boolean
 
 }, schemaOption);
 

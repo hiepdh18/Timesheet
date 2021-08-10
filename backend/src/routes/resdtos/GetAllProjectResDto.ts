@@ -1,7 +1,5 @@
-import { ProjectDTO } from "./ProjectDto";
-import { IError, IResponse } from "../../interfaces";
+import { IResponse } from "../../interfaces";
 
 export interface GetAllProjectResDTO extends IResponse {
-  result: object[],
-  error: IError
+  result: object[]
 }
