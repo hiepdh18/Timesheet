@@ -11,7 +11,7 @@ class ProjectRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.get('/Get');
+    this.router.get('/Get', this._service.get);
     this.router.get('/GetAll', this._service.getAllProject);
     this.router.post('/Save', this._service.saveProject);
     this.router.post('/Inactive', this._service.inactiveProject);

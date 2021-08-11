@@ -10,6 +10,8 @@ import { ProjectDTO } from "../routes/reqdtos/";
 import { GetAllProjectResDTO } from "../routes/resdtos/GetAllProjectResDto";
 import { IResponse, IService } from "../interfaces";
 import pick from "../utils/pick";
+import { GetProjectResDTO } from "../routes/resdtos/GetProjectResDto";
+import { logger } from "./logger";
 
 /**
  * @description ProjectService.
@@ -24,6 +26,54 @@ class ProjectService implements IService {
 
   defaultMethod(req: Request, res: Response, next: NextFunction) {
   };
+
+  get = async (req: Request, res: Response, next: NextFunction) => {
+    const { input } = req.query;
+    let response: GetProjectResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      let project = await this._projectRepo.findById(Number(input));
+      project = pick(project, ['id', 'name', 'code', 'status', 'timeStart', 'timeEnd', 'note', 'projectType', 'customerId', 'isAllUserBelongTo'])
+      let projectTasks = await this._projectTaskRepo.getByProjectId(project.id);
+      let projectUsers = await this._projectUserRepo.getByProjectId(project.id);
+      let tasks = [];
+      let users = [];
+
+      for (let x of projectTasks) {
+        tasks.push({
+          taskId: x.taskId,
+          billable: x.billable
+        })
+      }
+      console.log(tasks)
+
+      for (let x of projectUsers) {
+        tasks.push({
+          userId: x.userId,
+          type: x.type
+        })
+      }
+
+      response = {
+        ...response,
+        result: {
+          ...project,
+          tasks,
+          users,
+          projectTargetUsers: null
+        }
+      }
+      res.status(200).json(response)
+    } catch (error) {
+      logger.error(error);
+    }
+  }
 
   getAllProject = async (req: Request, res: Response, next: NextFunction) => {
     let status = Number(req.query.status);
@@ -236,8 +286,6 @@ class ProjectService implements IService {
             billable: false
           })
         }
-
-        console.log(tasks)
         result.push({
           projectName: project.name,
           customerName: customer.name,
@@ -254,7 +302,6 @@ class ProjectService implements IService {
         result,
         success: true
       }
-      console.log(response);
       res.status(200).json(response);
     } catch (error) {
       next(error);

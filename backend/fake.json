@@ -422,3 +422,24 @@ POST /api/services/app/MyTimesheets/SubmitToPending
     "id": 1
   }
 ]
+{
+  "timekeepingId": 4851,
+  "userId": 1,
+  "userName": "admin admin",
+  "userType": null,
+  "userEmail": "admin@aspnetboilerplate.com",
+  "avatarPath": "/avatars/1627971046416_1_admin.jpg",
+  "branch": 1,
+  "date": "2021-08-09T00:00:00+07:00",
+  "registrationTimeStart": "08:00",
+  "registrationTimeEnd": "17:00",
+  "checkIn": null,
+  "checkOut": null,
+  "resultCheckIn": 0.0,
+  "resultCheckOut": 0.0,
+  "editByUserId": null,
+  "editByUserName": null,
+  "status": 1,
+  "userNote": null,
+  "noteReply": null
+}

@@ -1,5 +1,5 @@
 import { model, Schema, Types, Model } from 'mongoose'
-import { Branch, Level, schemaOption, Sex, Type } from '../constants'
+import { Branch, Level, schemaOption, Sex, UserType } from '../constants'
 import { IUser } from '../interfaces'
 
 export interface IUserModel extends Model<IUser> { };
@@ -19,7 +19,7 @@ const UserSchema: Schema = new Schema({
     String
   ],
   password: { type: String, require: true },
-  type: { type: Type },
+  type: { type: UserType },
   jobTitle: { type: String },
   level: { type: Level },
   registerWorkDay: { type: String },

@@ -1,4 +1,4 @@
-export enum Type { Stuff, Internship, Collaborator };
+export enum UserType { Stuff, Internship, Collaborator };
 export enum Sex { Male, Female };
 export enum Branch { 'Ha Noi', 'Da Nang', 'ho Chi Minh' };
 export enum Level {
