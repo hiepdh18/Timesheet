@@ -12,13 +12,15 @@ export interface GetProjectResDTO extends IResponse {
     projectType: ProjectType,
     customerId: number,
     tasks: {
-      taskId: 0,
+      taskId: number,
       billable: true,
+      id: number
     }[]
     ,
     users: {
       userId: number,
       type: UserType,
+      id: number
     }[]
     ,
     projectTargetUsers: {

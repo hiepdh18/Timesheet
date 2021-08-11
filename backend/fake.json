@@ -1,222 +1,26 @@
-/api/services/app/MyTimesheets/GetAllTimeSheetOfUser?startDate=2021-08-02&endDate=2021-08-08
-=>
+POST /api/services/app/Customer/GetAllPagging
 {
-  "result": [
-    {
-      "id": 159,
-      "projectName": "Abcd",
-      "taskName": "Khong xoa duoc 1",
-      "projectTaskId": 27,
-      "customerName": "adfad",
-      "projectCode": "Abcd",
-      "dateAt": "2021-08-03T00:00:00+07:00",
-      "workingTime": 60,
-      "status": 1,
-      "note": null,
-      "typeOfWork": 0,
-      "isCharged": false,
-      "billable": false
-    },
-  ],
-  "targetUrl": null,
-  "success": true,
-  "error": null,
-  "unAuthorizedRequest": false,
-  "__abp": true
-}
-
-GET /api/services/app/Project/GetProjectsIncludingTasks
-=>
-{
-  "result": [
-    {
-      "projectName": "Abcd",
-      "customerName": "adfad",
-      "projectCode": "Abcd",
-      "projectUserType": 0,
-      "listPM": [
-        "hang Diem Bui"
-      ],
-      "tasks": [
-        {
-          "projectTaskId": 27,
-          "taskName": "Khong xoa duoc 1",
-          "billable": false
-        },
-    
-      ],
-      "targetUsers": [],
-      "id": 8
-    },
-    {
-      "projectName": "oke",
-      "customerName": "Ncc",
-      "projectCode": "oke",
-      "projectUserType": 1,
-      "listPM": [
-        "admin admin"
-      ],
-      "tasks": [
-        {
-          "projectTaskId": 5,
-          "taskName": "Khong xoa duoc 1",
-          "billable": true
-        },
-        {
-          "projectTaskId": 6,
-          "taskName": "khong xoa duoc 5",
-          "billable": true
-        }
-      ],
-      "targetUsers": [],
-      "id": 2
-    },
-    {
-      "projectName": "a",
-      "customerName": "adfad",
-      "projectCode": "12",
-      "projectUserType": 1,
-      "listPM": [
-        "admin admin"
-      ],
-      "tasks": [
-        {
-          "projectTaskId": 41,
-          "taskName": "Khong xoa duoc 1",
-          "billable": true
-        },
-        {
-          "projectTaskId": 42,
-          "taskName": "Khong xoa duoc 334",
-          "billable": true
-        }
-      ],
-      "targetUsers": [],
-      "id": 12
-    },
-    {
-      "projectName": "Hiep",
-      "customerName": "Ncc",
-      "projectCode": "gdf",
-      "projectUserType": 1,
-      "listPM": [
-        "admin admin"
-      ],
-      "tasks": [
-        {
-          "projectTaskId": 163,
-          "taskName": "Khong xoa duoc 334",
-          "billable": true
-        },
-      ],
-      "targetUsers": [],
-      "id": 73
-    },
-    {
-      "projectName": "6777",
-      "customerName": "Ncc",
-      "projectCode": "p1",
-      "projectUserType": 2,
-      "listPM": [
-        "bu1 bu1",
-        "UB1 Linh"
-      ],
-      "tasks": [
-        {
-          "projectTaskId": 1,
-          "taskName": "Khong xoa duoc 1",
-          "billable": true
-        },
-      ],
-      "targetUsers": [],
-      "id": 1
-    }
-  ],
-  "targetUrl": null,
-  "success": true,
-  "error": null,
-  "unAuthorizedRequest": false,
-  "__abp": true
-}
-
-GET /api/services/app/Timekeeping/GetMyDetails?year=2021&month=8
-=>
-{
-  "result": [
-    {
-      "timekeepingId": 3521,
-      "userId": 1,
-      "userName": "admin admin",
-      "userType": null,
-      "userEmail": "admin@aspnetboilerplate.com",
-      "avatarPath": "/avatars/1627971046416_1_admin.jpg",
-      "branch": 1,
-      "date": "2021-08-01T00:00:00+07:00",
-      "registrationTimeStart": "",
-      "registrationTimeEnd": "",
-      "checkIn": null,
-      "checkOut": null,
-      "resultCheckIn": 0.0,
-      "resultCheckOut": 0.0,
-      "editByUserId": null,
-      "editByUserName": null,
-      "status": 0,
-      "userNote": null,
-      "noteReply": "Sunday"
-    }
-  ],
-  "targetUrl": null,
-  "success": true,
-  "error": null,
-  "unAuthorizedRequest": false,
-  "__abp": true
-}
-
-/api/services/app/MyTimesheets/Create
-{
-  "typeOfWork": 0,
-  "projectTaskId": 183,
-  "note": "note",
-  "projectTargetUserId": null,
-  "workingTime": 180,
-  "targetUserWorkingTime": 0,
-  "dateAt": "2021-08-03"
-}
-{
-  "typeOfWork": 0,
-  "projectTaskId": 183,
-  "note": "new note",
-  "projectTargetUserId": null,
-  "workingTime": 120,
-  "targetUserWorkingTime": 0,
-  "dateAt": "2021-08-03"
+  "filterItems": [],
+  "maxResultCount": 10,
+  "skipCount": 0,
+  "searchText": ""
 }
 =>
-{
-  "result": null,
-  "targetUrl": null,
-  "success": false,
-  "error": {
-    "code": 0,
-    "message": "You requested off 4 hour. So can't log normal working > 4 on 2021-08-06",
-    "details": null,
-    "validationErrors": null
-  },
-  "unAuthorizedRequest": false,
-  "__abp": true
-}
 {
   "result": {
-    "projectTaskId": 47,
-    "note": "á»­e",
-    "workingTime": 300,
-    "targetUserWorkingTime": 0,
-    "typeOfWork": 0,
-    "isCharged": false,
-    "dateAt": "2021-08-03T00:00:00+07:00",
-    "status": 0,
-    "projectTargetUserId": null,
-    "id": 211
+    "totalCount": 18,
+    "items": [
+      {
+        "name": "sddddd",
+        "address": null,
+        "id": 33
+      },
+      {
+        "name": "ádas",
+        "address": null,
+        "id": 32
+      },
+    ]
   },
   "targetUrl": null,
   "success": true,
@@ -224,222 +28,330 @@ GET /api/services/app/Timekeeping/GetMyDetails?year=2021&month=8
   "unAuthorizedRequest": false,
   "__abp": true
 }
-POST /api/services/app/MyTimesheets/SubmitToPending
+
+GET /api/services/app/Task/GetAll
+=>
 {
-  "startDate": "2021-08-02",
-  "endDate": "2021-08-08"
+  "result": [
+    {
+      "name": "Khong xoa duoc 1",
+      "type": 1,
+      "isDeleted": false,
+      "id": 1
+    },
+    {
+      "name": "Khong xoa duoc 2",
+      "type": 1,
+      "isDeleted": false,
+      "id": 2
+    },
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
 }
+
+POST /api/services/app/Task/Save
+{
+  "name": "newtask",
+  "type": 0
+}
+=>
+{
+  "result": {
+    "name": "newtask",
+    "type": 0,
+    "isDeleted": false,
+    "id": 129
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+{
+  "id": 129,
+  "name": "newtaskd",
+  "type": 0
+}
+=>
+{
+  "result": {
+    "name": "newtaskd",
+    "type": 0,
+    "isDeleted": false,
+    "id": 129
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+
+GET /api/services/app/Project/Get?input=3
+=>
+{
+  "result": {
+    "name": "PLinh1g",
+    "code": "PLinh1g",
+    "status": 0,
+    "timeStart": "2021-07-16T00:00:00+07:00",
+    "timeEnd": "2021-07-31T00:00:00+07:00",
+    "note": null,
+    "projectType": 3,
+    "customerId": 1,
+    "tasks": [
+      {
+        "taskId": 1,
+        "billable": true,
+        "id": 7
+      },
+      {
+        "taskId": 4,
+        "billable": true,
+        "id": 8
+      },
+      {
+        "taskId": 2,
+        "billable": true,
+        "id": 9
+      }
+    ],
+    "users": [
+      {
+        "userId": 4,
+        "type": 0,
+        "id": 10
+      },
+      {
+        "userId": 7,
+        "type": 0,
+        "id": 11
+      },
+      {
+        "userId": 3,
+        "type": 0,
+        "id": 12
+      },
+      {
+        "userId": 10,
+        "type": 1,
+        "id": 13
+      },
+      {
+        "userId": 38,
+        "type": 0,
+        "id": 144
+      },
+      {
+        "userId": 39,
+        "type": 0,
+        "id": 147
+      },
+      {
+        "userId": 78,
+        "type": 0,
+        "id": 269
+      },
+      {
+        "userId": 79,
+        "type": 0,
+        "id": 272
+      },
+      {
+        "userId": 80,
+        "type": 0,
+        "id": 277
+      },
+      {
+        "userId": 81,
+        "type": 0,
+        "id": 282
+      },
+      {
+        "userId": 82,
+        "type": 0,
+        "id": 286
+      },
+      {
+        "userId": 83,
+        "type": 0,
+        "id": 291
+      },
+      {
+        "userId": 84,
+        "type": 0,
+        "id": 299
+      },
+      {
+        "userId": 85,
+        "type": 0,
+        "id": 303
+      },
+      {
+        "userId": 86,
+        "type": 0,
+        "id": 307
+      },
+      {
+        "userId": 87,
+        "type": 0,
+        "id": 311
+      },
+      {
+        "userId": 88,
+        "type": 0,
+        "id": 315
+      },
+      {
+        "userId": 89,
+        "type": 0,
+        "id": 319
+      },
+      {
+        "userId": 90,
+        "type": 0,
+        "id": 323
+      },
+      {
+        "userId": 91,
+        "type": 0,
+        "id": 327
+      },
+      {
+        "userId": 92,
+        "type": 0,
+        "id": 331
+      },
+      {
+        "userId": 93,
+        "type": 0,
+        "id": 337
+      },
+      {
+        "userId": 94,
+        "type": 0,
+        "id": 341
+      },
+      {
+        "userId": 70,
+        "type": 1,
+        "id": 370
+      }
+    ],
+    "projectTargetUsers": [],
+    "isAllUserBelongTo": true,
+    "id": 3
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+POST /api/services/app/Project/Save
+{
+  "name": "Bancotai",
+  "code": "123456",
+  "status": 0,
+  "timeStart": "2021-08-02T00:00:00+07:00",
+  "timeEnd": "2021-08-17T00:00:00+07:00",
+  "note": "",
+  "projectType": 1,
+  "customerId": 1,
+  "tasks": [
+    {
+      "taskId": 3,
+      "billable": true
+    },
+    {
+      "taskId": 1,
+      "billable": true
+    },
+    {
+      "taskId": 2,
+      "billable": true
+    }
+  ],
+  "users": [
+    {
+      "userId": 3,
+      "type": 2
+    },
+    {
+      "userId": 5,
+      "type": 1
+    }
+  ],
+  "projectTargetUsers": [
+    {
+      "userId": 1,
+      "roleName": ""
+    }
+  ],
+  "isAllUserBelongTo": true,
+  "id": 106
+}
+
+
 
 =>
 {
-  "result": "Submit success 1 timesheets",
+  "result": {
+    "name": "Bancotai",
+    "code": "123456",
+    "status": 0,
+    "timeStart": "2021-08-02T00:00:00+07:00",
+    "timeEnd": "2021-08-17T00:00:00+07:00",
+    "note": "",
+    "projectType": 1,
+    "customerId": 1,
+    "tasks": [
+      {
+        "taskId": 3,
+        "billable": true,
+        "id": 0
+      },
+      {
+        "taskId": 1,
+        "billable": true,
+        "id": 0
+      },
+      {
+        "taskId": 2,
+        "billable": true,
+        "id": 0
+      }
+    ],
+    "users": [
+      {
+        "userId": 3,
+        "type": 2,
+        "id": 0
+      },
+      {
+        "userId": 5,
+        "type": 1,
+        "id": 0
+      }
+    ],
+    "projectTargetUsers": [
+      {
+        "userId": 1,
+        "roleName": "",
+        "id": 0
+      }
+    ],
+    "isAllUserBelongTo": true,
+    "id": 106
+  },
   "targetUrl": null,
   "success": true,
   "error": null,
   "unAuthorizedRequest": false,
   "__abp": true
-}
-
-[
-  {
-    "projectName": "oke",
-    "customerName": "Ncc",
-    "projectCode": "oke",
-    "projectUserType": 1,
-    "listPM": [
-      "admin admin",
-      "rikka123 rikka"
-    ],
-    "tasks": [
-      {
-        "projectTaskId": 5,
-        "taskName": "Khong xoa duoc 1",
-        "billable": true
-      },
-      {
-        "projectTaskId": 6,
-        "taskName": "khong xoa duoc 5",
-        "billable": true
-      }
-    ],
-    "targetUsers": [],
-    "id": 2
-  },
-  {
-    "projectName": "sd",
-    "customerName": "adfad",
-    "projectCode": "sd",
-    "projectUserType": 1,
-    "listPM": [
-      "admin admin"
-    ],
-    "tasks": [
-      {
-        "projectTaskId": 38,
-        "taskName": "Khong xoa duoc 2",
-        "billable": true
-      },
-      {
-        "projectTaskId": 39,
-        "taskName": "khong xoa duoc 5",
-        "billable": true
-      },
-      {
-        "projectTaskId": 40,
-        "taskName": "khong xoa duoc 6",
-        "billable": true
-      }
-    ],
-    "targetUsers": [],
-    "id": 11
-  },
-  {
-    "projectName": "new project",
-    "customerName": "Ncc",
-    "projectCode": "aaa",
-    "projectUserType": 1,
-    "listPM": [
-      "admin admin"
-    ],
-    "tasks": [
-      {
-        "projectTaskId": 47,
-        "taskName": "Khong xoa duoc 1",
-        "billable": true
-      },
-      {
-        "projectTaskId": 48,
-        "taskName": "Khong xoa duoc 334",
-        "billable": true
-      },
-      {
-        "projectTaskId": 49,
-        "taskName": "khong xoa duoc 4",
-        "billable": true
-      },
-      {
-        "projectTaskId": 50,
-        "taskName": "Khong xoa duoc 2",
-        "billable": true
-      }
-    ],
-    "targetUsers": [],
-    "id": 15
-  },
-  {
-    "projectName": "cong viec moi",
-    "customerName": "Do Dinh",
-    "projectCode": "11",
-    "projectUserType": 0,
-    "listPM": [
-      "Linh UB2"
-    ],
-    "tasks": [
-      {
-        "projectTaskId": 31,
-        "taskName": "Khong xoa duoc 1",
-        "billable": true
-      },
-      {
-        "projectTaskId": 32,
-        "taskName": "khong xoa duoc 5",
-        "billable": true
-      },
-      {
-        "projectTaskId": 33,
-        "taskName": "khong xoa duoc 6",
-        "billable": true
-      },
-      {
-        "projectTaskId": 34,
-        "taskName": "khong xoa duoc 7",
-        "billable": false
-      }
-    ],
-    "targetUsers": [],
-    "id": 9
-  },
-  {
-    "projectName": "Hiep",
-    "customerName": "Ncc",
-    "projectCode": "gdf",
-    "projectUserType": 1,
-    "listPM": [
-      "admin admin"
-    ],
-    "tasks": [
-      {
-        "projectTaskId": 163,
-        "taskName": "Khong xoa duoc 334",
-        "billable": true
-      },
-      {
-        "projectTaskId": 164,
-        "taskName": "khong xoa duoc 7",
-        "billable": true
-      },
-      {
-        "projectTaskId": 165,
-        "taskName": "newTask",
-        "billable": true
-      }
-    ],
-    "targetUsers": [],
-    "id": 73
-  },
-  {
-    "projectName": "6777",
-    "customerName": "Ncc",
-    "projectCode": "p1",
-    "projectUserType": 2,
-    "listPM": [
-      "bu1 bu1",
-      "UB1 Linh"
-    ],
-    "tasks": [
-      {
-        "projectTaskId": 1,
-        "taskName": "Khong xoa duoc 1",
-        "billable": true
-      },
-      {
-        "projectTaskId": 2,
-        "taskName": "khong xoa duoc 5",
-        "billable": true
-      },
-      {
-        "projectTaskId": 3,
-        "taskName": "Khong xoa duoc 2",
-        "billable": true
-      },
-      {
-        "projectTaskId": 4,
-        "taskName": "Khong xoa duoc 334",
-        "billable": true
-      }
-    ],
-    "targetUsers": [],
-    "id": 1
-  }
-]
-{
-  "timekeepingId": 4851,
-  "userId": 1,
-  "userName": "admin admin",
-  "userType": null,
-  "userEmail": "admin@aspnetboilerplate.com",
-  "avatarPath": "/avatars/1627971046416_1_admin.jpg",
-  "branch": 1,
-  "date": "2021-08-09T00:00:00+07:00",
-  "registrationTimeStart": "08:00",
-  "registrationTimeEnd": "17:00",
-  "checkIn": null,
-  "checkOut": null,
-  "resultCheckIn": 0.0,
-  "resultCheckOut": 0.0,
-  "editByUserId": null,
-  "editByUserName": null,
-  "status": 1,
-  "userNote": null,
-  "noteReply": null
 }

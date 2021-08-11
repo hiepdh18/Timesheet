@@ -54,11 +54,8 @@ class TaskRepository extends BaseRepository {
       }
     );
     try {
-      if (!await this.findByName(newTask.name)) {
-        await newTask.save();
-        return newTask;
-      }
-      return undefined;
+      await newTask.save();
+      return await this.findById(id);
     } catch (error) {
       logger.error(error)
     }
@@ -66,11 +63,8 @@ class TaskRepository extends BaseRepository {
 
   public async updateTask(task: ITask) {
     try {
-      if (await this.findById(task.id)) {
-        await Task.updateOne({ id: task.id }, task);
-        return await this.findById(task.id);
-      }
-      return undefined;
+      await Task.updateOne({ id: task.id }, task);
+      return await this.findById(task.id);
     } catch (error) {
       logger.error(error)
     }
@@ -78,14 +72,10 @@ class TaskRepository extends BaseRepository {
 
   public async deleteTask(id: number): Promise<boolean> {
     try {
-      if (await this.findById(id)) {
-        await Task.deleteOne({ id: id });
-        console.log('xoa')
-        return true;
-      }
-      return false;
+      await Task.deleteOne({ id: id });
+      return true;
     } catch (error) {
-      console.log('lloi roi')
+      logger.error(error);
     }
   }
 
@@ -103,7 +93,6 @@ class TaskRepository extends BaseRepository {
       await Task.updateOne({ id: id }, { isDeleted: false });
       return true;
     } catch (error) {
-      console.log('dddd')
       logger.error(error);
     }
   }

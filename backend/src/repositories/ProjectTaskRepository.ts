@@ -52,6 +52,15 @@ class ProjectTaskRepository extends BaseRepository {
       logger.error(error)
     }
   }
+
+  public async deleteByProjectId(projectId: number): Promise<boolean> {
+    try {
+      await ProjectTask.deleteMany({ projectId });
+      return true;
+    } catch (error) {
+      logger.error(error);
+    }
+  }
 }
 
 export = new ProjectTaskRepository()

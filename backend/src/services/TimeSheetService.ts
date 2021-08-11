@@ -24,6 +24,7 @@ class MyTimeSheetService implements IService {
 
   createTimeSheet = async (req: Request, res: Response, next: NextFunction) => {
     let timeSheet: TimeSheetDTO = req.body;
+    console.log(timeSheet);
     timeSheet.userId = 1;
     let response: CreateTimeSheetResDTO = {
       result: null,
@@ -63,12 +64,10 @@ class MyTimeSheetService implements IService {
       let result = [];
       for (var t of timeSheets) {
         let base = pick(t, ['id', 'projectTaskId', 'dateAt', 'workingTime', 'status', 'note', 'typeOfWork', 'isCharged', 'billable']);
-
-
         let projectTask = await this._projectTaskRepo.findById(t.projectTaskId);
-        let project = await this._projectRepo.findById(projectTask.projectId)
-        let task = await this._taskRepo.findById(projectTask.id)
-        let customer = await this._customerRepo.findById(project.customerId)
+        let project = await this._projectRepo.findById(projectTask.projectId);
+        let task = await this._taskRepo.findById(projectTask.taskId);
+        let customer = await this._customerRepo.findById(project.customerId);
         result.push({
           ...base,
           projectName: project.name,

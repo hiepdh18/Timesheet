@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { IService } from "../interfaces";
-import customerRepository from "../repositories/CustomerRepository";
 import { CustomerDTO, GetAllPaggingReqDTO } from "../routes/reqdtos";
-import { GetAllCustomerResDTO } from "../routes/resdtos/GetAllCustomerResDto";
-import { CreateCustomerResDTO } from "../routes/resdtos/CreateCustomerResDto";
-import { DeleteCustomerResDTO } from "../routes/resdtos/DeleteCustomerResDto";
+import { GetAllCustomerResDTO } from "../routes/resdtos";
+import { CreateCustomerResDTO } from "../routes/resdtos";
+import { DeleteCustomerResDTO } from "../routes/resdtos";
 import { GetCustomerAllPaggingResDTO } from "../routes/resdtos";
-import pick from "../utils/pick";
-
-
+import customerRepository from "../repositories/CustomerRepository";
 
 /**
  * @description CustomerService.
@@ -16,9 +13,9 @@ import pick from "../utils/pick";
 class CustomerService implements IService {
   private _customerRepository = customerRepository;
 
-  defaultMethod(req: Request, res: Response, next: NextFunction) {
-  };
+  defaultMethod(req: Request, res: Response, next: NextFunction) { };
 
+  // there is no effect of filterItemts
   getAllPagging = async (req: Request, res: Response, next: NextFunction) => {
     let filter: GetAllPaggingReqDTO = req.body;
     let response: GetCustomerAllPaggingResDTO = {
@@ -31,7 +28,7 @@ class CustomerService implements IService {
     }
     try {
       let total = (await this._customerRepository.findAll()).length;
-      let customers = await this._customerRepository.findAllPagging(filter.skipCount, filter.maxResultCount);
+      let customers = await this._customerRepository.findAllPagging(filter.skipCount, filter.maxResultCount, filter.searchText);
       response = {
         ...response,
         success: true,
@@ -69,7 +66,6 @@ class CustomerService implements IService {
   };
 
   saveCustomer = async (req: Request, res: Response, next: NextFunction) => {
-
     let customer: CustomerDTO = req.body;
     let response: CreateCustomerResDTO = {
       result: null,
@@ -82,15 +78,16 @@ class CustomerService implements IService {
     try {
       // case update customer
       if (customer.id) {
-        let updatedCustomer = await this._customerRepository.updateCustomer(customer);
-        if (updatedCustomer) {
+        if (await this._customerRepository.findById(customer.id)) {
+          let updatedCustomer = await this._customerRepository.updateCustomer(customer);
           response = {
             ...response,
             success: true,
             result: updatedCustomer
           }
           res.status(200).json(response);
-        } else {
+        }
+        else {
           response = {
             ...response,
             error: {
@@ -105,9 +102,8 @@ class CustomerService implements IService {
       }
       // case create new customer
       else {
-        let newCustomer = await this._customerRepository.createCustomer(customer);
-        // create new customer all done
-        if (newCustomer) {
+        if (!await this._customerRepository.findByName(customer.name)) {
+          let newCustomer = await this._customerRepository.createCustomer(customer);
           response = {
             ...response,
             success: true,
@@ -115,7 +111,6 @@ class CustomerService implements IService {
           }
           res.status(200).json(response);
         }
-        // customer already existed
         else {
           response = {
             ...response,
@@ -135,6 +130,7 @@ class CustomerService implements IService {
     }
   };
 
+  // there is no constraint with other table
   deleteCustomer = async (req: Request, res: Response, next: NextFunction) => {
     let id = Number(req.query.Id);
     let response: DeleteCustomerResDTO = {
@@ -145,25 +141,29 @@ class CustomerService implements IService {
       unAuthorizedRequest: false,
       __abp: true
     }
-    let check = await this._customerRepository.deleteCustomer(id);
-    if (check) {
-      response = {
-        ...response,
-        success: true
-      }
-      res.status(200).json(response);
-    }
-    else {
-      response = {
-        ...response,
-        error: {
-          code: 0,
-          message: `Customer id ${id} does not exist`,
-          details: null,
-          validationErrors: null
+    try {
+      if (await this._customerRepository.findById(id)) {
+        await this._customerRepository.deleteCustomer(id);
+        response = {
+          ...response,
+          success: true
         }
+        res.status(200).json(response);
       }
-      res.status(500).json(response);
+      else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            message: `Customer id ${id} does not exist`,
+            details: null,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
+    } catch (error) {
+      next(error)
     }
   };
 }

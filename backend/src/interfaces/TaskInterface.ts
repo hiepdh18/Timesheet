@@ -5,6 +5,6 @@ import { IBase } from "./BaseInterface";
 export interface ITask  extends IBase, Document{
   name: string,
   type: TaskType,
-  id?: number,
-  isDeleted?: boolean
+  id: number,
+  isDeleted: boolean
 }

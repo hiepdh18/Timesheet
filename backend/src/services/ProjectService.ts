@@ -48,27 +48,27 @@ class ProjectService implements IService {
       for (let x of projectTasks) {
         tasks.push({
           taskId: x.taskId,
-          billable: x.billable
+          billable: x.billable,
+          id: x.id
         })
       }
-      console.log(tasks)
-
       for (let x of projectUsers) {
-        tasks.push({
+        users.push({
           userId: x.userId,
-          type: x.type
+          type: x.type,
+          id: x.id
         })
       }
-
       response = {
         ...response,
         result: {
           ...project,
           tasks,
           users,
-          projectTargetUsers: null
+          projectTargetUsers: []
         }
       }
+      console.log(response)
       res.status(200).json(response)
     } catch (error) {
       logger.error(error);
@@ -76,8 +76,7 @@ class ProjectService implements IService {
   }
 
   getAllProject = async (req: Request, res: Response, next: NextFunction) => {
-    let status = Number(req.query.status);
-
+    const { status, search } = req.query;
     let response: GetAllProjectResDTO = {
       result: null,
       targetUrl: null,
@@ -87,9 +86,8 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      let projects = await this._projectRepo.findByStatus(status);
+      let projects = await this._projectRepo.findByStatus(Number(status), String(search));
       let newProjects = [];
-
       for (let p of projects) {
         let base = pick(p, ['name', 'code', 'status', 'projectType', 'timeStart', 'timeEnd', 'id']);
         let customer = await this._customerRepo.findById(p.customerId)
@@ -127,21 +125,39 @@ class ProjectService implements IService {
       __abp: true
     };
     try {
-      if (project.id && await this._projectRepo.findById(project.id)) {
-        for (let user of users) {
-          await this._projectUserRepo.create(user, project.id);
+      // case update project
+      if (project.id) {
+        if (await this._projectRepo.findById(project.id)) {
+          await this._projectTaskRepo.deleteByProjectId(project.id);
+          for (let task of tasks) {
+            await this._projectTaskRepo.create(task, project.id);
+          }
+          await this._projectUserRepo.deleteByProjectId(project.id);
+          for (let user of users) {
+            await this._projectUserRepo.create(user, project.id);
+          }
+          await this._projectRepo.updateProject(project);
+          response = {
+            ...response,
+            success: true,
+            result: project
+          }
+          res.status(200).json(response);
         }
-        for (let task of tasks) {
-          await this._projectTaskRepo.create(task, project.id);
+        else {
+          response = {
+            ...response,
+            error: {
+              code: 0,
+              message: `Project id ${project.id} is not exist!`,
+              details: null,
+              validationErrors: null
+            }
+          }
+          res.status(500).json(response);
         }
-        await this._projectRepo.updateProject(project);
-        response = {
-          ...response,
-          success: true,
-          result: project
-        }
-        res.status(200).json(response);
       }
+      // case create new project
       else {
         if (await this._projectRepo.findByName(project.name)) {
           response = {

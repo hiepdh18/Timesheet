@@ -28,13 +28,14 @@ class ProjectRepository extends BaseRepository {
     }
   }
 
-  public async findByStatus(status: ProjectStatus): Promise<IProject[]> {
+  public async findByStatus(status: ProjectStatus, search: string): Promise<IProject[]> {
     try {
+      const name = new RegExp(search, 'i')
       if (status) {
-        return await Project.find({ status: status });
+        return await Project.find({ status: status, name });
       }
       else
-        return await Project.find();
+        return await Project.find({ name });
     } catch (error) {
       logger.error(error)
     }
@@ -68,7 +69,7 @@ class ProjectRepository extends BaseRepository {
     );
     try {
       await newProject.save();
-      return newProject;
+      return await this.findById(id);
     } catch (error) {
       logger.error(error)
     }

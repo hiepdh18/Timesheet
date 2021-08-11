@@ -29,7 +29,7 @@ class CustomerRepository extends BaseRepository {
 
   public async findById(id: number): Promise<ICustomer> {
     try {
-      return await Customer.findOne({ id: id });
+      return await Customer.findOne({ id: id }).select('name id address');
     } catch (error) {
       logger.error(error);
     }
@@ -37,16 +37,17 @@ class CustomerRepository extends BaseRepository {
 
   public async findByName(name: string): Promise<ICustomer> {
     try {
-      return await Customer.findOne({ name });
+      return await Customer.findOne({ name }).select('name id address');
     } catch (error) {
       logger.error(error);
     }
   }
 
-  public async findAllPagging(skip: number, max: number) {
+  public async findAllPagging(skip: number, max: number, search: string) {
     try {
+      let name = new RegExp(search, 'i');
       let customers = await Customer
-        .find()
+        .find({ name })
         .select('name address id')
         .skip(skip)
         .limit(max);
@@ -64,11 +65,8 @@ class CustomerRepository extends BaseRepository {
       id,
     })
     try {
-      if (!await this.findByName(customer.name)) {
-        await newCustomer.save();
-        return newCustomer;
-      }
-      return undefined;
+      await newCustomer.save();
+      return newCustomer;
     } catch (error) {
       logger.error(error)
     }
@@ -76,11 +74,8 @@ class CustomerRepository extends BaseRepository {
 
   public async updateCustomer(customer: ICustomer): Promise<ICustomer> {
     try {
-      if (await this.findById(customer.id)) {
-        await Customer.updateOne({ id: customer.id }, customer);
-        return await this.findById(customer.id);
-      }
-      return undefined;
+      await Customer.updateOne({ id: customer.id }, customer);
+      return await this.findById(customer.id);
     } catch (error) {
       logger.error(error)
     }
@@ -88,11 +83,8 @@ class CustomerRepository extends BaseRepository {
 
   public async deleteCustomer(id: number): Promise<boolean> {
     try {
-      if (await this.findById(id)) {
-        await Customer.deleteOne({ id: id });
-        return true;
-      }
-      return false;
+      await Customer.deleteOne({ id: id });
+      return true;
     } catch (error) {
       logger.error(error);
     }

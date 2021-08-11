@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IResponse, IService } from "../interfaces";
-import { TaskDTO } from "../routes/reqdtos/TaskDto";
+import { TaskDTO } from "../routes/reqdtos";
 import taskRepository from '../repositories/TaskRepository'
 import pick from "../utils/pick";
 import { GetAllTaskResDTO } from "../routes/resdtos";
@@ -11,10 +11,9 @@ import { GetAllTaskResDTO } from "../routes/resdtos";
 class TaskServive implements IService {
   private _taskRepository = taskRepository;
 
-  defaultMethod(req: Request, res: Response, next: NextFunction) {
-  };
+  defaultMethod(req: Request, res: Response, next: NextFunction) { };
 
-  saveTask = async (req: Request, res: Response, next: NextFunction) => {
+  save = async (req: Request, res: Response, next: NextFunction) => {
     const task: TaskDTO = req.body;
     let response: IResponse = {
       result: null,
@@ -24,43 +23,66 @@ class TaskServive implements IService {
       unAuthorizedRequest: false,
       __abp: true
     };
-
     try {
-      let newTask;
-      if (!task.id)
-        newTask = await this._taskRepository.createTask(task);
-      else
-        newTask = await this._taskRepository.updateTask(task);
-      if (newTask) {
-        response = {
-          ...response,
-          success: true,
-          result: pick(newTask, ['id', 'name', 'type', 'isDeleted'])
-        }
-        res.status(200).json(response);
-      }
-      else {
-        response = {
-          ...response,
-          error: {
-            code: 0,
-            message: `Task "${task.name}" is already exist`,
-            details: null,
-            validationErrors: null
+      // case update task
+      if (task.id) {
+        if (await this._taskRepository.findById(task.id)) {
+          const updatedTask = await this._taskRepository.updateTask(task)
+          response = {
+            ...response,
+            success: true,
+            result: pick(updatedTask, ['id', 'name', 'type', 'isDeleted'])
           }
+          res.status(200).json(response);
         }
-        res.status(500).json(response);
+        else {
+          response = {
+            ...response,
+            error: {
+              code: 0,
+              message: `Task ${task.id} does not exist!`,
+              details: null,
+              validationErrors: null
+            }
+          }
+          res.status(500).json(response);
+        }
+      }
+      // case create new task
+      else {
+        if (! await this._taskRepository.findByName(task.name)) {
+          const newTask = await this._taskRepository.createTask(task);
+          response = {
+            ...response,
+            success: true,
+            result: pick(newTask, ['id', 'name', 'type', 'isDeleted'])
+          }
+          res.status(200).json(response);
+        }
+        else {
+          response = {
+            ...response,
+            error: {
+              code: 0,
+              message: `Task ${task.name} is already exist!`,
+              details: null,
+              validationErrors: null
+            }
+          }
+          res.status(500).json(response);
+        }
+
       }
     } catch (error) {
       next(error);
     }
   }
 
-  getAllTask = async (req: Request, res: Response, next: NextFunction) => {
+  getAll = async (req: Request, res: Response, next: NextFunction) => {
     let response: GetAllTaskResDTO = {
       result: null,
       targetUrl: null,
-      success: true,
+      success: false,
       error: null,
       unAuthorizedRequest: false,
       __abp: true
@@ -77,18 +99,20 @@ class TaskServive implements IService {
     }
   }
 
-  deleteTask = async (req: Request, res: Response, next: NextFunction) => {
+  // there is no constraint with other table
+  delete = async (req: Request, res: Response, next: NextFunction) => {
     const id: number = Number(req.query.Id);
     let response: IResponse = {
       result: null,
       targetUrl: null,
-      success: null,
+      success: false,
       error: null,
-      unAuthorizedRequest: true,
+      unAuthorizedRequest: false,
       __abp: true
     }
     try {
-      if (await this._taskRepository.deleteTask(id)) {
+      if (await this._taskRepository.findById(id)) {
+        await this._taskRepository.deleteTask(id);
         response = {
           ...response,
           success: true
@@ -97,7 +121,6 @@ class TaskServive implements IService {
       } else {
         response = {
           ...response,
-          success: false,
           error: {
             code: 0,
             message: "Task not found!",
@@ -108,7 +131,7 @@ class TaskServive implements IService {
         res.status(500).json(response);
       }
     } catch (error) {
-
+      next(error);
     }
   }
 
@@ -117,21 +140,33 @@ class TaskServive implements IService {
     let response: IResponse = {
       result: null,
       targetUrl: null,
-      success: null,
+      success: false,
       error: null,
-      unAuthorizedRequest: true,
+      unAuthorizedRequest: false,
       __abp: true
     }
     try {
       if (await this._taskRepository.findById(id)) {
-        const test = await this._taskRepository.archiveTask(id);
-        console.log(test);
+        await this._taskRepository.archiveTask(id);
         response = {
           ...response,
           success: true
         }
         res.status(200).json(response);
       }
+      else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            message: `Task id ${id} does not exist!`,
+            details: null,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
+
     } catch (error) {
       next(error);
     }
@@ -142,9 +177,9 @@ class TaskServive implements IService {
     let response: IResponse = {
       result: null,
       targetUrl: null,
-      success: null,
+      success: false,
       error: null,
-      unAuthorizedRequest: true,
+      unAuthorizedRequest: false,
       __abp: true
     }
     try {
@@ -155,6 +190,18 @@ class TaskServive implements IService {
           success: true
         }
         res.status(200).json(response);
+      }
+      else{
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            message: `Task id ${id} does not exist!`,
+            details: null,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
       }
     } catch (error) {
       next(error);
