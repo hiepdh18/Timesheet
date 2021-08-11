@@ -1,6 +1,6 @@
 import { IService, IUser } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
-import { SessionResDTO } from "../routes/resdtos/SessionResDto";
+import { SessionResDTO } from "../routes/resdtos";
 import userRepository from "../repositories/UserRepository";
 import jwt from "jsonwebtoken";
 import pick from "../utils/pick";

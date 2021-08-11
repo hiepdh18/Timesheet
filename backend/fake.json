@@ -759,3 +759,79 @@ OPTIONS /api/services/app/Project/getAll?status=1&search=
   "unAuthorizedRequest": false,
   "__abp": true
 }
+POST /api/services/app/MyTimesheets/Create
+{
+  "typeOfWork": 0,
+  "note": "a",
+  "projectTaskId": 6,
+  "projectTargetUserId": null,
+  "workingTime": 180,
+  "targetUserWorkingTime": 0,
+  "dateAt": "2021-08-10",
+
+  id: number,
+  projectTaskId: number,
+  note: string,
+  workingTime: number,
+  targetUserWorkingTime: number,
+  typeOfWork: TypeOfWork,
+  isCharged: boolean,
+  dateAt: string,
+  status: TimeSheetStatus,
+  projectTargetUserId: number,
+  userId: number
+
+}
+=>
+{
+  "result": {
+    "id": 2,
+    "typeOfWork": 0,
+    "note": "a",
+    "projectTaskId": 6,
+    "status": 0,
+    "projectTargetUserId": null,
+    "workingTime": 180,
+    "dateAt": "2021-08-10T00:00:00+07:00",
+    "targetUserWorkingTime": 0,
+    "isCharged": false,
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+
+
+GET /api/services/app/MyTimesheets/Get?id=1
+=>
+{
+  "result": {
+    "projectTaskId": 6,
+    "note": "s",
+    "workingTime": 180,
+    "targetUserWorkingTime": 0,
+    "typeOfWork": 0,
+    "isCharged": false,
+    "dateAt": "2021-08-10T00:00:00+07:00",
+    "status": 0,
+    "projectTargetUserId": null,
+    "id": 1
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+
+DELETE /api/services/app/MyTimesheets/Delete?Id=2
+{
+  "result": null,
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

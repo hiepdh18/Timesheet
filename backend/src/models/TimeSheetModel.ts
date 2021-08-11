@@ -1,7 +1,6 @@
 import { model, Schema, Types, Model } from 'mongoose'
 import { schemaOption } from '../constants'
-import { Branch, ProjectStatus, ProjectType, TimeSheetStatus, TimeSheetType, TypeOfWork } from '../constants/Enums';
-import { IProject } from '../interfaces'
+import { TimeSheetStatus, TypeOfWork } from '../constants/Enums';
 import { ITimeSheet } from '../interfaces/TimeSheetInterface';
 
 export interface ITimeSheetModel extends Model<ITimeSheet> { };
@@ -14,13 +13,11 @@ const TimeSheetSchema: Schema = new Schema({
   dateAt: String,
   projectTaskId: Number,
   userId: Number,
-  taskId: Number,
-  mytimesheetNote: String,
+  note: String,
+  targetUserWorkingTime: Number,
   typeOfWork: { type: TypeOfWork },
   isCharged: Boolean,
-  branch: { type: Branch },
-  type: { type: TimeSheetType },
-  billable: Boolean
+  projectTargetUserId: Number,
 }, schemaOption);
 
 export const TimeSheet: ITimeSheetModel = model<ITimeSheet, ITimeSheetModel>('TimeSheet', TimeSheetSchema, 'time_sheets')

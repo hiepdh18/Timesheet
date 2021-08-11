@@ -3,8 +3,8 @@ import { IResponse, IService } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
 import { UserDTO } from "../routes/reqdtos";
 import userRepository from "../repositories/UserRepository";
-import { CreateUserResDTO } from "../routes/resdtos/CreateUserResDto";
-import { UserGetAllPaggingReqDTO } from "../routes/reqdtos/UserGetAllPaggingReqDto";
+import { CreateUserResDTO } from "../routes/resdtos";
+import { UserGetAllPaggingReqDTO } from "../routes/reqdtos";
 import { HttpError } from "./exception/HttpError";
 import pick from "../utils/pick";
 /**

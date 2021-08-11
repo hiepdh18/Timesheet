@@ -10,3 +10,6 @@ export { GetCustomerAllPaggingResDTO } from './GetCustomerAllPaggingResDto';
 export { SessionResDTO } from './SessionResDto';
 export { CreateTimeSheetResDTO } from './CreateTimeSheetResDto';
 export { GetAllTimeSheetOfUserResDTO } from './GetAllTimeSheetOfUserResDto';
+export { GetTimeSheetResDTO } from './GetTimeSheetResDto';
+export { GetProjectResDTO } from './GetProjectResDto';
+export { GetMyDetailsResDTO } from './getMyDetailsResDto';

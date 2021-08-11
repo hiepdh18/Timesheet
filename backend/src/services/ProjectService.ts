@@ -6,11 +6,11 @@ import projectTaskRepository from '../repositories/ProjectTaskRepository'
 import taskRepository from '../repositories/TaskRepository'
 import userRepository from '../repositories/UserRepository'
 import { CreateProjectResDTO } from "../routes/resdtos";
-import { ProjectDTO } from "../routes/reqdtos/";
-import { GetAllProjectResDTO } from "../routes/resdtos/GetAllProjectResDto";
+import { ProjectDTO } from "../routes/reqdtos";
+import { GetAllProjectResDTO } from "../routes/resdtos";
 import { IResponse, IService } from "../interfaces";
 import pick from "../utils/pick";
-import { GetProjectResDTO } from "../routes/resdtos/GetProjectResDto";
+import { GetProjectResDTO } from "../routes/resdtos";
 import { logger } from "./logger";
 
 /**

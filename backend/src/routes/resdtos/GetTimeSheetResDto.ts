@@ -13,6 +13,6 @@ interface Timesheet {
   targetUserWorkingTime: number,
   isCharged: boolean
 }
-export interface CreateTimeSheetResDTO extends IResponse {
+export interface GetTimeSheetResDTO extends IResponse {
   result: Timesheet
 }

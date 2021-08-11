@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { IService } from "../interfaces";
-import { TimeSheetDTO } from "../routes/reqdtos/TimeSheetDto";
-import { CreateTimeSheetResDTO, GetAllTimeSheetOfUserResDTO } from "../routes/resdtos";
+import { IResponse, IService } from "../interfaces";
+import { TimeSheetDTO } from "../routes/reqdtos";
+import { CreateTimeSheetResDTO, GetAllTimeSheetOfUserResDTO, GetTimeSheetResDTO } from "../routes/resdtos";
 import timeSheetRepository from "../repositories/TimeSheetRepository";
 import taskRepository from "../repositories/TaskRepository";
 import customerRepository from "../repositories/CustomerRepository";
@@ -22,9 +22,32 @@ class MyTimeSheetService implements IService {
   defaultMethod(req: Request, res: Response, next: NextFunction) {
   };
 
-  createTimeSheet = async (req: Request, res: Response, next: NextFunction) => {
+  getOne = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.query.id;
+    let response: GetTimeSheetResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    };
+    try {
+      let timeSheet = await this._timeSheetRepo.findById(Number(id));
+      timeSheet = pick(timeSheet, ['id', 'typeOfWork', 'note', 'projectTaskId', 'status', 'projectTargetUserId', 'workingTime', 'dateAt', 'targetUserWorkingTime', 'isCharged'])
+      response = {
+        ...response,
+        result: timeSheet,
+        success: true
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  create = async (req: Request, res: Response, next: NextFunction) => {
     let timeSheet: TimeSheetDTO = req.body;
-    console.log(timeSheet);
     timeSheet.userId = 1;
     let response: CreateTimeSheetResDTO = {
       result: null,
@@ -35,13 +58,91 @@ class MyTimeSheetService implements IService {
       __abp: true
     };
     try {
-      let newTimeSheet = await this._timeSheetRepo.create(timeSheet);
+      let newTimeSheet = await this._timeSheetRepo.createTimeSheet(timeSheet);
+      newTimeSheet = pick(newTimeSheet, ['id', 'typeOfWork', 'note', 'projectTaskId', 'status', 'projectTargetUserId', 'workingTime', 'dateAt', 'targetUserWorkingTime', 'isCharged'])
       response = {
         ...response,
         result: newTimeSheet,
         success: true
       }
       res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  update = async (req: Request, res: Response, next: NextFunction) => {
+    let timeSheet: TimeSheetDTO = req.body;
+    let response: CreateTimeSheetResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    };
+    try {
+      if (await this._timeSheetRepo.findById(timeSheet.id)) {
+        let updatedTimeSheet = await this._timeSheetRepo.updateTimeSheet(timeSheet);
+        updatedTimeSheet = pick(updatedTimeSheet, ['id', 'typeOfWork', 'note', 'projectTaskId', 'status', 'projectTargetUserId', 'workingTime', 'dateAt', 'targetUserWorkingTime', 'isCharged'])
+        response = {
+          ...response,
+          result: updatedTimeSheet,
+          success: true
+        }
+        res.status(200).json(response);
+      }
+      else {
+        response = {
+          ...response,
+          result: null,
+          error: {
+            code: 0,
+            validationErrors: null,
+            details: null,
+            message: `TimeSheet id ${timeSheet.id} does not exist!`
+          }
+        }
+        res.status(200).json(response);
+      }
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.query.Id;
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    };
+    try {
+      if (await this._timeSheetRepo.findById(Number(id))) {
+        await this._timeSheetRepo.deleteTimeSheet(Number(id));
+        response = {
+          ...response,
+          success: true
+        }
+        res.status(200).json(response);
+      }
+      else {
+        response = {
+          ...response,
+          result: null,
+          error: {
+            code: 0,
+            validationErrors: null,
+            details: null,
+            message: `TimeSheet id ${Number(id)} does not exist!`
+          }
+        }
+        res.status(200).json(response);
+      }
     } catch (error) {
       next(error);
     }

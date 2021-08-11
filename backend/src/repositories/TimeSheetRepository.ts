@@ -30,18 +30,35 @@ class MytimeSheetRepository extends BaseRepository {
     }
   }
 
-
-  public create = async (timeSheet: ITimeSheet): Promise<ITimeSheet> => {
+  public createTimeSheet = async (timeSheet: ITimeSheet): Promise<ITimeSheet> => {
     try {
       let id = await this.getLastId() + 1;
       let newTimeSheet = new TimeSheet({
         _id: Types.ObjectId(),
         ...timeSheet,
-        id,
-        billable: false
+        isCharged: false,
+        status: 0,
+        id
       })
       await newTimeSheet.save();
       return await this.findById(id);
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  public updateTimeSheet = async (timeSheet: ITimeSheet): Promise<ITimeSheet> => {
+    try {
+      await TimeSheet.updateOne({ id: timeSheet.id }, timeSheet)
+      return await this.findById(timeSheet.id);
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  public deleteTimeSheet = async (id: number) => {
+    try {
+      await TimeSheet.deleteOne({ id })
     } catch (error) {
       logger.error(error);
     }

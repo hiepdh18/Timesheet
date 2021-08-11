@@ -1,6 +1,6 @@
 import { IService } from "../interfaces";
 import { NextFunction, Request, Response } from "express";
-import { GetMyDetailsResDTO } from "../routes/resdtos/getMyDetailsResDto";
+import { GetMyDetailsResDTO } from "../routes/resdtos";
 
 
 /**
