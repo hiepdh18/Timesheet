@@ -355,3 +355,407 @@ POST /api/services/app/Project/Save
   "unAuthorizedRequest": false,
   "__abp": true
 }
+GET /api/services/app/Project/getAll?search
+=>
+{
+  "result": [
+    {
+      "customerName": "Ncc",
+      "name": "67778e",
+      "code": "p2",
+      "status": 1,
+      "pms": [
+        "bu1 bu1",
+        "UB1 Linh"
+      ],
+      "activeMember": 6,
+      "projectType": 3,
+      "timeStart": "0007-01-10T00:17:56+07:00",
+      "timeEnd": "0007-02-21T00:17:56+07:00",
+      "id": 1
+    },
+    {
+      "customerName": "Ncc",
+      "name": "oke",
+      "code": "oke",
+      "status": 1,
+      "pms": [
+        "admin admin",
+        "rikka123 rikka"
+      ],
+      "activeMember": 62,
+      "projectType": 0,
+      "timeStart": "0001-01-10T00:17:56+07:00",
+      "timeEnd": "0001-01-11T00:17:56+07:00",
+      "id": 2
+    },
+    {
+      "customerName": "Ncc",
+      "name": "PLinh1g",
+      "code": "PLinh1g",
+      "status": 0,
+      "pms": [
+        "Linh PM2",
+        "rikka123 rikka"
+      ],
+      "activeMember": 24,
+      "projectType": 3,
+      "timeStart": "2021-07-16T00:00:00+07:00",
+      "timeEnd": "2021-07-31T00:00:00+07:00",
+      "id": 3
+    },
+    {
+      "customerName": "adfad",
+      "name": "Abcd",
+      "code": "Abcd",
+      "status": 0,
+      "pms": [
+        "hang Diem Bui"
+      ],
+      "activeMember": 4,
+      "projectType": 0,
+      "timeStart": "2021-03-01T00:00:00+07:00",
+      "timeEnd": "2021-10-31T00:00:00+07:00",
+      "id": 8
+    },
+    {
+      "customerName": "Do Dinh",
+      "name": "cong viec moi",
+      "code": "11",
+      "status": 1,
+      "pms": [
+        "Linh UB2"
+      ],
+      "activeMember": 6,
+      "projectType": 1,
+      "timeStart": "2021-04-01T00:00:00+07:00",
+      "timeEnd": "2021-07-31T00:00:00+07:00",
+      "id": 9
+    },
+    {
+      "customerName": "adfad",
+      "name": "sd",
+      "code": "sd",
+      "status": 0,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 1,
+      "projectType": 1,
+      "timeStart": "2021-07-31T00:00:00+07:00",
+      "timeEnd": "2021-07-13T00:00:00+07:00",
+      "id": 11
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "a",
+      "code": "12",
+      "status": 1,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 2,
+      "projectType": 0,
+      "timeStart": "2021-07-21T00:00:00+07:00",
+      "timeEnd": "2021-07-24T00:00:00+07:00",
+      "id": 12
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "test ",
+      "code": "123",
+      "status": 1,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 2,
+      "projectType": 1,
+      "timeStart": "2021-07-22T00:00:00+07:00",
+      "timeEnd": "2021-07-23T00:00:00+07:00",
+      "id": 13
+    },
+    {
+      "customerName": "Ncc",
+      "name": "new project",
+      "code": "aaa",
+      "status": 1,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 2,
+      "projectType": 0,
+      "timeStart": "2021-07-20T00:00:00+07:00",
+      "timeEnd": "2021-08-12T00:00:00+07:00",
+      "id": 15
+    },
+    {
+      "customerName": "MATDO",
+      "name": "dsadsad",
+      "code": "dsadasdas",
+      "status": 0,
+      "pms": [
+        "hang Diem Bui"
+      ],
+      "activeMember": 35,
+      "projectType": 2,
+      "timeStart": "2021-07-27T00:00:00+07:00",
+      "timeEnd": "2021-07-31T00:00:00+07:00",
+      "id": 69
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "VA",
+      "code": "VA-T",
+      "status": 1,
+      "pms": [
+        "Uno VATest"
+      ],
+      "activeMember": 9,
+      "projectType": 1,
+      "timeStart": "2021-01-01T00:00:00+07:00",
+      "timeEnd": null,
+      "id": 72
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "TEST PROJECT",
+      "code": "CODE",
+      "status": 0,
+      "pms": [
+        "Linh PM1"
+      ],
+      "activeMember": 3,
+      "projectType": 1,
+      "timeStart": "2021-08-08T00:00:00+07:00",
+      "timeEnd": "2021-08-26T00:00:00+07:00",
+      "id": 80
+    },
+    {
+      "customerName": "Ncc",
+      "name": "Bancotai",
+      "code": "123456",
+      "status": 0,
+      "pms": [
+        "admin dev"
+      ],
+      "activeMember": 2,
+      "projectType": 1,
+      "timeStart": "2021-08-02T00:00:00+07:00",
+      "timeEnd": "2021-08-17T00:00:00+07:00",
+      "id": 106
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+GET /api/services/app/Project/getAll?status=0&search=
+=>
+{
+  "result": [
+    {
+      "customerName": "Ncc",
+      "name": "PLinh1g",
+      "code": "PLinh1g",
+      "status": 0,
+      "pms": [
+        "Linh PM2",
+        "rikka123 rikka"
+      ],
+      "activeMember": 24,
+      "projectType": 3,
+      "timeStart": "2021-07-16T00:00:00+07:00",
+      "timeEnd": "2021-07-31T00:00:00+07:00",
+      "id": 3
+    },
+    {
+      "customerName": "adfad",
+      "name": "Abcd",
+      "code": "Abcd",
+      "status": 0,
+      "pms": [
+        "hang Diem Bui"
+      ],
+      "activeMember": 4,
+      "projectType": 0,
+      "timeStart": "2021-03-01T00:00:00+07:00",
+      "timeEnd": "2021-10-31T00:00:00+07:00",
+      "id": 8
+    },
+    {
+      "customerName": "adfad",
+      "name": "sd",
+      "code": "sd",
+      "status": 0,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 1,
+      "projectType": 1,
+      "timeStart": "2021-07-31T00:00:00+07:00",
+      "timeEnd": "2021-07-13T00:00:00+07:00",
+      "id": 11
+    },
+    {
+      "customerName": "MATDO",
+      "name": "dsadsad",
+      "code": "dsadasdas",
+      "status": 0,
+      "pms": [
+        "hang Diem Bui"
+      ],
+      "activeMember": 35,
+      "projectType": 2,
+      "timeStart": "2021-07-27T00:00:00+07:00",
+      "timeEnd": "2021-07-31T00:00:00+07:00",
+      "id": 69
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "TEST PROJECT",
+      "code": "CODE",
+      "status": 0,
+      "pms": [
+        "Linh PM1"
+      ],
+      "activeMember": 3,
+      "projectType": 1,
+      "timeStart": "2021-08-08T00:00:00+07:00",
+      "timeEnd": "2021-08-26T00:00:00+07:00",
+      "id": 80
+    },
+    {
+      "customerName": "Ncc",
+      "name": "Bancotai",
+      "code": "123456",
+      "status": 0,
+      "pms": [
+        "admin dev"
+      ],
+      "activeMember": 2,
+      "projectType": 1,
+      "timeStart": "2021-08-02T00:00:00+07:00",
+      "timeEnd": "2021-08-17T00:00:00+07:00",
+      "id": 106
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+
+OPTIONS /api/services/app/Project/getAll?status=1&search=
+=>
+{
+  "result": [
+    {
+      "customerName": "Ncc",
+      "name": "67778e",
+      "code": "p2",
+      "status": 1,
+      "pms": [
+        "bu1 bu1",
+        "UB1 Linh"
+      ],
+      "activeMember": 6,
+      "projectType": 3,
+      "timeStart": "0007-01-10T00:17:56+07:00",
+      "timeEnd": "0007-02-21T00:17:56+07:00",
+      "id": 1
+    },
+    {
+      "customerName": "Ncc",
+      "name": "oke",
+      "code": "oke",
+      "status": 1,
+      "pms": [
+        "admin admin",
+        "rikka123 rikka"
+      ],
+      "activeMember": 62,
+      "projectType": 0,
+      "timeStart": "0001-01-10T00:17:56+07:00",
+      "timeEnd": "0001-01-11T00:17:56+07:00",
+      "id": 2
+    },
+    {
+      "customerName": "Do Dinh",
+      "name": "cong viec moi",
+      "code": "11",
+      "status": 1,
+      "pms": [
+        "Linh UB2"
+      ],
+      "activeMember": 6,
+      "projectType": 1,
+      "timeStart": "2021-04-01T00:00:00+07:00",
+      "timeEnd": "2021-07-31T00:00:00+07:00",
+      "id": 9
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "a",
+      "code": "12",
+      "status": 1,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 2,
+      "projectType": 0,
+      "timeStart": "2021-07-21T00:00:00+07:00",
+      "timeEnd": "2021-07-24T00:00:00+07:00",
+      "id": 12
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "test ",
+      "code": "123",
+      "status": 1,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 2,
+      "projectType": 1,
+      "timeStart": "2021-07-22T00:00:00+07:00",
+      "timeEnd": "2021-07-23T00:00:00+07:00",
+      "id": 13
+    },
+    {
+      "customerName": "Ncc",
+      "name": "new project",
+      "code": "aaa",
+      "status": 1,
+      "pms": [
+        "admin admin"
+      ],
+      "activeMember": 2,
+      "projectType": 0,
+      "timeStart": "2021-07-20T00:00:00+07:00",
+      "timeEnd": "2021-08-12T00:00:00+07:00",
+      "id": 15
+    },
+    {
+      "customerName": "NCC-Hanoi",
+      "name": "VA",
+      "code": "VA-T",
+      "status": 1,
+      "pms": [
+        "Uno VATest"
+      ],
+      "activeMember": 9,
+      "projectType": 1,
+      "timeStart": "2021-01-01T00:00:00+07:00",
+      "timeEnd": null,
+      "id": 72
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

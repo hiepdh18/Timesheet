@@ -101,7 +101,6 @@ class ProjectService implements IService {
         }
         newProjects.push(project);
       }
-
       response = {
         ...response,
         result: newProjects,
@@ -274,6 +273,7 @@ class ProjectService implements IService {
       next(error);
     }
   }
+
   getProjectsIncludingTasks = async (req: Request, res: Response, next: NextFunction) => {
     let userId = 1;
     let response = {

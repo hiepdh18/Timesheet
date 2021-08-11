@@ -28,14 +28,12 @@ class ProjectRepository extends BaseRepository {
     }
   }
 
-  public async findByStatus(status: ProjectStatus, search: string): Promise<IProject[]> {
+  public async findByStatus(status, search: string): Promise<IProject[]> {
     try {
-      const name = new RegExp(search, 'i')
-      if (status) {
-        return await Project.find({ status: status, name });
-      }
-      else
-        return await Project.find({ name });
+      const name = new RegExp(search, 'i');
+      if (status == 0) return await Project.find({ status: 0, name });
+      else if (status == 1) return await Project.find({ status: 1, name });
+      else return await Project.find({ name });
     } catch (error) {
       logger.error(error)
     }
