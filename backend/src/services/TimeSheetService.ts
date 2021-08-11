@@ -8,6 +8,7 @@ import customerRepository from "../repositories/CustomerRepository";
 import projectRepository from "../repositories/ProjectRepository";
 import projectTaskRepository from "../repositories/ProjectTaskRepository";
 import pick from "../utils/pick";
+import { SubmitTimeSheetResDTO } from "../routes/resdtos/SubmitTimeSheetResDto";
 
 /**
  * @description MyTimeSheetService.
@@ -143,6 +144,38 @@ class MyTimeSheetService implements IService {
         }
         res.status(200).json(response);
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  submit = async (req: Request, res: Response, next: NextFunction) => {
+    const { startDate, endDate } = req.body;
+    const userId = 1;
+    let response: SubmitTimeSheetResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    };
+    try {
+      let timeSheets = await this._timeSheetRepo.gettimesheetsOfUser(userId, startDate, endDate);
+      let count = 0;
+      for (let x of timeSheets) {
+        if (x.status == 0) {
+          count++;
+          x.status = 1;
+          await this._timeSheetRepo.updateTimeSheet(x);
+        }
+      }
+      response = {
+        ...response,
+        result: `Submit success ${count} timesheets`,
+        success: true
+      }
+      res.status(200).json(response);
     } catch (error) {
       next(error);
     }

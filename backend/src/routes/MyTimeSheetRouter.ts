@@ -16,8 +16,8 @@ class MyTimeSheetRouter extends BaseRouter {
     this.router.get('/GetAllTimeSheetOfUser', this._service.getAllTimeSheetOfUser);
     this.router.delete('/Delete', this._service.delete);
     this.router.get('/Get', this._service.getOne);
+    this.router.post('/SubmitToPending', this._service.submit);
     this.router.post('/SaveList');
-    this.router.post('/SubmitToPending');
     this.router.get('/GetTimesheetStatisticMembers');
     this.router.get('/GetTimesheetStatisticTasks');
     this.router.get('/GetTimesheetStatisticProjects');

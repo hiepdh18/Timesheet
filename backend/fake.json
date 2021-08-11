@@ -835,3 +835,12 @@ DELETE /api/services/app/MyTimesheets/Delete?Id=2
   "unAuthorizedRequest": false,
   "__abp": true
 }
+
+  let resp = {
+      result: "Submit success 1 timesheets",
+      targetUrl: null,
+      success: true,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+  }
