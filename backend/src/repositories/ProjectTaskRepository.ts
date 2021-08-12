@@ -40,6 +40,7 @@ class ProjectTaskRepository extends BaseRepository {
     try {
       return await ProjectTask.findOne({ id: id });
     } catch (error) {
+      console.log(error);
       logger.error(error)
     }
   }

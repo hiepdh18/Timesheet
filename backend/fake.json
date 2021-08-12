@@ -844,3 +844,432 @@ DELETE /api/services/app/MyTimesheets/Delete?Id=2
       unAuthorizedRequest: false,
       __abp: true
   }
+POST /api/services/app/User/Create
+  {
+    "password": "123qwe",
+    "roleNames": [
+      "BASICUSER"
+    ],
+    "isActive": true,
+    "allowedLeaveDay": 0,
+    "branch": 0,
+    "morningStartAt": "08:30",
+    "morningEndAt": "12:00",
+    "afternoonStartAt": "13:00",
+    "afternoonEndAt": "17:30",
+    "morningWorking": "3.5",
+    "afternoonWorking": "4.5",
+    "userName": "hiep",
+    "emailAddress": "test@gmail.com",
+    "type": 0,
+    "name": "Hiep",
+    "surname": "Hoang",
+    "address": "hanoi",
+    "phoneNumber": "0986675691",
+    "sex": 0,
+    "userCode": "qwe",
+    "level": 7,
+    "salary": 0,
+    "startDateAt": "2021-08-12T00:00:00.000Z",
+    "salaryAt": "2021-08-03T00:00:00.000Z",
+    "isWorkingTimeDefault": true
+  }
+  =>
+  {
+    "result": {
+      "userName": "hiep",
+      "name": "Hiep",
+      "surname": "Hoang",
+      "emailAddress": "test@gmail.com",
+      "phoneNumber": "0986675691",
+      "address": "hanoi",
+      "isActive": true,
+      "fullName": "Hiep Hoang",
+      "roleNames": [
+        "BASICUSER"
+      ],
+      "type": 0,
+      "salary": 0,
+      "salaryAt": "2021-08-03T07:00:00+07:00",
+      "startDateAt": "2021-08-12T07:00:00+07:00",
+      "allowedLeaveDay": 0.0,
+      "userCode": "qwe",
+      "jobTitle": null,
+      "level": 7,
+      "registerWorkDay": null,
+      "managerId": null,
+      "branch": 0,
+      "sex": 0,
+      "avatarPath": null,
+      "morningWorking": 3.5,
+      "morningStartAt": "08:30",
+      "morningEndAt": "12:00",
+      "afternoonWorking": 4.5,
+      "afternoonStartAt": "13:00",
+      "afternoonEndAt": "17:30",
+      "isWorkingTimeDefault": true,
+      "isStopWork": false,
+      "id": 4
+    },
+    "targetUrl": null,
+    "success": true,
+    "error": null,
+    "unAuthorizedRequest": false,
+    "__abp": true
+  }
+
+
+  GET /api/services/app/User/GetUserNotPagging
+  =>
+  {
+    "result": [
+      {
+        "name": "admin admin",
+        "isActive": true,
+        "type": null,
+        "jobTitle": null,
+        "level": null,
+        "userCode": null,
+        "avatarPath": "",
+        "branch": null,
+        "id": 1
+      },
+      {
+        "name": "admin dev",
+        "isActive": true,
+        "type": null,
+        "jobTitle": null,
+        "level": null,
+        "userCode": null,
+        "avatarPath": "",
+        "branch": 0,
+        "id": 3
+      },
+      {
+        "name": "Hiep Hoang",
+        "isActive": true,
+        "type": 0,
+        "jobTitle": null,
+        "level": 7,
+        "userCode": "qwe",
+        "avatarPath": "",
+        "branch": 0,
+        "id": 4
+      }
+    ],
+    "targetUrl": null,
+    "success": true,
+    "error": null,
+    "unAuthorizedRequest": false,
+    "__abp": true
+  }
+  GET /api/services/app/User/GetAllManager
+
+{
+  "result": [],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+
+POST /api/services/app/User/GetAllPagging
+{
+  "filterItems": [
+    {
+      "comparison": 0,
+      "propertyName": "isActive",
+      "value": 0
+    },
+    {
+      "comparison": 0,
+      "propertyName": "branch",
+      "value": 0
+    }
+  ],
+  "maxResultCount": 10,
+  "skipCount": 0,
+  "searchText": ""
+},
+{
+  "filterItems": [
+    {
+      "comparison": 0,
+      "propertyName": "isActive",
+      "value": 0
+    },
+    {
+      "comparison": 0,
+      "propertyName": "type",
+      "value": 0
+    },
+    {
+      "comparison": 0,
+      "propertyName": "branch",
+      "value": 0
+    }
+  ],
+  "maxResultCount": 10,
+  "skipCount": 0,
+  "searchText": ""
+}
+{
+  "filterItems": [
+    {
+      "comparison": 0,
+      "propertyName": "isActive",
+      "value": 0
+    },
+    {
+      "comparison": 0,
+      "propertyName": "type",
+      "value": 0
+    },
+    {
+      "comparison": 0,
+      "propertyName": "level",
+      "value": 12
+    },
+    {
+      "comparison": 0,
+      "propertyName": "branch",
+      "value": 0
+    }
+  ],
+  "maxResultCount": 10,
+  "skipCount": 0,
+  "searchText": ""
+}
+{
+  "filterItems": [
+    {
+      "comparison": 0,
+      "propertyName": "isActive",
+      "value": 1
+    },
+    {
+      "comparison": 0,
+      "propertyName": "branch",
+      "value": 0
+    }
+  ],
+  "maxResultCount": 10,
+  "skipCount": 0,
+  "searchText": ""
+}
+=>
+{
+  "result": {
+    "totalCount": 2,
+    "items": [
+      {
+        "userName": "admindev",
+        "name": "admin",
+        "surname": "dev",
+        "emailAddress": "admindev@gmail.com",
+        "phoneNumber": null,
+        "address": null,
+        "isActive": true,
+        "fullName": "admin dev",
+        "roleNames": [
+          "Admin",
+          "ProjectAdmin",
+          "BasicUser",
+          "Supervisor",
+          "AdminDev"
+        ],
+        "projectUsers": [
+          {
+            "projectId": 2,
+            "projectCode": "sds",
+            "projectName": "javascript",
+            "projectUserType": 0,
+            "pms": [
+              "admin admin"
+            ]
+          },
+          {
+            "projectId": 5,
+            "projectCode": "dsadsa",
+            "projectName": "belong222",
+            "projectUserType": 1,
+            "pms": [
+              "admin admin",
+              "admin dev"
+            ]
+          },
+          {
+            "projectId": 7,
+            "projectCode": "sdsds",
+            "projectName": "anh trai",
+            "projectUserType": 0,
+            "pms": [
+              "admin admin"
+            ]
+          }
+        ],
+        "type": null,
+        "salary": 0,
+        "salaryAt": null,
+        "startDateAt": null,
+        "allowedLeaveDay": 0.0,
+        "userCode": null,
+        "jobTitle": null,
+        "level": null,
+        "registerWorkDay": null,
+        "avatarPath": "",
+        "managerId": null,
+        "managerAvatarPath": "",
+        "managerName": "",
+        "branch": 0,
+        "sex": 1,
+        "creationTime": "2021-08-11T18:25:24.1496329+07:00",
+        "morningWorking": 3.5,
+        "morningStartAt": "08:30",
+        "morningEndAt": "12:00",
+        "afternoonWorking": 4.5,
+        "afternoonStartAt": "13:00",
+        "afternoonEndAt": "17:30",
+        "id": 3
+      },
+      {
+        "userName": "hiep",
+        "name": "Hiep",
+        "surname": "Hoang",
+        "emailAddress": "test@gmail.com",
+        "phoneNumber": "0986675691",
+        "address": "hanoi",
+        "isActive": true,
+        "fullName": "Hiep Hoang",
+        "roleNames": [
+          "Admin",
+          "ProjectAdmin",
+          "BasicUser",
+          "Supervisor",
+          "AdminDev"
+        ],
+        "projectUsers": [
+          {
+            "projectId": 5,
+            "projectCode": "dsadsa",
+            "projectName": "belong222",
+            "projectUserType": 0,
+            "pms": [
+              "admin admin",
+              "admin dev"
+            ]
+          },
+          {
+            "projectId": 6,
+            "projectCode": "dsdsd",
+            "projectName": "emtrai",
+            "projectUserType": 0,
+            "pms": [
+              "admin admin"
+            ]
+          },
+          {
+            "projectId": 7,
+            "projectCode": "sdsds",
+            "projectName": "anh trai",
+            "projectUserType": 0,
+            "pms": [
+              "admin admin"
+            ]
+          }
+        ],
+        "type": 0,
+        "salary": 0,
+        "salaryAt": "2021-08-03T14:00:00+07:00",
+        "startDateAt": "2021-08-12T14:00:00+07:00",
+        "allowedLeaveDay": 0.0,
+        "userCode": "qwe",
+        "jobTitle": null,
+        "level": 7,
+        "registerWorkDay": null,
+        "avatarPath": "",
+        "managerId": null,
+        "managerAvatarPath": "",
+        "managerName": "",
+        "branch": 0,
+        "sex": 0,
+        "creationTime": "2021-08-12T08:47:39.6599989+07:00",
+        "morningWorking": 3.5,
+        "morningStartAt": "08:30",
+        "morningEndAt": "12:00",
+        "afternoonWorking": 4.5,
+        "afternoonStartAt": "13:00",
+        "afternoonEndAt": "17:30",
+        "id": 4
+      }
+    ]
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+
+
+GET /api/services/app/Timesheet/GetAll?startDate=2021-08-01&endDate=2021-08-31&status=1
+
+=>
+{
+  "result": [
+    {
+      "status": 1,
+      "workingTime": 120,
+      "dateAt": "2021-08-11T00:00:00+07:00",
+      "projectId": 7,
+      "user": "Hiep Hoang",
+      "userId": 4,
+      "taskId": 7,
+      "taskName": "comtask2",
+      "mytimesheetNote": "hiep",
+      "customerName": "Abc",
+      "projectName": "anh trai",
+      "projectCode": "sdsds",
+      "typeOfWork": 0,
+      "isCharged": false,
+      "isUserInProject": true,
+      "branchName": "HN",
+      "branch": 0,
+      "type": 0,
+      "avatarPath": "",
+      "level": 7,
+      "listPM": null,
+      "id": 6
+    },
+    {
+      "status": 1,
+      "workingTime": 120,
+      "dateAt": "2021-08-10T00:00:00+07:00",
+      "projectId": 7,
+      "user": "Hiep Hoang",
+      "userId": 4,
+      "taskId": 7,
+      "taskName": "comtask2",
+      "mytimesheetNote": "hieppp",
+      "customerName": "Abc",
+      "projectName": "anh trai",
+      "projectCode": "sdsds",
+      "typeOfWork": 0,
+      "isCharged": false,
+      "isUserInProject": true,
+      "branchName": "HN",
+      "branch": 0,
+      "type": 0,
+      "avatarPath": "",
+      "level": 7,
+      "listPM": null,
+      "id": 8
+    }
+  ],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

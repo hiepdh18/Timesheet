@@ -24,6 +24,7 @@ class ProjectRepository extends BaseRepository {
     try {
       return await Project.findOne({ id: id });
     } catch (error) {
+      console.log(error);
       logger.error(error)
     }
   }

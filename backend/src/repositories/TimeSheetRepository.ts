@@ -47,6 +47,24 @@ class MytimeSheetRepository extends BaseRepository {
     }
   }
 
+  public approveTimesheet = async (id: number): Promise<ITimeSheet> => {
+    try {
+      await TimeSheet.updateOne({ id }, { status: 2 })
+      return await this.findById(id);
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
+  public rejectTimesheet = async (id: number): Promise<ITimeSheet> => {
+    try {
+      await TimeSheet.updateOne({ id }, { status: 3 })
+      return await this.findById(id);
+    } catch (error) {
+      logger.error(error);
+    }
+  }
+
   public updateTimeSheet = async (timeSheet: ITimeSheet): Promise<ITimeSheet> => {
     try {
       await TimeSheet.updateOne({ id: timeSheet.id }, timeSheet)
@@ -64,7 +82,24 @@ class MytimeSheetRepository extends BaseRepository {
     }
   }
 
-  public gettimesheetsOfUser = async (userId: number, startDate: string, endDate: string): Promise<ITimeSheet[]> => {
+  public getAllTimesheets = async (startDate: string, endDate: string, status: number): Promise<ITimeSheet[]> => {
+    try {
+      let timeSheets = await TimeSheet.find({
+        status,
+        $and: [
+          { dateAt: { $gte: startDate } },
+          { dateAt: { $lte: endDate } },
+        ]  // and operator
+      });
+      return timeSheets;
+    }
+    catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
+  }
+
+  public getTimesheetsOfUser = async (userId: number, startDate: string, endDate: string): Promise<ITimeSheet[]> => {
     try {
       let timeSheets = await TimeSheet.find({
         userId,

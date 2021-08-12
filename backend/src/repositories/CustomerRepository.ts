@@ -31,6 +31,7 @@ class CustomerRepository extends BaseRepository {
     try {
       return await Customer.findOne({ id: id }).select('name id address');
     } catch (error) {
+      console.log(error);
       logger.error(error);
     }
   }

@@ -52,6 +52,7 @@ class UserRepository extends BaseRepository {
       const user = User.findOne({ id: id });
       return user;
     } catch (error) {
+      console.log(error);
       logger.error(error)
     }
   }
@@ -106,6 +107,7 @@ class UserRepository extends BaseRepository {
       }
       return pms;
     } catch (error) {
+      console.log(error);
       logger.error(error);
     }
   }

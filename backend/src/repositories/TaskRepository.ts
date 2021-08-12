@@ -31,6 +31,7 @@ class TaskRepository extends BaseRepository {
     try {
       return await Task.findOne({ id: id });
     } catch (error) {
+      console.log(error);
       logger.error(error)
     }
   }

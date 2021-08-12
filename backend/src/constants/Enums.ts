@@ -25,5 +25,5 @@ export enum TaskType { 'Common Task', 'Other Task' };
 export enum ProjectType { 'Time & Materials', 'Fixed Fee', 'Non-Billable', 'ODC' };
 export enum TypeOfWork { 'Normal working hours', 'Overtime' };
 
-export enum TimeSheetStatus { 'New', 'Improved', 'Rejected', 'Locked', 'Unlocked' };
+export enum TimeSheetStatus { 'New', 'Pendding', 'Approved', 'Rejected', 'Draft' };
 export enum TimeSheetType { 'khong', 'mot', 'hai', 'ba', 'tru mot' };
