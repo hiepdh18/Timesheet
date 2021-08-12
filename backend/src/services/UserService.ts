@@ -120,7 +120,6 @@ class UserService implements IService {
       unAuthorizedRequest: true,
       __abp: true
     }
-
     try {
       let users = await this._userRepos.findAllPagging(filter.filterItems, filter.maxResultCount, filter.skipCount, filter.searchText);
       let list = [];

@@ -6,3 +6,4 @@ export { User } from './UserModel';
 export { ProjectTask } from './ProjectTaskModel';
 export { ProjectUser } from './ProjectUserModel';
 export { TimeSheet } from './TimeSheetModel';
+export { Role } from './RoleModel';

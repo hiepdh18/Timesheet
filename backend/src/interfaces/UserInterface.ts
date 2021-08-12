@@ -14,7 +14,7 @@ export interface IUser extends IBase, Document {
     address: string//
     isActive: boolean//
     isStopWork: boolean//
-    roleNames: Role[]//
+    roleNames: string[]//
     password: string
     type: UserType//
     jobTitle: string
