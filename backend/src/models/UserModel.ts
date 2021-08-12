@@ -28,7 +28,7 @@ const UserSchema: Schema = new Schema({
   salary: { type: Number },
   salaryAt: { type: String },
   userCode: { type: String },
-  managerId: { type: String },
+  managerId: { type: Number },
   branch: { type: Branch },
   sex: { type: Sex },
   morningWorking: { type: String },

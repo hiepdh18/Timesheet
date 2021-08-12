@@ -3,48 +3,52 @@ import { IResponse, IService } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
 import { UserDTO } from "../routes/reqdtos";
 import userRepository from "../repositories/UserRepository";
+import projectUserRepository from "../repositories/ProjectUserRepository";
+import projectRepository from "../repositories/ProjectRepository";
 import { CreateUserResDTO } from "../routes/resdtos";
 import { UserGetAllPaggingReqDTO } from "../routes/reqdtos";
-import { HttpError } from "./exception/HttpError";
 import pick from "../utils/pick";
+import { GetUsersResDTO } from "../routes/resdtos/GetUsersResDto";
 /**
  * @description Userservice
  */
 class UserService implements IService {
-  private _repository = userRepository;
+  private _userRepos = userRepository;
+  private _projectRepo = projectRepository;
+  private _projectUserRepo = projectUserRepository;
 
   defaultMethod = (req: Request, res: Response, next: NextFunction) => {
   };
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     let user: UserDTO = req.body;
-
-    if (!user.userName || !user.emailAddress || !user.password) {
-      const error = new HttpError(400, 'Missing username, email and/or password');
-      return next(error);
+    let response: CreateUserResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
     }
 
     try {
-      if (await this._repository.findByEmail(user.emailAddress)) {
-        const error = new HttpError(401, `email ${user.emailAddress} is already taken!`);
-        return next(error);
-      }
-      if (await this._repository.findByUsername(user.userName)) {
-        const error = new HttpError(400, `username ${user.userName} is already taken!`);
-        return next(error);
+      if (!user.userName
+        || !user.emailAddress
+        || !user.password
+        || await this._userRepos.findByEmail(user.emailAddress)
+        || await this._userRepos.findByUsername(user.userName)
+      ) {
+        return res.status(500).json(response);
       }
       const hash = await bcrypt.hash(user.password, 10);
       // user = { ...user, password: hash };
       user['password'] = hash;
-      const newUser = await this._repository.createUser(user);
-      delete newUser.password;
-      const response: CreateUserResDTO = {
+      let newUser = await this._userRepos.createUser(user);
+      newUser = pick(newUser, ['userName', 'name', 'surname', 'emailAddress', 'phoneNumber', 'address', 'isActive', 'fullName', 'roleNames', 'type', 'salary', 'salaryAt', 'startDateAt', 'allowedLeaveDay', 'userCode', 'jobTitle', 'level', 'registerWorkDay', 'managerId', 'branch', 'sex', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'isStopWork', 'id']);
+      response = {
+        ...response,
         result: newUser,
-        targetUrl: null,
         success: true,
-        error: null,
-        unAuthorizedRequest: false,
-        __abp: true
       }
       res.status(200).json(response);
 
@@ -57,32 +61,47 @@ class UserService implements IService {
   // Get all manager
   getAllManager = async (req: Request, res: Response, next: NextFunction) => {
     let allManager = [];
-    try {
-      let users = await this._repository.findUserHavingManager();
-      return users;
-
-    } catch (error) {
-      next(error);
-    }
-
-
-  };
-
-  getUserNotPagging = async (req: Request, res: Response, next: NextFunction) => {
-    let response: IResponse = {
+    let response: GetUsersResDTO = {
       result: null,
       targetUrl: null,
       success: false,
       error: null,
-      unAuthorizedRequest: true,
+      unAuthorizedRequest: false,
       __abp: true
     }
-
     try {
-      let users = await this._repository.findAll();
-      users = users.map((user) => pick(user, ['name', 'string', 'isActive', 'type', 'jobTitle', 'level', 'userCode', 'avatarPath', 'branch', 'id']))
+      let users = await this._userRepos.findUserHavingManager();
+      for (let user of users) {
+        let mng = await this._userRepos.findById(user.managerId)
+        mng = pick(mng, ['name', 'isActive', 'type', 'jobTitle', 'level', 'userCode', 'avatarPath', 'branch', 'id']);
+        allManager.push(mng);
+      }
       response = {
         ...response,
+        success: true,
+        result: allManager
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  getUserNotPagging = async (req: Request, res: Response, next: NextFunction) => {
+    let response: GetUsersResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      let users = await this._userRepos.findAll();
+
+      response = {
+        ...response,
+        success: true,
         result: users
       }
       res.status(200).json(response);
@@ -93,8 +112,6 @@ class UserService implements IService {
 
   getAllPagging = async (req: Request, res: Response, next: NextFunction) => {
     let filter: UserGetAllPaggingReqDTO = req.body;
-
-
     let response: IResponse = {
       result: null,
       targetUrl: null,
@@ -105,12 +122,37 @@ class UserService implements IService {
     }
 
     try {
-      let users = await this._repository.findAll();
+      let users = await this._userRepos.findAllPagging(filter.filterItems, filter.maxResultCount, filter.skipCount, filter.searchText);
+      let list = [];
+      for (let user of users) {
+        let base = pick(user, ['userName', 'name', 'surname', 'emailAddress', 'phoneNumber', 'address', 'isActive', 'fullName', 'roleNames', 'type', 'salary', 'salaryAt', 'startDateAt', 'allowedLeaveDay', 'userCode', 'jobTitle', 'level', 'registerWorkDay', 'avatarPath', 'managerId', 'branch', 'sex', 'creationTime', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonEndAt', 'id'])
+        let pus = await this._projectUserRepo.getByUserId(user.id);
+        let manager = await this._userRepos.findById(user.managerId)
+        let projectUsers = [];
+        for (let pu of pus) {
+          let project = await this._projectRepo.findById(pu.projectId)
+          let pms = await this._userRepos.getProjectManagers(project.id);
+          projectUsers.push({
+            projectId: project.id,
+            projectCode: project.code,
+            projectName: project.name,
+            projectUserType: pu.type,
+            pms: pms
+          })
+        }
+        list.push({
+          ...base,
+          managerName: manager.name,
+          managerAvatarPath: manager.avatarPath,
+          projectUsers
+        });
+      }
+
       response = {
         ...response,
         result: {
           totalCount: users.length,
-          items: users
+          items: list
 
         }
       }
@@ -124,6 +166,9 @@ class UserService implements IService {
 
   };
   deleteUser = (req: Request, res: Response, next: NextFunction) => {
+
+  };
+  getRoles = (req: Request, res: Response, next: NextFunction) => {
 
   };
 }

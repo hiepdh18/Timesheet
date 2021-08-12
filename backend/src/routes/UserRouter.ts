@@ -34,6 +34,9 @@ class UserRouter extends BaseRouter {
     this.router.post("/Delete",
       this._service.deleteUser
     );
+    this.router.get("/GetRoles",
+      this._service.getRoles
+    );
   }
 }
 

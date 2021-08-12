@@ -27,3 +27,4 @@ export enum TypeOfWork { 'Normal working hours', 'Overtime' };
 
 export enum TimeSheetStatus { 'New', 'Pendding', 'Approved', 'Rejected', 'Draft' };
 export enum TimeSheetType { 'khong', 'mot', 'hai', 'ba', 'tru mot' };
+export enum Role { 'BASICUSER', 'PROJECTADMIN', 'SUPERVISOR', 'ADMINDEV', 'ADMIN' };

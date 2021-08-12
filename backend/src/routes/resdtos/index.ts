@@ -12,4 +12,5 @@ export { CreateTimeSheetResDTO } from './CreateTimeSheetResDto';
 export { GetAllTimeSheetOfUserResDTO } from './GetAllTimeSheetOfUserResDto';
 export { GetTimeSheetResDTO } from './GetTimeSheetResDto';
 export { GetProjectResDTO } from './GetProjectResDto';
-export { GetMyDetailsResDTO } from './getMyDetailsResDto';
+export { GetMyDetailsResDTO } from './GetMyDetailsResDto';
+export { GetUsersResDTO } from './GetUsersResDto';

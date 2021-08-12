@@ -826,24 +826,54 @@ GET /api/services/app/MyTimesheets/Get?id=1
   "__abp": true
 }
 
-DELETE /api/services/app/MyTimesheets/Delete?Id=2
+GET /api/services/app/User/GetRoles
+=>
 {
-  "result": null,
+  "result": {
+    "items": [
+      {
+        "name": "Admin",
+        "displayName": "Admin",
+        "normalizedName": "ADMIN",
+        "description": null,
+        "id": 1
+      },
+      {
+        "name": "ProjectAdmin",
+        "displayName": "ProjectAdmin",
+        "normalizedName": "PROJECTADMIN",
+        "description": null,
+        "id": 2
+      },
+      {
+        "name": "BasicUser",
+        "displayName": "BasicUser",
+        "normalizedName": "BASICUSER",
+        "description": null,
+        "id": 3
+      },
+      {
+        "name": "Supervisor",
+        "displayName": "Supervisor",
+        "normalizedName": "SUPERVISOR",
+        "description": null,
+        "id": 4
+      },
+      {
+        "name": "AdminDev",
+        "displayName": "AdminDev",
+        "normalizedName": "ADMINDEV",
+        "description": "AdminDev",
+        "id": 6
+      }
+    ]
+  },
   "targetUrl": null,
   "success": true,
   "error": null,
   "unAuthorizedRequest": false,
   "__abp": true
 }
-
-  let resp = {
-      result: "Submit success 1 timesheets",
-      targetUrl: null,
-      success: true,
-      error: null,
-      unAuthorizedRequest: false,
-      __abp: true
-  }
 POST /api/services/app/User/Create
   {
     "password": "123qwe",
@@ -877,6 +907,8 @@ POST /api/services/app/User/Create
   =>
   {
     "result": {
+
+
       "userName": "hiep",
       "name": "Hiep",
       "surname": "Hoang",
@@ -914,6 +946,44 @@ POST /api/services/app/User/Create
     "targetUrl": null,
     "success": true,
     "error": null,
+    "unAuthorizedRequest": false,
+    "__abp": true
+  }
+  {
+    "result": null,
+    "targetUrl": null,
+    "success": false,
+    "error": {
+      "code": 0,
+      "message": "Your request is not valid!",
+      "details": "The following errors were detected during validation.\r\n - The Name field is required.\r\n - The Surname field is required.\r\n - The UserName field is required.\r\n - The EmailAddress field is required.\r\n",
+      "validationErrors": [
+        {
+          "message": "The Name field is required.",
+          "members": [
+            "name"
+          ]
+        },
+        {
+          "message": "The Surname field is required.",
+          "members": [
+            "surname"
+          ]
+        },
+        {
+          "message": "The UserName field is required.",
+          "members": [
+            "userName"
+          ]
+        },
+        {
+          "message": "The EmailAddress field is required.",
+          "members": [
+            "emailAddress"
+          ]
+        }
+      ]
+    },
     "unAuthorizedRequest": false,
     "__abp": true
   }
@@ -967,6 +1037,26 @@ POST /api/services/app/User/Create
 
 {
   "result": [],
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
+{
+  "result": [
+    {
+      "name": "Hiep Hoang",
+      "isActive": true,
+      "type": 0,
+      "jobTitle": null,
+      "level": 7,
+      "userCode": "qwe",
+      "avatarPath": "",
+      "branch": null,
+      "id": 4
+    }
+  ],
   "targetUrl": null,
   "success": true,
   "error": null,

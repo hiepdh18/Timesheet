@@ -40,7 +40,19 @@ class UserRepository extends BaseRepository {
 
   public async findAll(): Promise<IUser[]> {
     try {
-      const users = User.find();
+      const users = await User.find().select('name isActive type jobTitle level userCode avatarPath branch id');
+      return users;
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+  public async findAllPagging(filterItems, max: number, skip: number, search: string): Promise<IUser[]> {
+    try {
+      let name = new RegExp(search, 'i');
+      const users = await User
+        .find({ name })
+        .skip(skip)
+        .limit(max);
       return users;
     } catch (error) {
       logger.error(error)
