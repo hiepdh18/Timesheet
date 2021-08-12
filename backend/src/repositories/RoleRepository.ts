@@ -1,9 +1,8 @@
 import { BaseRepository } from "./BaseRepository";
-import { Task } from '../models'
 import { Role } from '../models'
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IRole, ITask } from "../interfaces";
+import { IRole } from "../interfaces";
 
 class RoleRepository extends BaseRepository {
   constructor() {
@@ -45,7 +44,7 @@ class RoleRepository extends BaseRepository {
     }
   }
 
-  public async createRole(role: IRole) {
+  public async createRole(role) {
     let id = await this.getLastId() + 1;
     let newTask: IRole = new Role(
       {

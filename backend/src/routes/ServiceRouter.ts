@@ -6,6 +6,7 @@ import timeSheetRouter from './TimeSheetRouter';
 import ProjectRouter from './ProjectRouter';
 import taskRouter from './TaskRouter';
 import userRouter from './UserRouter';
+import configurationRouter from './ConfigurationRouter';
 import timekeepingRouter from './TimekeepingRouter';
 /**
  * @description ServiceRouter
@@ -28,6 +29,7 @@ class ServiceRouter extends BaseRouter {
     this.router.use('/Task', taskRouter);
     this.router.use('/User', userRouter);
     this.router.use('/TimeKeeping', timekeepingRouter);
+    this.router.use('/Configuration', configurationRouter);
   }
 }
 

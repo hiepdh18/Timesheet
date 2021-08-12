@@ -1363,3 +1363,40 @@ GET /api/services/app/Timesheet/GetAll?startDate=2021-08-01&endDate=2021-08-31&s
   "unAuthorizedRequest": false,
   "__abp": true
 }
+4
+{
+  "result": {
+    "0": {
+      "morningStartAt": "08:30",
+      "morningEndAt": "12:00",
+      "afternoonStartAt": "13:00",
+      "afternoonEndAt": "17:30",
+      "morningWorking": "3.5",
+      "afternoonWorking": "4.5",
+      "id": 0
+    },
+    "1": {
+      "morningStartAt": "8:00",
+      "morningEndAt": "12:00",
+      "afternoonStartAt": "13:00",
+      "afternoonEndAt": "17:00",
+      "morningWorking": "4",
+      "afternoonWorking": "4",
+      "id": 0
+    },
+    "2": {
+      "morningStartAt": "08:30",
+      "morningEndAt": "12:00",
+      "afternoonStartAt": "13:00",
+      "afternoonEndAt": "17:30",
+      "morningWorking": "3.5",
+      "afternoonWorking": "4.5",
+      "id": 0
+    }
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}

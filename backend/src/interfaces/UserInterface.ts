@@ -1,6 +1,5 @@
 import { Document } from 'mongoose';
 import { Branch, Level, Sex, UserType } from '../constants';
-import { Role } from '../constants/Enums';
 import { IBase } from './BaseInterface';
 
 export interface IUser extends IBase, Document {

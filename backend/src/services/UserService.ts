@@ -5,10 +5,12 @@ import { UserDTO } from "../routes/reqdtos";
 import userRepository from "../repositories/UserRepository";
 import projectUserRepository from "../repositories/ProjectUserRepository";
 import projectRepository from "../repositories/ProjectRepository";
-import { CreateUserResDTO } from "../routes/resdtos";
+import roleRepository from "../repositories/RoleRepository";
+import { CreateUserResDTO, GetRolesResDTO } from "../routes/resdtos";
 import { UserGetAllPaggingReqDTO } from "../routes/reqdtos";
 import pick from "../utils/pick";
 import { GetUsersResDTO } from "../routes/resdtos/GetUsersResDto";
+import { logger } from "./logger";
 /**
  * @description Userservice
  */
@@ -16,6 +18,7 @@ class UserService implements IService {
   private _userRepos = userRepository;
   private _projectRepo = projectRepository;
   private _projectUserRepo = projectUserRepository;
+  private _roleRepo = roleRepository;
 
   defaultMethod = (req: Request, res: Response, next: NextFunction) => {
   };
@@ -167,8 +170,28 @@ class UserService implements IService {
   deleteUser = (req: Request, res: Response, next: NextFunction) => {
 
   };
-  getRoles = (req: Request, res: Response, next: NextFunction) => {
-
+  getRoles = async (req: Request, res: Response, next: NextFunction) => {
+    let response : GetRolesResDTO ={
+      result :null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      let roles = await this._roleRepo.findAll();
+      response = {
+        ...response,
+        result : {
+          items: roles
+        }
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
   };
 }
 export = new UserService();
