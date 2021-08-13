@@ -1400,3 +1400,17 @@ GET /api/services/app/Timesheet/GetAll?startDate=2021-08-01&endDate=2021-08-31&s
   "unAuthorizedRequest": false,
   "__abp": true
 }
+
+{
+  "result": null,
+  "targetUrl": null,
+  "success": false,
+  "error": {
+    "code": 0,
+    "message": "Required permissions are not granted. At least one of these permissions must be granted: [Reset password]",
+    "details": null,
+    "validationErrors": null
+  },
+  "unAuthorizedRequest": true,
+  "__abp": true
+}

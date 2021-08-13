@@ -11,7 +11,7 @@ class TimekeepingRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.get('/GetMyDetails',this._service.getMyDetails);
+    this.router.get('/GetMyDetails', this._service.getMyDetails);
   }
 }
 

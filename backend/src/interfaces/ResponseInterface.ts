@@ -1,7 +1,7 @@
 import { IError } from "./ErrorInterface";
 
 export interface IResponse {
-  result: object
+  result: object | string
   targetUrl: string
   success: boolean
   error: IError

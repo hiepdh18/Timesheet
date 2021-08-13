@@ -14,4 +14,5 @@ export { GetTimeSheetResDTO } from './GetTimeSheetResDto';
 export { GetProjectResDTO } from './GetProjectResDto';
 export { GetMyDetailsResDTO } from './GetMyDetailsResDto';
 export { GetUsersResDTO } from './GetUsersResDto';
+export { GetUserResDTO } from './GetUserResDto';
 export { GetRolesResDTO } from './GetRolesResDto';

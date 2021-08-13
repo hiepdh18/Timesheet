@@ -191,7 +191,7 @@ class TaskServive implements IService {
         }
         res.status(200).json(response);
       }
-      else{
+      else {
         response = {
           ...response,
           error: {

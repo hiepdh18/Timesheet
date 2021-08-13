@@ -15,7 +15,7 @@ class AuthRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.post("/Authenticate", this._service.authenticate );
+    this.router.post("/Authenticate", this._service.authenticate);
   }
 }
 

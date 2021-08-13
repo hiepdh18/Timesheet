@@ -9,7 +9,7 @@ const ProjectTaskSchema: Schema = new Schema({
   id: { type: Number },
   projectId: Number,
   taskId: Number,
-  billable : Boolean
+  billable: Boolean
 
 }, schemaOption);
 

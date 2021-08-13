@@ -2,7 +2,7 @@ import { BaseRepository } from "./BaseRepository";
 import { User } from '../models';
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IProject, IUser } from "../interfaces";
+import { IUser } from "../interfaces";
 import projectUserRepo from "./ProjectUserRepository"
 
 class UserRepository extends BaseRepository {
@@ -61,7 +61,7 @@ class UserRepository extends BaseRepository {
 
   public async findById(id: number): Promise<IUser> {
     try {
-      const user = User.findOne({ id: id });
+      const user = await User.findOne({ id: id });
       return user;
     } catch (error) {
       console.log(error);
@@ -71,7 +71,7 @@ class UserRepository extends BaseRepository {
 
   public async findByUsername(userName: string): Promise<IUser> {
     try {
-      const user = User.findOne({ userName: userName });
+      const user = await User.findOne({ userName: userName });
       return user;
     } catch (error) {
       logger.error(error)
@@ -80,7 +80,7 @@ class UserRepository extends BaseRepository {
 
   public async findUserHavingManager(): Promise<IUser[]> {
     try {
-      const users = User.find().where('managerId').ne(null);
+      const users = await User.find().where('managerId').ne(null);
       return users;
     } catch (error) {
       logger.error(error)
@@ -89,16 +89,56 @@ class UserRepository extends BaseRepository {
 
   public async findByEmail(email: string): Promise<IUser> {
     try {
-      const user = User.findOne({ emailAddress: email });
+      const user = await User.findOne({ emailAddress: email });
       return user;
     } catch (error) {
       logger.error(error)
     }
   }
 
+  public async deleteUser(id: number): Promise<boolean> {
+    try {
+      await User.deleteOne({ id });
+      return true;
+    } catch (error) {
+      console.log(error)
+      logger.error(error)
+    }
+  }
+
+  public async updateUser(user: IUser): Promise<IUser> {
+    try {
+      await User.updateOne({ id: user.id }, user);
+      let updatedUser = this.findById(user.id);
+      return updatedUser;
+    } catch (error) {
+      console.log(error)
+      logger.error(error)
+    }
+  }
+  public async activeUser(id: number): Promise<boolean> {
+    try {
+      await User.updateOne({ id }, { isActive: true });
+      return true;
+    } catch (error) {
+      console.log(error)
+      logger.error(error)
+    }
+  }
+
+  public async deActiveUser(id: number): Promise<boolean> {
+    try {
+      await User.updateOne({ id }, { isActive: false });
+      return true;
+    } catch (error) {
+      console.log(error)
+      logger.error(error)
+    }
+  }
+
   public async findByUsernameOrEmail(userNameOrEmail: string): Promise<IUser> {
     try {
-      const user = this.findByUsername(userNameOrEmail);
+      const user = await this.findByUsername(userNameOrEmail);
       if (user) return user;
       return this.findByEmail(userNameOrEmail);
     } catch (error) {

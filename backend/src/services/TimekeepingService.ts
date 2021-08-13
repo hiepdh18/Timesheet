@@ -25,7 +25,7 @@ class TimekeepingService implements IService {
     try {
       res.status(204).json(response);
     } catch (error) {
-      
+
     }
   }
 }

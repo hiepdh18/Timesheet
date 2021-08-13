@@ -6,7 +6,7 @@ import userRepository from "../repositories/UserRepository";
 import projectUserRepository from "../repositories/ProjectUserRepository";
 import projectRepository from "../repositories/ProjectRepository";
 import roleRepository from "../repositories/RoleRepository";
-import { CreateUserResDTO, GetRolesResDTO } from "../routes/resdtos";
+import { CreateUserResDTO, GetRolesResDTO, GetUserResDTO } from "../routes/resdtos";
 import { UserGetAllPaggingReqDTO } from "../routes/reqdtos";
 import pick from "../utils/pick";
 import { GetUsersResDTO } from "../routes/resdtos/GetUsersResDto";
@@ -164,15 +164,81 @@ class UserService implements IService {
     }
   };
 
-  updateUser = (req: Request, res: Response, next: NextFunction) => {
+  update = async (req: Request, res: Response, next: NextFunction) => {
+    let user: UserDTO = req.body
+    let response: GetUserResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      if (await this._userRepos.findById(user.id)) {
+        let updatedUser = await this._userRepos.updateUser(user);
+        updatedUser = pick(updatedUser, ['userName', 'name', 'surname', 'emailAddress', 'phoneNumber', 'address', 'isActive', 'fullName', 'roleNames', 'type', 'salary', 'salaryAt', 'startDateAt', 'allowedLeaveDay', 'userCode', 'jobTitle', 'level', 'registerWorkDay', 'managerId', 'branch', 'sex', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'isStopWork', 'id']);
+        response = {
+          ...response,
+          success: true,
+          result: updatedUser
+        }
+        res.status(200).json(response);
+
+      }
+      else {
+
+      }
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
 
   };
-  deleteUser = (req: Request, res: Response, next: NextFunction) => {
 
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.query.Id;
+    console.log(req.query)
+
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      console.log(id)
+
+      if (await this._userRepos.findById(Number(id))) {
+        await this._userRepos.deleteUser(Number(id));
+        response = {
+          ...response,
+          success: true
+        }
+        res.status(200).json(response);
+      }
+      else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            details: null,
+            message: `User id ${id} does not exist!`,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
+    } catch (error) {
+      next(error)
+    }
   };
+
   getRoles = async (req: Request, res: Response, next: NextFunction) => {
-    let response : GetRolesResDTO ={
-      result :null,
+    let response: GetRolesResDTO = {
+      result: null,
       targetUrl: null,
       success: false,
       error: null,
@@ -183,11 +249,187 @@ class UserService implements IService {
       let roles = await this._roleRepo.findAll();
       response = {
         ...response,
-        result : {
+        result: {
           items: roles
         }
       }
       res.status(200).json(response);
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
+  };
+
+  getUser = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.query.Id;
+    let response: GetUserResDTO = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      let user = await this._userRepos.findById(Number(id));
+
+      response = {
+        ...response,
+        success: true,
+        result: user
+
+      }
+      res.status(200).json(response);
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
+  };
+
+  active = async (req: Request, res: Response, next: NextFunction) => {
+    let userId = req.body.id;
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      if (await this._userRepos.findById(userId)) {
+        await this._userRepos.activeUser(userId)
+        response = {
+          ...response,
+          success: true,
+        }
+        res.status(200).json(response);
+      } else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            details: null,
+            message: `User id ${userId} does not exist!`,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
+  };
+  deActive = async (req: Request, res: Response, next: NextFunction) => {
+    let id = req.body.id;
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      if (await this._userRepos.findById(id)) {
+        await this._userRepos.deActiveUser(id)
+        response = {
+          ...response,
+          success: true,
+        }
+        res.status(200).json(response);
+      } else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            details: null,
+            message: `User id ${id} does not exist!`,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
+  };
+
+  updateAvatar = async (req: Request, res: Response, next: NextFunction) => {
+    // let id = req.query.UserId;
+    // let file = req.query.File;
+    console.log(req.query);
+    console.log(req.body);
+    console.log(req.params);
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      if (await this._userRepos.findById(Number(1))) {
+
+        response = {
+          ...response,
+          result: 'avatars/hiep-avatar.jpg',
+          success: true,
+        }
+        res.status(200).json(response);
+      } else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            details: null,
+            message: `User id  does not exist!`,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
+    } catch (error) {
+      console.log(error);
+      logger.error(error);
+    }
+  };
+
+  resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    let { adminPassword, userId, newPassword } = req.body;
+
+    let response: IResponse = {
+      result: null,
+      targetUrl: null,
+      success: false,
+      error: null,
+      unAuthorizedRequest: false,
+      __abp: true
+    }
+    try {
+      if (await this._userRepos.findById(Number(1))) {
+
+        response = {
+          ...response,
+          result: 'avatars/hiep-avatar.jpg',
+          success: true,
+        }
+        res.status(200).json(response);
+      } else {
+        response = {
+          ...response,
+          error: {
+            code: 0,
+            details: null,
+            message: `User id  does not exist!`,
+            validationErrors: null
+          }
+        }
+        res.status(500).json(response);
+      }
     } catch (error) {
       console.log(error);
       logger.error(error);

@@ -16,9 +16,7 @@ export const authen = async (req: Request, res: Response, next: NextFunction) =>
     if (!req.headers.authorization) return res.status(200).json(response);
 
     const token = req.headers.authorization.split(" ")[1];
-    let  decoded = await jwt.verify(token, process.env.JWT_KEY);
-   
-
+    let decoded = await jwt.verify(token, process.env.JWT_KEY);
     // const decoded = await jwt.verify(token, process.env.JWT_KEY);
     req.currentUser = await userRepository.findById(decoded.id);
     next()

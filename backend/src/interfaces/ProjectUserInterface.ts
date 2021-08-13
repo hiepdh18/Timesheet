@@ -6,5 +6,5 @@ export interface IProjectUser extends IBase, Document {
   id: number,
   userId: number,
   projectId: number,
-  type : ProjectMemberType
+  type: ProjectMemberType
 }

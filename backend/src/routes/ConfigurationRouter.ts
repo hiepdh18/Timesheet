@@ -12,7 +12,7 @@ class ConfigurationRouter extends BaseRouter {
    */
   protected init() {
     this.router.get('/GetWorkingTimeConfigAllBranch', this._service.getWorkingTime);
-    
+
   }
 }
 

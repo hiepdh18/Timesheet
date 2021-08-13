@@ -3,7 +3,7 @@ import { IService, IUser } from "../interfaces";
 import UserRepository from "../repositories/UserRepository";
 import { AuthenticateReqDTO } from "../routes/reqdtos";
 import bcrypt from "bcrypt";
-import {  AuthenticateResDTO } from "../routes/resdtos";
+import { AuthenticateResDTO } from "../routes/resdtos";
 import { logger } from "./logger";
 import { generateToken } from "./TokenService";
 

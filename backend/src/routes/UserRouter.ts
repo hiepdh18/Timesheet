@@ -19,7 +19,7 @@ class UserRouter extends BaseRouter {
     this.router.get("/GetAllManager",
       this._service.getAllManager
     );
-    this.router.get("/getUserNotPagging",
+    this.router.get("/GetUserNotPagging",
       this._service.getUserNotPagging
     );
     this.router.post("/Create",
@@ -28,14 +28,29 @@ class UserRouter extends BaseRouter {
     this.router.post("/GetAllPagging",
       this._service.getAllPagging
     );
-    this.router.post("/Update",
-      this._service.updateUser
+    this.router.put("/Update",
+      this._service.update
     );
-    this.router.post("/Delete",
-      this._service.deleteUser
+    this.router.delete("/Delete",
+      this._service.delete
     );
     this.router.get("/GetRoles",
       this._service.getRoles
+    );
+    this.router.get("/Get",
+      this._service.getUser
+    );
+    this.router.post("/ActiveUser",
+      this._service.active
+    );
+    this.router.post("/DeactiveUser",
+      this._service.deActive
+    );
+    this.router.post("/UpdateAvatar",
+      this._service.updateAvatar
+    );
+    this.router.post("/ResetPassword",
+      this._service.resetPassword
     );
   }
 }
