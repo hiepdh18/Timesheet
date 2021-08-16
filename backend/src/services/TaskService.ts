@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { IResponse, IService } from "../interfaces";
 import { TaskDTO } from "../routes/reqdtos";
 import taskRepository from '../repositories/TaskRepository'
+import projectTaskRepo from '../repositories/ProjectTaskRepository'
 import pick from "../utils/pick";
 import { GetAllTaskResDTO } from "../routes/resdtos";
 
@@ -10,6 +11,7 @@ import { GetAllTaskResDTO } from "../routes/resdtos";
  */
 class TaskServive implements IService {
   private _taskRepository = taskRepository;
+  private _projectTaskRepo = projectTaskRepo;
 
   defaultMethod(req: Request, res: Response, next: NextFunction) { };
 
@@ -101,7 +103,7 @@ class TaskServive implements IService {
 
   // there is no constraint with other table
   delete = async (req: Request, res: Response, next: NextFunction) => {
-    const id: number = Number(req.query.Id);
+    const id :number= Number(req.query.Id);
     let response: IResponse = {
       result: null,
       targetUrl: null,
@@ -111,7 +113,9 @@ class TaskServive implements IService {
       __abp: true
     }
     try {
-      if (await this._taskRepository.findById(id)) {
+      const projectTasks = await  this._projectTaskRepo.getByTaskId(id);
+      const task = await this._taskRepository.findById(id);
+      if (task && !projectTasks) {
         await this._taskRepository.deleteTask(id);
         response = {
           ...response,

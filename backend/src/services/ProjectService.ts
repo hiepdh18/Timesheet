@@ -235,7 +235,7 @@ class ProjectService implements IService {
     }
   }
 
-  deleteProject = async (req: Request, res: Response, next: NextFunction) => {
+  delete = async (req: Request, res: Response, next: NextFunction) => {
     const id: number = Number(req.query.Id);
     let response: IResponse = {
       result: null,
@@ -246,8 +246,12 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      let project = await this._projectRepo.findById(id);
+      const project = await this._projectRepo.findById(id);
       if (project) {
+        const projectUsers = await this._projectUserRepo.getByProjectId(id);
+        const projectTasks = await this._projectTaskRepo.getByProjectId(id);
+        await this._projectUserRepo.deleteByProjectId(id);
+        await this._projectTaskRepo.deleteByProjectId(id);
         await this._projectRepo.deleteProject(id);
         response = {
           ...response,

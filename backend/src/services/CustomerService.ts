@@ -6,12 +6,14 @@ import { CreateCustomerResDTO } from "../routes/resdtos";
 import { DeleteCustomerResDTO } from "../routes/resdtos";
 import { GetCustomerAllPaggingResDTO } from "../routes/resdtos";
 import customerRepository from "../repositories/CustomerRepository";
+import projectRepo from "../repositories/ProjectRepository";
 
 /**
  * @description CustomerService.
  */
 class CustomerService implements IService {
   private _customerRepository = customerRepository;
+  private _projectRepo = projectRepo;
 
   defaultMethod(req: Request, res: Response, next: NextFunction) { };
 
@@ -131,7 +133,7 @@ class CustomerService implements IService {
   };
 
   // there is no constraint with other table
-  deleteCustomer = async (req: Request, res: Response, next: NextFunction) => {
+  delete = async (req: Request, res: Response, next: NextFunction) => {
     let id = Number(req.query.Id);
     let response: DeleteCustomerResDTO = {
       result: null,
@@ -142,7 +144,9 @@ class CustomerService implements IService {
       __abp: true
     }
     try {
-      if (await this._customerRepository.findById(id)) {
+      const customer = await this._customerRepository.findById(id);
+      const projects = await this._projectRepo.getByCustomerId(id);
+      if (customer && !projects) {
         await this._customerRepository.deleteCustomer(id);
         response = {
           ...response,

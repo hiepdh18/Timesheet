@@ -53,6 +53,14 @@ class ProjectTaskRepository extends BaseRepository {
       logger.error(error)
     }
   }
+  public async getByTaskId(taskId: number): Promise<IProjectTask[]> {
+    try {
+      let list = await ProjectTask.find({ taskId });
+      return list;
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 
   public async deleteByProjectId(projectId: number): Promise<boolean> {
     try {

@@ -1,4 +1,5 @@
 
+
 /**
  * @description BaseService.
  */
@@ -8,4 +9,5 @@ export class BaseRepository {
       text: `You've reached the ${this.constructor.name} default method`,
     };
   }
+
 }

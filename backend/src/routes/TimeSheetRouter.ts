@@ -1,5 +1,6 @@
 import { BaseRouter } from "./BaseRouter";
 import timeSheetService from "../services/TimeSheetService"
+import { authen, author } from "../middlewares";
 
 class TimeSheetRouter extends BaseRouter {
   private _service = timeSheetService;
@@ -11,9 +12,9 @@ class TimeSheetRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.get('/GetAll', this._service.getAll);
-    this.router.post('/ApproveTimesheets', this._service.approve);
-    this.router.post('/RejectTimesheets', this._service.reject);
+    this.router.get('/GetAll', authen, author('Admin'), this._service.getAll);
+    this.router.post('/ApproveTimesheets', authen, author('Admin'), this._service.approve);
+    this.router.post('/RejectTimesheets', authen, author('Admin'), this._service.reject);
   }
 }
 

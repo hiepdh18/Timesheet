@@ -1,3 +1,4 @@
+import { authen, author } from "../middlewares";
 import UserService from "../services/UserService";
 import { BaseRouter } from "./BaseRouter";
 
@@ -16,40 +17,40 @@ class UserRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.get("/GetAllManager",
+    this.router.get("/GetAllManager", authen, author('Admin'),
       this._service.getAllManager
     );
-    this.router.get("/GetUserNotPagging",
+    this.router.get("/GetUserNotPagging", authen, author('Admin'),
       this._service.getUserNotPagging
     );
-    this.router.post("/Create",
+    this.router.post("/Create", authen, author('Admin'),
       this._service.createUser
     );
-    this.router.post("/GetAllPagging",
+    this.router.post("/GetAllPagging", authen, author('Admin'),
       this._service.getAllPagging
     );
-    this.router.put("/Update",
+    this.router.put("/Update", authen, author('Admin'),
       this._service.update
     );
-    this.router.delete("/Delete",
+    this.router.delete("/Delete", authen, author('Admin'),
       this._service.delete
     );
-    this.router.get("/GetRoles",
+    this.router.get("/GetRoles", authen, author('Admin'),
       this._service.getRoles
     );
-    this.router.get("/Get",
+    this.router.get("/Get", authen, author('Admin'),
       this._service.getUser
     );
-    this.router.post("/ActiveUser",
+    this.router.post("/ActiveUser", authen, author('Admin'),
       this._service.active
     );
-    this.router.post("/DeactiveUser",
+    this.router.post("/DeactiveUser", authen, author('Admin'),
       this._service.deActive
     );
-    this.router.post("/UpdateAvatar",
+    this.router.post("/UpdateAvatar", authen, author('Admin'),
       this._service.updateAvatar
     );
-    this.router.post("/ResetPassword",
+    this.router.post("/ResetPassword", authen, author('Admin'),
       this._service.resetPassword
     );
   }

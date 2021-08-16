@@ -1,5 +1,6 @@
 import { BaseRouter } from "./BaseRouter";
 import projectService from "../services/ProjectService";
+import { authen, author } from "../middlewares";
 
 class ProjectRouter extends BaseRouter {
   private _service = projectService;
@@ -12,12 +13,12 @@ class ProjectRouter extends BaseRouter {
    */
   protected init() {
     this.router.get('/Get', this._service.get);
-    this.router.get('/GetAll', this._service.getAllProject);
-    this.router.post('/Save', this._service.saveProject);
-    this.router.post('/Inactive', this._service.inactiveProject);
-    this.router.post('/Active', this._service.activeProject);
-    this.router.delete('/Delete', this._service.deleteProject);
-    this.router.get('/GetProjectsIncludingTasks', this._service.getProjectsIncludingTasks);
+    this.router.get('/GetAll', authen, author('Admin'),  this._service.getAllProject);
+    this.router.post('/Save', authen, author('Admin'),  this._service.saveProject);
+    this.router.post('/Inactive', authen, author('Admin'),  this._service.inactiveProject);
+    this.router.post('/Active', authen, author('Admin'),  this._service.activeProject);
+    this.router.delete('/Delete', authen, author('Admin'),  this._service.delete);
+    this.router.get('/GetProjectsIncludingTasks', authen, author('Admin'),  this._service.getProjectsIncludingTasks);
   }
 }
 

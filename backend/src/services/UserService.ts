@@ -216,9 +216,9 @@ class UserService implements IService {
       __abp: true
     }
     try {
-      console.log(id)
-
-      if (await this._userRepos.findById(Number(id))) {
+      const user = await this._userRepos.findById(Number(id));
+      const projectUsers = await this._projectUserRepo.getByUserId(Number(id));
+      if (user && !projectUsers) {
         await this._userRepos.deleteUser(Number(id));
         response = {
           ...response,
@@ -232,7 +232,7 @@ class UserService implements IService {
           error: {
             code: 0,
             details: null,
-            message: `User id ${id} does not exist!`,
+            message: `User id ${id} does not exist or user in project`,
             validationErrors: null
           }
         }

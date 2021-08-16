@@ -56,6 +56,14 @@ class ProjectRepository extends BaseRepository {
     }
   }
 
+  public async getByCustomerId(customerId : number): Promise<IProject[]> {
+    try {
+      return await Project.find({ customerId});
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
   public async createProject(project: IProject): Promise<IProject> {
     let id = await this.getLastId() + 1;
     let newProject: IProject = new Project(
