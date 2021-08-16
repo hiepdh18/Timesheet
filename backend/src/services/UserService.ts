@@ -25,6 +25,7 @@ class UserService implements IService {
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     let user: UserDTO = req.body;
+    console.log(user);
     let response: CreateUserResDTO = {
       result: null,
       targetUrl: null,
@@ -33,6 +34,7 @@ class UserService implements IService {
       unAuthorizedRequest: false,
       __abp: true
     }
+ 
 
     try {
       if (!user.userName
@@ -43,6 +45,13 @@ class UserService implements IService {
       ) {
         return res.status(500).json(response);
       }
+      const listRole = await this._roleRepo.findAll();
+      user['roleNames'] = user.roleNames.map(roleName => {
+        for (let x of listRole) {
+          if (roleName === x.normalizedName)
+            return x.name
+        }
+      })
       const hash = await bcrypt.hash(user.password, 10);
       // user = { ...user, password: hash };
       user['password'] = hash;
@@ -54,11 +63,9 @@ class UserService implements IService {
         success: true,
       }
       res.status(200).json(response);
-
     } catch (error) {
       next(error);
     }
-
   };
 
   // Get all manager

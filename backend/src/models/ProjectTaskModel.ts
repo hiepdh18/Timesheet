@@ -6,7 +6,7 @@ export interface IProjectTaskModel extends Model<IProjectTask> { };
 
 const ProjectTaskSchema: Schema = new Schema({
   _id: Types.ObjectId,
-  id: { type: Number },
+  id: { type: Number, require: true, unique: true },
   projectId: Number,
   taskId: Number,
   billable: Boolean

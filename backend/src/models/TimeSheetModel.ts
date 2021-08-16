@@ -7,7 +7,7 @@ export interface ITimeSheetModel extends Model<ITimeSheet> { };
 
 const TimeSheetSchema: Schema = new Schema({
   _id: Types.ObjectId,
-  id: Number,
+  id: { type: Number, require: true, unique: true },
   status: { type: TimeSheetStatus },
   workingTime: Number,
   dateAt: String,

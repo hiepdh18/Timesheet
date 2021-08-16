@@ -6,7 +6,7 @@ export interface IRoleModel extends Model<IRole> { };
 
 const RoleSchema: Schema = new Schema({
   _id: Types.ObjectId,
-  id: { type: Number },
+  id: { type: Number, require: true, unique: true },
   name: {
     type: String,
     require: true,

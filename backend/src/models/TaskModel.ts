@@ -7,7 +7,7 @@ export interface ITaskModel extends Model<ITask> { };
 
 const TaskSchema: Schema = new Schema({
   _id: Types.ObjectId,
-  id: { type: Number },
+  id: { type: Number, require: true, unique: true },
   name: {
     type: String,
     require: true,

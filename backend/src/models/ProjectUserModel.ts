@@ -6,7 +6,7 @@ export interface IProjectUserModel extends Model<IProjectUser> { };
 
 const ProjectUserSchema: Schema = new Schema({
   _id: Types.ObjectId,
-  id: { type: Number },
+  id: { type: Number, require: true, unique: true },
   projectId: Number,
   userId: Number,
   type: { type: ProjectMemberType }

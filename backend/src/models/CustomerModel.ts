@@ -6,7 +6,7 @@ export interface ICustomerModel extends Model<ICustomer> { };
 
 const CustomerSchema: Schema = new Schema({
   _id: Types.ObjectId,
-  id: Number,
+  id: { type: Number, require: true, unique: true },
   name: { type: String, require: true },
   address: String
 }, schemaOption);

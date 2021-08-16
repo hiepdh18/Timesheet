@@ -7,21 +7,28 @@ export const authen = async (req: Request, res: Response, next: NextFunction) =>
   let response: IResponse = {
     result: null,
     targetUrl: null,
-    success: true,
-    error: null,
-    unAuthorizedRequest: false,
+    success: false,
+    error: {
+      code: 0,
+      message: 'Current user did not login to the application!',
+      details: null,
+      validationErrors: null
+    },
+    unAuthorizedRequest: true,
     __abp: true
-  }
-  try {
-    if (!req.headers.authorization) return res.status(200).json(response);
+  };
+  console.log("HELLO")
 
+  try {
+    console.log("HELLO")
+
+    if (!req.headers.authorization) throw new Error();
     const token = req.headers.authorization.split(" ")[1];
     let decoded = await jwt.verify(token, process.env.JWT_KEY);
-    // const decoded = await jwt.verify(token, process.env.JWT_KEY);
     req.currentUser = await userRepository.findById(decoded.id);
-    next()
+    console.log(req.currentUser)
+    next();
   } catch (err) {
-    console.log(err)
-    res.status(403).json(response)
+    res.status(401).json(response);
   }
 }
