@@ -68,7 +68,6 @@ class ProjectService implements IService {
           projectTargetUsers: []
         }
       }
-      console.log(response)
       res.status(200).json(response)
     } catch (error) {
       logger.error(error);

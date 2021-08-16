@@ -146,7 +146,6 @@ class CustomerService implements IService {
     try {
       const customer = await this._customerRepository.findById(id);
       const projects = await this._projectRepo.getByCustomerId(id);
-      console.log(projects)
       if (customer && projects.length==0) {
         await this._customerRepository.deleteCustomer(id);
         response = {

@@ -51,7 +51,6 @@ class SessionService implements IService {
           tenant: null,
         }
       }
-      console.log(user)
       res.status(200).json(response);
     } catch (error) {
       next(error);

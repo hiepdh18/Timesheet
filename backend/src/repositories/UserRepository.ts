@@ -37,6 +37,13 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
+  public async setPass(userId: number, pass: string) {
+    try {
+      await User.updateOne({ id: userId }, { password: pass });
+    } catch (error) {
+      logger.error(error)
+    }
+  }
 
   public async findAll(): Promise<IUser[]> {
     try {

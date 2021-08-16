@@ -340,7 +340,6 @@ class MyTimeSheetService implements IService {
         result,
         success: true
       }
-      console.log(response)
       res.status(200).json(response);
     }
     catch (error) {

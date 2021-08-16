@@ -25,7 +25,6 @@ class UserService implements IService {
 
   createUser = async (req: Request, res: Response, next: NextFunction) => {
     let user: UserDTO = req.body;
-    console.log(user);
     let response: CreateUserResDTO = {
       result: null,
       targetUrl: null,
@@ -34,7 +33,7 @@ class UserService implements IService {
       unAuthorizedRequest: false,
       __abp: true
     }
- 
+
 
     try {
       if (!user.userName
@@ -400,9 +399,8 @@ class UserService implements IService {
   };
 
   resetPassword = async (req: Request, res: Response, next: NextFunction) => {
-    let { adminPassword, userId, newPassword } = req.body;
-
-    let response: IResponse = {
+    const { adminPassword, userId, newPassword } = req.body;
+    let response = {
       result: null,
       targetUrl: null,
       success: false,
@@ -411,11 +409,15 @@ class UserService implements IService {
       __abp: true
     }
     try {
-      if (await this._userRepos.findById(Number(1))) {
-
+      console.log(newPassword,'new Pass');
+      const user = await this._userRepos.findById(userId);
+      const check = await bcrypt.compare(adminPassword, req.currentUser.password);
+      if (check && user) {
+        const hash = await bcrypt.hash(newPassword, 10);
+        await this._userRepos.setPass(userId, hash);
         response = {
           ...response,
-          result: 'avatars/hiep-avatar.jpg',
+          result: true,
           success: true,
         }
         res.status(200).json(response);

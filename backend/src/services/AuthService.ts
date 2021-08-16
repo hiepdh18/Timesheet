@@ -54,7 +54,6 @@ class AuthService implements IService {
             userId
           }
         }
-        console.log(token);
         res.status(200).json(response);
       }
       else {
