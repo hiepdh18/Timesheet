@@ -115,7 +115,7 @@ class TaskServive implements IService {
     try {
       const projectTasks = await  this._projectTaskRepo.getByTaskId(id);
       const task = await this._taskRepository.findById(id);
-      if (task && !projectTasks) {
+      if (task && projectTasks.length==0) {
         await this._taskRepository.deleteTask(id);
         response = {
           ...response,

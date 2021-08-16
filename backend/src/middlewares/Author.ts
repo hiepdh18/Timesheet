@@ -19,7 +19,7 @@ export const author = (role: string) => async (req: Request, res: Response, next
   };
   try {
     let user = req.currentUser;
-    console.log(user)
+    console.log(user);
     let check = false;
     for (let r of user.roleNames) {
       if (r === role)

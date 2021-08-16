@@ -44,7 +44,7 @@ class AuthService implements IService {
       if (check) {
         let userId = loginUser.id;
         let exp = Math.floor(Date.now() / 1000) + (60 * 60);
-        const token = generateToken(userId, exp);
+        const token = generateToken(userId, exp,loginUser.roleNames);
         response = {
           ...response,
           result: {
@@ -54,6 +54,7 @@ class AuthService implements IService {
             userId
           }
         }
+        console.log(token);
         res.status(200).json(response);
       }
       else {

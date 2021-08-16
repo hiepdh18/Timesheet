@@ -248,8 +248,6 @@ class ProjectService implements IService {
     try {
       const project = await this._projectRepo.findById(id);
       if (project) {
-        const projectUsers = await this._projectUserRepo.getByProjectId(id);
-        const projectTasks = await this._projectTaskRepo.getByProjectId(id);
         await this._projectUserRepo.deleteByProjectId(id);
         await this._projectTaskRepo.deleteByProjectId(id);
         await this._projectRepo.deleteProject(id);

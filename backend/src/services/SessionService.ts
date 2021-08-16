@@ -1,18 +1,17 @@
 import { IService, IUser } from "../interfaces";
 import { Request, Response, NextFunction } from "express";
 import { SessionResDTO } from "../routes/resdtos";
-import userRepository from "../repositories/UserRepository";
+import userRepo from "../repositories/UserRepository";
 import jwt from "jsonwebtoken";
 import pick from "../utils/pick";
 
 class SessionService implements IService {
-  private _repository = userRepository;
+  private _userRepo = userRepo;
   defaultMethod = (req: Request, res: Response, next: NextFunction) => {
     res.status(200).json(null)
   };
 
   getCurrentLogin = async (req: Request, res: Response, next: NextFunction) => {
-    try {
       let response: SessionResDTO = {
         result: {
           application: {
@@ -29,6 +28,7 @@ class SessionService implements IService {
         unAuthorizedRequest: false,
         __abp: true
       }
+    try {
       if (!req.headers.authorization) return res.status(200).json(response);
 
       const token = req.headers.authorization.split(" ")[1];
@@ -37,9 +37,8 @@ class SessionService implements IService {
         decoded = jwt.verify(token, process.env.JWT_KEY);
       } catch (error) { return res.status(200).json(response); }
 
-      const user: IUser = await this._repository.findById(decoded.id);
-
-      const userSelect = pick(user, ['name', 'surname', 'userName', 'emailAddress', 'allowedLeaveDay', 'type', 'level', 'sex', 'branch', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'id']);
+      let user: IUser = await this._userRepo.findById(decoded.sub);
+      user = pick(user, ['name', 'surname', 'userName', 'emailAddress', 'allowedLeaveDay', 'type', 'level', 'sex', 'branch', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'id']);
       response = {
         ...response,
         result: {
@@ -48,10 +47,11 @@ class SessionService implements IService {
             releaseDate: new Date().toString(),
             features: {},
           },
-          user: userSelect,
+          user,
           tenant: null,
         }
       }
+      console.log(user)
       res.status(200).json(response);
     } catch (error) {
       next(error);
@@ -59,4 +59,4 @@ class SessionService implements IService {
   };
 }
 
-export = new SessionService()
+export = new SessionService() 

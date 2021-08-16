@@ -205,7 +205,6 @@ class UserService implements IService {
 
   delete = async (req: Request, res: Response, next: NextFunction) => {
     const id = req.query.Id;
-    console.log(req.query)
 
     let response: IResponse = {
       result: null,
@@ -218,7 +217,7 @@ class UserService implements IService {
     try {
       const user = await this._userRepos.findById(Number(id));
       const projectUsers = await this._projectUserRepo.getByUserId(Number(id));
-      if (user && !projectUsers) {
+      if (user && projectUsers.length == 0) {
         await this._userRepos.deleteUser(Number(id));
         response = {
           ...response,
@@ -365,11 +364,6 @@ class UserService implements IService {
   };
 
   updateAvatar = async (req: Request, res: Response, next: NextFunction) => {
-    // let id = req.query.UserId;
-    // let file = req.query.File;
-    console.log(req.query);
-    console.log(req.body);
-    console.log(req.params);
     let response: IResponse = {
       result: null,
       targetUrl: null,

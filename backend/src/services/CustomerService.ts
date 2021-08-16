@@ -146,7 +146,8 @@ class CustomerService implements IService {
     try {
       const customer = await this._customerRepository.findById(id);
       const projects = await this._projectRepo.getByCustomerId(id);
-      if (customer && !projects) {
+      console.log(projects)
+      if (customer && projects.length==0) {
         await this._customerRepository.deleteCustomer(id);
         response = {
           ...response,
@@ -159,7 +160,7 @@ class CustomerService implements IService {
           ...response,
           error: {
             code: 0,
-            message: `Customer id ${id} does not exist`,
+            message: `Customer id ${id} does not exist or in project`,
             details: null,
             validationErrors: null
           }

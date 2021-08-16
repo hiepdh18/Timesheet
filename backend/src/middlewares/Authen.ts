@@ -17,16 +17,13 @@ export const authen = async (req: Request, res: Response, next: NextFunction) =>
     unAuthorizedRequest: true,
     __abp: true
   };
-  console.log("HELLO")
 
   try {
-    console.log("HELLO")
 
     if (!req.headers.authorization) throw new Error();
     const token = req.headers.authorization.split(" ")[1];
     let decoded = await jwt.verify(token, process.env.JWT_KEY);
-    req.currentUser = await userRepository.findById(decoded.id);
-    console.log(req.currentUser)
+    req.currentUser = await userRepository.findById(decoded.sub);
     next();
   } catch (err) {
     res.status(401).json(response);

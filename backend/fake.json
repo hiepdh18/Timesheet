@@ -1415,3 +1415,54 @@ GET /api/services/app/Timesheet/GetAll?startDate=2021-08-01&endDate=2021-08-31&s
   "__abp": true
 }
 
+++++++++++++++++
+{
+  "result": {
+    
+    "user": {
+      "name": "hello",
+      "surname": "hi",
+      "userName": "culi",
+      "emailAddress": "culi@gmail.com",
+      "allowedLeaveDay": 0.0,
+      "type": null,
+      "level": null,
+      "sex": 0,
+      "branch": 0,
+      "avatarPath": "",
+      "morningWorking": "3.5",
+      "morningStartAt": "08:30",
+      "morningEndAt": "12:00",
+      "afternoonWorking": "4.5",
+      "afternoonStartAt": "13:00",
+      "afternoonEndAt": "17:30",
+      "isWorkingTimeDefault": true,
+      "id": 102
+    },
+  }
+}
+{
+  "result": {
+    
+    "user": {
+      "name": "admin",
+      "surname": "admin",
+      "userName": "admin",
+      "emailAddress": "admin@gmail.com",
+      "allowedLeaveDay": 0.0,
+      "type": null,
+      "level": null,
+      "sex": null,
+      "branch": 0,
+      "avatarPath": "/avatars/1628827457360_1_admin.jpg",
+      "morningWorking": "3.5",
+      "morningStartAt": "08:30",
+      "morningEndAt": "12:00",
+      "afternoonWorking": "4.5",
+      "afternoonStartAt": "13:00",
+      "afternoonEndAt": "17:30",
+      "isWorkingTimeDefault": true,
+      "id": 1
+    },
+  }
+}

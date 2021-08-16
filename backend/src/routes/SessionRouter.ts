@@ -1,3 +1,4 @@
+import { authen } from "../middlewares";
 import SessionService = require("../services/SessionService");
 import { BaseRouter } from "./BaseRouter";
 
