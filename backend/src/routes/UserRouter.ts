@@ -1,4 +1,4 @@
-import { authen, author } from "../middlewares";
+import { authen, author, uploadOne } from "../middlewares";
 import UserService from "../services/UserService";
 import { BaseRouter } from "./BaseRouter";
 
@@ -47,7 +47,7 @@ class UserRouter extends BaseRouter {
     this.router.post("/DeactiveUser", authen, author('Admin'),
       this._service.deActive
     );
-    this.router.post("/UpdateAvatar", authen, author('Admin'),
+    this.router.post("/UpdateAvatar", authen, author('Admin'), uploadOne,
       this._service.updateAvatar
     );
     this.router.post("/ResetPassword", authen, author('Admin'),

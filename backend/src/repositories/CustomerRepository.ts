@@ -4,7 +4,7 @@ import { Customer } from "../models/CustomerModel";
 import { logger } from "../services/logger";
 import { BaseRepository } from "./BaseRepository";
 
-class CustomerRepository extends BaseRepository {
+class CustomerRepository extends BaseRepository<Customer> {
   constructor() {
     super();
   }

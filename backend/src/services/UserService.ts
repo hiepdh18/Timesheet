@@ -363,6 +363,7 @@ class UserService implements IService {
   };
 
   updateAvatar = async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.file);
     let response: IResponse = {
       result: null,
       targetUrl: null,
