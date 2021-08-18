@@ -1,19 +1,25 @@
 import { Request } from 'express';
 import util from 'util';
 import { v4 } from 'uuid';
+import path from 'path';
 import fs from 'fs';
 import multer, { FileFilterCallback } from 'multer';
+
+const multerConst = {
+  maxSize: 1024 * 1024 * 5,
+  fileMime: ['image/jpg', 'image/png', 'image/jpeg','application/octet-stream'],
+  fileExt: ['.jpg', '.png', '.jpeg', '.mp4', '.mov', '.flv', '.wmv', '.avi'],
+};
 
 class MulterConfig {
   private storage = multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, cb: any) => {
       try {
-        console.log("HIEPPP");
-        const dir = 'public/avatar/';
+        const dir = './public/avatars/';
         fs.mkdirSync(dir, { recursive: true });
-        return cb(null, dir);
+        cb(null, dir);
       } catch (error) {
-        return cb(error, null);
+        cb(error, null);
       }
     },
     filename: (req: Request, file: Express.Multer.File, cb) => {
@@ -22,18 +28,24 @@ class MulterConfig {
   });
 
   private fileFilter = (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-      cb(null, true)
-    } else {
-      cb(null, false)
+    try {
+      console.log(file.mimetype)
+      console.log(path.extname(file.originalname))
+      const mime = multerConst.fileMime.includes(file.mimetype);
+      const ext = multerConst.fileExt.includes(path.extname(file.originalname));
+      if (mime && ext) return cb(null, true);
+      return cb(new Error('Only images are allowed'));
+    } catch (error) {
+      return cb(error, false);
     }
   }
   public upload = multer({
-    // dest: 'public/avatar/'
     storage: this.storage,
     fileFilter: this.fileFilter,
     limits: { fileSize: 1024 * 1024 * 5 }
   });
 }
-const upload = new MulterConfig().upload;
+var upload = new MulterConfig().upload;
+
+
 export const uploadOne = util.promisify(upload.single('file'));

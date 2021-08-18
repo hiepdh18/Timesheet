@@ -363,7 +363,8 @@ class UserService implements IService {
   };
 
   updateAvatar = async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.file);
+    const path = req.file.path.slice(6);
+    const userId = req.body.userId;
     let response: IResponse = {
       result: null,
       targetUrl: null,
@@ -373,11 +374,11 @@ class UserService implements IService {
       __abp: true
     }
     try {
-      if (await this._userRepos.findById(Number(1))) {
-
+      if (await this._userRepos.findById(userId)) {
+        this._userRepos.changeAvatar(userId, path);
         response = {
           ...response,
-          result: 'avatars/hiep-avatar.jpg',
+          result: path,
           success: true,
         }
         res.status(200).json(response);
@@ -410,7 +411,7 @@ class UserService implements IService {
       __abp: true
     }
     try {
-      console.log(newPassword,'new Pass');
+      console.log(newPassword, 'new Pass');
       const user = await this._userRepos.findById(userId);
       const check = await bcrypt.compare(adminPassword, req.currentUser.password);
       if (check && user) {

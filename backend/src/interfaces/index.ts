@@ -13,4 +13,3 @@ export { IProjectTask } from './ProjectTaskInterface';
 export { IProjectUser } from './ProjectUserInterface';
 export { ITimeSheet } from './TimeSheetInterface';
 export { IRole } from './RolesInterface';
-export { IRepositorySpecs } from './RepositorySpecsInterface';

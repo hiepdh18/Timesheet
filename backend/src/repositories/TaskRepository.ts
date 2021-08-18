@@ -2,8 +2,7 @@ import { BaseRepository } from "./BaseRepository";
 import { Task, TaskSchema } from '../models'
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IRepositorySpecs, ITask } from "../interfaces";
-import { schemaOption } from "../constants";
+import { ITask } from "../interfaces";
 
 class TaskRepository extends BaseRepository<ITask> {
   constructor() {

@@ -1,6 +1,4 @@
-import { Types } from "mongoose";
-import { schemaOption } from "../constants";
-import { ICustomer, IRepositorySpecs } from "../interfaces";
+import { ICustomer } from "../interfaces";
 import { Customer ,CustomerSchema} from "../models";
 import { logger } from "../services/logger";
 import { BaseRepository } from "./BaseRepository";

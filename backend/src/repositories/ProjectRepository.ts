@@ -2,9 +2,7 @@ import { BaseRepository } from "./BaseRepository";
 import { Project, ProjectSchema } from '../models'
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IProject, IRepositorySpecs } from "../interfaces";
-import { ProjectStatus } from "../constants/Enums";
-import { schemaOption } from "../constants";
+import { IProject } from "../interfaces";
 
 class ProjectRepository extends BaseRepository<IProject> {
   constructor() {

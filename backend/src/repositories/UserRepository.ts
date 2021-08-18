@@ -87,6 +87,15 @@ class UserRepository extends BaseRepository<IUser> {
       logger.error(error)
     }
   }
+  public async changeAvatar(id: number, path: string): Promise<IUser> {
+    try {
+      await User.updateOne({ id }, { avatarPath: path });
+      return this.findById(id)
+    } catch (error) {
+      console.log(error)
+      logger.error(error)
+    }
+  }
   public async findByUsernameOrEmail(userNameOrEmail: string): Promise<IUser> {
     try {
       const user = await this.findByUsername(userNameOrEmail);
