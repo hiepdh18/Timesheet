@@ -134,7 +134,7 @@ class UserService implements IService {
       let list = [];
       for (let user of users) {
         let base = pick(user, ['userName', 'name', 'surname', 'emailAddress', 'phoneNumber', 'address', 'isActive', 'fullName', 'roleNames', 'type', 'salary', 'salaryAt', 'startDateAt', 'allowedLeaveDay', 'userCode', 'jobTitle', 'level', 'registerWorkDay', 'avatarPath', 'managerId', 'branch', 'sex', 'creationTime', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonEndAt', 'id'])
-        let pus = await this._projectUserRepo.getByUserId(user.id);
+        let pus = await this._projectUserRepo.findByUserId(user.id);
         let manager = await this._userRepos.findById(user.managerId)
         let projectUsers = [];
         for (let pu of pus) {
@@ -182,7 +182,7 @@ class UserService implements IService {
     }
     try {
       if (await this._userRepos.findById(user.id)) {
-        let updatedUser = await this._userRepos.updateUser(user);
+        let updatedUser = await this._userRepos.update(user);
         updatedUser = pick(updatedUser, ['userName', 'name', 'surname', 'emailAddress', 'phoneNumber', 'address', 'isActive', 'fullName', 'roleNames', 'type', 'salary', 'salaryAt', 'startDateAt', 'allowedLeaveDay', 'userCode', 'jobTitle', 'level', 'registerWorkDay', 'managerId', 'branch', 'sex', 'avatarPath', 'morningWorking', 'morningStartAt', 'morningEndAt', 'afternoonWorking', 'afternoonStartAt', 'afternoonEndAt', 'isWorkingTimeDefault', 'isStopWork', 'id']);
         response = {
           ...response,
@@ -215,9 +215,9 @@ class UserService implements IService {
     }
     try {
       const user = await this._userRepos.findById(Number(id));
-      const projectUsers = await this._projectUserRepo.getByUserId(Number(id));
+      const projectUsers = await this._projectUserRepo.findByUserId(Number(id));
       if (user && projectUsers.length == 0) {
-        await this._userRepos.deleteUser(Number(id));
+        await this._userRepos.delete(Number(id));
         response = {
           ...response,
           success: true

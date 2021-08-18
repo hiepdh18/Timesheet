@@ -1,38 +1,19 @@
 import { Types } from "mongoose";
 import { ITimeSheet } from "../interfaces/TimeSheetInterface";
-import { TimeSheet } from "../models";
+import { TimeSheet, TimeSheetSchema } from "../models";
 import { logger } from "../services/logger";
 import { BaseRepository } from "./BaseRepository";
 
 /**
  * @description MytimeSheetRepository.
  */
-class MytimeSheetRepository extends BaseRepository {
+class MytimeSheetRepository extends BaseRepository<ITimeSheet> {
   constructor() {
-    super();
+    super("TimeSheet", TimeSheetSchema);
   }
-
-  public async getLastId(): Promise<number> {
-    try {
-      const lastTimeSheet = await TimeSheet.findOne().sort({ id: -1 });
-      if (lastTimeSheet) return lastTimeSheet.id;
-      return 0;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async findById(id: number): Promise<ITimeSheet> {
-    try {
-      return await TimeSheet.findOne({ id: id });
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
   public createTimeSheet = async (timeSheet: ITimeSheet): Promise<ITimeSheet> => {
     try {
-      let id = await this.getLastId() + 1;
+      let id = await this.lastId() + 1;
       let newTimeSheet = new TimeSheet({
         _id: Types.ObjectId(),
         ...timeSheet,
@@ -46,7 +27,6 @@ class MytimeSheetRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
   public approveTimesheet = async (id: number): Promise<ITimeSheet> => {
     try {
       await TimeSheet.updateOne({ id }, { status: 2 })
@@ -55,7 +35,6 @@ class MytimeSheetRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
   public rejectTimesheet = async (id: number): Promise<ITimeSheet> => {
     try {
       await TimeSheet.updateOne({ id }, { status: 3 })
@@ -64,24 +43,6 @@ class MytimeSheetRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
-  public updateTimeSheet = async (timeSheet: ITimeSheet): Promise<ITimeSheet> => {
-    try {
-      await TimeSheet.updateOne({ id: timeSheet.id }, timeSheet)
-      return await this.findById(timeSheet.id);
-    } catch (error) {
-      logger.error(error);
-    }
-  }
-
-  public deleteTimeSheet = async (id: number) => {
-    try {
-      await TimeSheet.deleteOne({ id })
-    } catch (error) {
-      logger.error(error);
-    }
-  }
-
   public getAllTimesheets = async (startDate: string, endDate: string, status: number): Promise<ITimeSheet[]> => {
     try {
       let timeSheets = await TimeSheet.find({
@@ -98,7 +59,6 @@ class MytimeSheetRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
   public getTimesheetsOfUser = async (userId: number, startDate: string, endDate: string): Promise<ITimeSheet[]> => {
     try {
       let timeSheets = await TimeSheet.find({
@@ -114,7 +74,5 @@ class MytimeSheetRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
-
 }
 export = new MytimeSheetRepository();

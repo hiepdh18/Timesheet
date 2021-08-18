@@ -4,7 +4,7 @@ import { IRole } from '../interfaces'
 
 export interface IRoleModel extends Model<IRole> { };
 
-const RoleSchema: Schema = new Schema({
+export const RoleSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   name: {

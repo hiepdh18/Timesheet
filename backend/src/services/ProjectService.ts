@@ -40,8 +40,8 @@ class ProjectService implements IService {
     try {
       let project = await this._projectRepo.findById(Number(input));
       project = pick(project, ['id', 'name', 'code', 'status', 'timeStart', 'timeEnd', 'note', 'projectType', 'customerId', 'isAllUserBelongTo'])
-      let projectTasks = await this._projectTaskRepo.getByProjectId(project.id);
-      let projectUsers = await this._projectUserRepo.getByProjectId(project.id);
+      let projectTasks = await this._projectTaskRepo.findByProjectId(project.id);
+      let projectUsers = await this._projectUserRepo.findByProjectId(project.id);
       let tasks = [];
       let users = [];
 
@@ -128,13 +128,13 @@ class ProjectService implements IService {
         if (await this._projectRepo.findById(project.id)) {
           await this._projectTaskRepo.deleteByProjectId(project.id);
           for (let task of tasks) {
-            await this._projectTaskRepo.create(task, project.id);
+            await this._projectTaskRepo.createProjectTask(task, project.id);
           }
           await this._projectUserRepo.deleteByProjectId(project.id);
           for (let user of users) {
-            await this._projectUserRepo.create(user, project.id);
+            await this._projectUserRepo.createProjectUser(user.userId, project.id);
           }
-          await this._projectRepo.updateProject(project);
+          await this._projectRepo.update(project);
           response = {
             ...response,
             success: true,
@@ -172,10 +172,10 @@ class ProjectService implements IService {
         else {
           let createdProject = await this._projectRepo.createProject(project);
           for (let user of users) {
-            await this._projectUserRepo.create(user, createdProject.id);
+            await this._projectUserRepo.createProjectUser(user.userId, createdProject.id);
           }
           for (let task of tasks) {
-            await this._projectTaskRepo.create(task, createdProject.id);
+            await this._projectTaskRepo.createProjectTask(task, createdProject.id);
           }
           response = {
             ...response,
@@ -201,7 +201,7 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-      await this._projectRepo.inactiveProject(id);
+      await this._projectRepo.deactiveProject(id);
       response = {
         ...response,
         success: true
@@ -287,13 +287,13 @@ class ProjectService implements IService {
     }
     try {
 
-      let projectUsers = await this._projectUserRepo.getByUserId(userId);
+      let projectUsers = await this._projectUserRepo.findByUserId(userId);
       let result = [];
       for (let x of projectUsers) {
         let project = await this._projectRepo.findById(x.projectId);
         let customer = await this._customerRepo.findById(project.customerId);
         let pms = await this._userRepo.getProjectManagers(project.id);
-        let projectTasks = await this._projectTaskRepo.getByProjectId(project.id);
+        let projectTasks = await this._projectTaskRepo.findByProjectId(project.id);
         let tasks = [];
         for (let x of projectTasks) {
           let task = await this._taskRepo.findById(x.taskId);

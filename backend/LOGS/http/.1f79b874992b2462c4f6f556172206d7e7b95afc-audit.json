@@ -94,6 +94,11 @@
             "date": 1629164544455,
             "name": "/home/hiepdh/Hiep/Node/project/timesheet-nodejs/backend/LOGS/http/17-08-2021.http.log",
             "hash": "7832b3d29322f201c4d884eecfb07a87"
+        },
+        {
+            "date": 1629252906873,
+            "name": "/home/hiepdh/Hiep/Node/project/timesheet-nodejs/backend/LOGS/http/18-08-2021.http.log",
+            "hash": "3ac1eaee6292e589250ae3ccfa0acc49"
         }
     ]
 }

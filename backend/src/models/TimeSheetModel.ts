@@ -5,7 +5,7 @@ import { ITimeSheet } from '../interfaces/TimeSheetInterface';
 
 export interface ITimeSheetModel extends Model<ITimeSheet> { };
 
-const TimeSheetSchema: Schema = new Schema({
+export const TimeSheetSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   status: { type: TimeSheetStatus },

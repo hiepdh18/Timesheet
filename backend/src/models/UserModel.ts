@@ -4,7 +4,7 @@ import { IUser } from '../interfaces'
 
 export interface IUserModel extends Model<IUser> { };
 
-const UserSchema: Schema = new Schema({
+export const UserSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   userName: { type: String, require: true },

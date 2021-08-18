@@ -1,34 +1,15 @@
 import { BaseRepository } from "./BaseRepository";
-import { Project, User } from '../models'
+import { Project, ProjectSchema } from '../models'
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
-import { IProject } from "../interfaces";
+import { IProject, IRepositorySpecs } from "../interfaces";
 import { ProjectStatus } from "../constants/Enums";
+import { schemaOption } from "../constants";
 
-class ProjectRepository extends BaseRepository {
+class ProjectRepository extends BaseRepository<IProject> {
   constructor() {
-    super()
+    super("Project", ProjectSchema);
   }
-
-  public async getLastId() {
-    try {
-      const lastProject = await Project.findOne().sort({ id: -1 });
-      if (lastProject) return lastProject.id;
-      return 0;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async findById(id: number): Promise<IProject> {
-    try {
-      return await Project.findOne({ id: id });
-    } catch (error) {
-      console.log(error);
-      logger.error(error)
-    }
-  }
-
   public async findByStatus(status, search: string): Promise<IProject[]> {
     try {
       const name = new RegExp(search, 'i');
@@ -39,33 +20,15 @@ class ProjectRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
-  public async findByName(name: string): Promise<IProject> {
-    try {
-      return await Project.findOne({ name });
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async findAll(): Promise<IProject[]> {
-    try {
-      return await Project.find();
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async getByCustomerId(customerId : number): Promise<IProject[]> {
+  public async findByCustomerId(customerId : number): Promise<IProject[]> {
     try {
       return await Project.find({ customerId});
     } catch (error) {
       logger.error(error)
     }
   }
-
   public async createProject(project: IProject): Promise<IProject> {
-    let id = await this.getLastId() + 1;
+    let id = await this.lastId() + 1;
     let newProject: IProject = new Project(
       {
         _id: Types.ObjectId(),
@@ -81,17 +44,7 @@ class ProjectRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
-  public async updateProject(project: IProject): Promise<IProject> {
-    try {
-      await Project.updateOne({ id: project.id }, project);
-      return await this.findById(project.id);
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async inactiveProject(projectId: number): Promise<boolean> {
+  public async deactiveProject(projectId: number): Promise<boolean> {
     try {
       await Project.updateOne({ id: projectId }, { status: 1 });
       return true;
@@ -99,7 +52,6 @@ class ProjectRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
   public async activeProject(projectId: number): Promise<boolean> {
     try {
       await Project.updateOne({ id: projectId }, { status: 0 });
@@ -108,7 +60,6 @@ class ProjectRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
   public async deleteProject(id: number): Promise<boolean> {
     try {
       await Project.deleteOne({ id: id });
@@ -117,24 +68,5 @@ class ProjectRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
-  // public async getName(id: number): Promise<string> {
-  //   try {
-  //     let project = await this.findById(id);
-  //     return project.name;
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // }
-
-  // public async getCode(id: number): Promise<string> {
-  //   try {
-  //     let project = await this.findById(id);
-  //     return project.code;
-  //   } catch (error) {
-  //     logger.error(error);
-  //   }
-  // }
-
 }
 export = new ProjectRepository();

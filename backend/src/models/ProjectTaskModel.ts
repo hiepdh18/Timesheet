@@ -4,7 +4,7 @@ import { IProjectTask } from '../interfaces'
 
 export interface IProjectTaskModel extends Model<IProjectTask> { };
 
-const ProjectTaskSchema: Schema = new Schema({
+export const ProjectTaskSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   projectId: Number,

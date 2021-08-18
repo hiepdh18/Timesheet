@@ -5,7 +5,7 @@ import { ITask } from '../interfaces'
 
 export interface ITaskModel extends Model<ITask> { };
 
-const TaskSchema: Schema = new Schema({
+export const TaskSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   name: {

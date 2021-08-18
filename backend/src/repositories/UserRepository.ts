@@ -1,27 +1,16 @@
 import { BaseRepository } from "./BaseRepository";
-import { User } from '../models';
+import { User, UserSchema } from '../models';
 import { Types } from "mongoose";
 import { logger } from "../services/logger";
 import { IUser } from "../interfaces";
 import projectUserRepo from "./ProjectUserRepository"
 
-class UserRepository extends BaseRepository {
+class UserRepository extends BaseRepository<IUser> {
   constructor() {
-    super();
+    super("User", UserSchema);
   }
-
-  public async getLastId() {
-    try {
-      const lastUser = await User.findOne().sort({ id: -1 });
-      if (lastUser) return await lastUser.id;
-      return 0;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
   public async createUser(user: IUser) {
-    const id = await this.getLastId() + 1;
+    const id = await this.lastId() + 1;
     const newUser: IUser = new User(
       {
         _id: Types.ObjectId(),
@@ -44,15 +33,6 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
-  public async findAll(): Promise<IUser[]> {
-    try {
-      const users = await User.find().select('name isActive type jobTitle level userCode avatarPath branch id');
-      return users;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
   public async findAllPagging(filterItems, max: number, skip: number, search: string): Promise<IUser[]> {
     try {
       let name = new RegExp(search, 'i');
@@ -65,17 +45,6 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
-  public async findById(id: number): Promise<IUser> {
-    try {
-      const user = await User.findOne({ id: id });
-      return user;
-    } catch (error) {
-      console.log(error);
-      logger.error(error)
-    }
-  }
-
   public async findByUsername(userName: string): Promise<IUser> {
     try {
       const user = await User.findOne({ userName: userName });
@@ -84,7 +53,6 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
   public async findUserHavingManager(): Promise<IUser[]> {
     try {
       const users = await User.find().where('managerId').ne(null);
@@ -93,33 +61,11 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
   public async findByEmail(email: string): Promise<IUser> {
     try {
       const user = await User.findOne({ emailAddress: email });
       return user;
     } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async deleteUser(id: number): Promise<boolean> {
-    try {
-      await User.deleteOne({ id });
-      return true;
-    } catch (error) {
-      console.log(error)
-      logger.error(error)
-    }
-  }
-
-  public async updateUser(user: IUser): Promise<IUser> {
-    try {
-      await User.updateOne({ id: user.id }, user);
-      let updatedUser = this.findById(user.id);
-      return updatedUser;
-    } catch (error) {
-      console.log(error)
       logger.error(error)
     }
   }
@@ -132,7 +78,6 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
   public async deActiveUser(id: number): Promise<boolean> {
     try {
       await User.updateOne({ id }, { isActive: false });
@@ -142,7 +87,6 @@ class UserRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
   public async findByUsernameOrEmail(userNameOrEmail: string): Promise<IUser> {
     try {
       const user = await this.findByUsername(userNameOrEmail);
@@ -152,10 +96,9 @@ class UserRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
   public async getProjectManagers(projectId: number): Promise<string[]> {
     try {
-      let members = await projectUserRepo.getByProjectId(projectId);
+      let members = await projectUserRepo.findByProjectId(projectId);
       members = members.filter((member) => {
         return member.type == 1;
       });
@@ -170,7 +113,6 @@ class UserRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
 }
 
 export = new UserRepository()

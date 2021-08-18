@@ -4,7 +4,7 @@ import { IProjectUser } from '../interfaces'
 
 export interface IProjectUserModel extends Model<IProjectUser> { };
 
-const ProjectUserSchema: Schema = new Schema({
+export const ProjectUserSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   projectId: Number,

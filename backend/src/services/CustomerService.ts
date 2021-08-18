@@ -81,7 +81,7 @@ class CustomerService implements IService {
       // case update customer
       if (customer.id) {
         if (await this._customerRepository.findById(customer.id)) {
-          let updatedCustomer = await this._customerRepository.updateCustomer(customer);
+          let updatedCustomer = await this._customerRepository.update(customer);
           response = {
             ...response,
             success: true,
@@ -105,7 +105,7 @@ class CustomerService implements IService {
       // case create new customer
       else {
         if (!await this._customerRepository.findByName(customer.name)) {
-          let newCustomer = await this._customerRepository.createCustomer(customer);
+          let newCustomer = await this._customerRepository.create(customer);
           response = {
             ...response,
             success: true,
@@ -145,9 +145,9 @@ class CustomerService implements IService {
     }
     try {
       const customer = await this._customerRepository.findById(id);
-      const projects = await this._projectRepo.getByCustomerId(id);
+      const projects = await this._projectRepo.findByCustomerId(id);
       if (customer && projects.length==0) {
-        await this._customerRepository.deleteCustomer(id);
+        await this._customerRepository.delete(id);
         response = {
           ...response,
           success: true

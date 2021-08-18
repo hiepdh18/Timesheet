@@ -4,7 +4,7 @@ import { ICustomer } from '../interfaces';
 
 export interface ICustomerModel extends Model<ICustomer> { };
 
-const CustomerSchema: Schema = new Schema({
+export const CustomerSchema: Schema = new Schema({
   _id: Types.ObjectId,
   id: { type: Number, require: true, unique: true },
   name: { type: String, require: true },

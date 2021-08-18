@@ -29,7 +29,7 @@ class TaskServive implements IService {
       // case update task
       if (task.id) {
         if (await this._taskRepository.findById(task.id)) {
-          const updatedTask = await this._taskRepository.updateTask(task)
+          const updatedTask = await this._taskRepository.update(task)
           response = {
             ...response,
             success: true,
@@ -53,7 +53,7 @@ class TaskServive implements IService {
       // case create new task
       else {
         if (! await this._taskRepository.findByName(task.name)) {
-          const newTask = await this._taskRepository.createTask(task);
+          const newTask = await this._taskRepository.create(task);
           response = {
             ...response,
             success: true,
@@ -113,10 +113,10 @@ class TaskServive implements IService {
       __abp: true
     }
     try {
-      const projectTasks = await  this._projectTaskRepo.getByTaskId(id);
+      const projectTasks = await  this._projectTaskRepo.findByTaskId(id);
       const task = await this._taskRepository.findById(id);
       if (task && projectTasks.length==0) {
-        await this._taskRepository.deleteTask(id);
+        await this._taskRepository.delete(id);
         response = {
           ...response,
           success: true

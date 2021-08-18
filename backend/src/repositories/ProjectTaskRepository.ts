@@ -1,31 +1,20 @@
 import { BaseRepository } from "./BaseRepository";
 import { logger } from "../services/logger";
-import { ProjectTask } from "../models";
+import { ProjectTask, ProjectTaskSchema } from "../models";
 import { IProjectTask } from "../interfaces";
 import { Types } from "mongoose";
 
-class ProjectTaskRepository extends BaseRepository {
+class ProjectTaskRepository extends BaseRepository<IProjectTask> {
   constructor() {
-    super()
+    super("ProjectTask", ProjectTaskSchema);
   }
-
-  public async getLastId(): Promise<number> {
-    try {
-      const lastProjectTask = await ProjectTask.findOne().sort({ id: -1 });
-      if (lastProjectTask) return lastProjectTask.id;
-      return 0;
-    } catch (error) {
-      logger.error(error)
-    }
-  }
-
-  public async create(task, projectId: number) {
-    let id = await this.getLastId() + 1;
+  public async createProjectTask(taskId, projectId: number) {
+    let id = await this.lastId() + 1;
     let projectTask = new ProjectTask({
       _id: Types.ObjectId(),
       id,
       projectId,
-      ...task
+      taskId
     });
     try {
       await projectTask.save();
@@ -35,17 +24,7 @@ class ProjectTaskRepository extends BaseRepository {
       logger.error(error);
     }
   }
-
-  public async findById(id: number): Promise<IProjectTask> {
-    try {
-      return await ProjectTask.findOne({ id: id });
-    } catch (error) {
-      console.log(error);
-      logger.error(error)
-    }
-  }
-
-  public async getByProjectId(projectId: number): Promise<IProjectTask[]> {
+  public async findByProjectId(projectId: number): Promise<IProjectTask[]> {
     try {
       let list = await ProjectTask.find({ projectId });
       return list;
@@ -53,7 +32,7 @@ class ProjectTaskRepository extends BaseRepository {
       logger.error(error)
     }
   }
-  public async getByTaskId(taskId: number): Promise<IProjectTask[]> {
+  public async findByTaskId(taskId: number): Promise<IProjectTask[]> {
     try {
       let list = await ProjectTask.find({ taskId });
       return list;
@@ -61,7 +40,6 @@ class ProjectTaskRepository extends BaseRepository {
       logger.error(error)
     }
   }
-
   public async deleteByProjectId(projectId: number): Promise<boolean> {
     try {
       await ProjectTask.deleteMany({ projectId });

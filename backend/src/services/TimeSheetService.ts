@@ -87,7 +87,7 @@ class MyTimeSheetService implements IService {
     };
     try {
       if (await this._timeSheetRepo.findById(timeSheet.id)) {
-        let updatedTimeSheet = await this._timeSheetRepo.updateTimeSheet(timeSheet);
+        let updatedTimeSheet = await this._timeSheetRepo.update(timeSheet);
         updatedTimeSheet = pick(updatedTimeSheet, ['id', 'typeOfWork', 'note', 'projectTaskId', 'status', 'projectTargetUserId', 'workingTime', 'dateAt', 'targetUserWorkingTime', 'isCharged'])
         response = {
           ...response,
@@ -128,7 +128,7 @@ class MyTimeSheetService implements IService {
     };
     try {
       if (await this._timeSheetRepo.findById(timeSheet.id)) {
-        let updatedTimeSheet = await this._timeSheetRepo.updateTimeSheet(timeSheet);
+        let updatedTimeSheet = await this._timeSheetRepo.update(timeSheet);
         updatedTimeSheet = pick(updatedTimeSheet, ['id', 'typeOfWork', 'note', 'projectTaskId', 'status', 'projectTargetUserId', 'workingTime', 'dateAt', 'targetUserWorkingTime', 'isCharged'])
         response = {
           ...response,
@@ -168,7 +168,7 @@ class MyTimeSheetService implements IService {
     };
     try {
       if (await this._timeSheetRepo.findById(Number(id))) {
-        await this._timeSheetRepo.deleteTimeSheet(Number(id));
+        await this._timeSheetRepo.delete(Number(id));
         response = {
           ...response,
           success: true
@@ -281,7 +281,7 @@ class MyTimeSheetService implements IService {
         if (x.status == 0) {
           count++;
           x.status = 1;
-          await this._timeSheetRepo.updateTimeSheet(x);
+          await this._timeSheetRepo.update(x);
         }
       }
       response = {

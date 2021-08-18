@@ -1,9 +1,9 @@
 
-export { Customer } from './CustomerModel';
-export { Project } from './ProjectModel';
-export { Task } from './TaskModel';
-export { User } from './UserModel';
-export { ProjectTask } from './ProjectTaskModel';
-export { ProjectUser } from './ProjectUserModel';
-export { TimeSheet } from './TimeSheetModel';
-export { Role } from './RoleModel';
+export { Customer, CustomerSchema } from './CustomerModel';
+export { Project, ProjectSchema } from './ProjectModel';
+export { Task, TaskSchema } from './TaskModel';
+export { User, UserSchema } from './UserModel';
+export { ProjectTask, ProjectTaskSchema } from './ProjectTaskModel';
+export { ProjectUser, ProjectUserSchema } from './ProjectUserModel';
+export { TimeSheet, TimeSheetSchema } from './TimeSheetModel';
+export { Role, RoleSchema } from './RoleModel';
