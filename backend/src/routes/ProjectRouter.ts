@@ -12,13 +12,13 @@ class ProjectRouter extends BaseRouter {
    * Connect routes to their matching controller endpoints.
    */
   protected init() {
-    this.router.get('/Get', this._service.get);
-    this.router.get('/GetAll', authen, author('Admin'),  this._service.getAllProject);
-    this.router.post('/Save', authen, author('Admin'),  this._service.saveProject);
-    this.router.post('/Inactive', authen, author('Admin'),  this._service.inactiveProject);
-    this.router.post('/Active', authen, author('Admin'),  this._service.activeProject);
-    this.router.delete('/Delete', authen, author('Admin'),  this._service.delete);
-    this.router.get('/GetProjectsIncludingTasks', authen, author('BasicUser'),  this._service.getProjectsIncludingTasks);
+    this.router.get('/Get', authen, author('Admin'), this._service.get);
+    this.router.get('/GetAll', authen, author('Admin'), this._service.getAllProject);
+    this.router.post('/Save', authen, author('Admin'), this._service.saveProject);
+    this.router.post('/Inactive', authen, author('Admin'), this._service.inactiveProject);
+    this.router.post('/Active', authen, author('Admin'), this._service.activeProject);
+    this.router.delete('/Delete', authen, author('Admin'), this._service.delete);
+    this.router.get('/GetProjectsIncludingTasks', authen, author('BasicUser'), this._service.getProjectsIncludingTasks);
   }
 }
 

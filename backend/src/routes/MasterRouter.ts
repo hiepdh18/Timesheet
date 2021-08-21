@@ -19,7 +19,6 @@ class MasterRouter extends BaseRouter {
   private configure() {
     // define onfigurations
     this.router.use(cors());
-
     this.router.use(express.json()); // to support JSON-encoded bodies
     this.router.use(
       express.urlencoded({

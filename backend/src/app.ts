@@ -5,7 +5,7 @@ import express from 'express';
 import path from 'path';
 import allRoutes from 'express-list-endpoints';
 import { handleError, handleNotfound } from "./services/exception";
-import morgan from "morgan"
+import morgan from "morgan";
 
 /**
  * Application class.
@@ -38,9 +38,7 @@ export class Application {
     this.server.app.use('/avatars', express.static(path.join(__dirname + '/../public/avatars')));
   }
 
-
   private initDatabase() {
     mongoService.connect();
   }
-
 }

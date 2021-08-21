@@ -286,7 +286,6 @@ class ProjectService implements IService {
       __abp: true
     }
     try {
-
       let projectUsers = await this._projectUserRepo.findByUserId(userId);
       let result = [];
       for (let x of projectUsers) {

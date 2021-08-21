@@ -44,7 +44,6 @@ class CustomerService implements IService {
       next(error);
     }
   };
-
   getAll = async (req: Request, res: Response, next: NextFunction) => {
     let response: GetAllCustomerResDTO = {
       result: null,
@@ -66,7 +65,6 @@ class CustomerService implements IService {
       next(error);
     }
   };
-
   saveCustomer = async (req: Request, res: Response, next: NextFunction) => {
     let customer: CustomerDTO = req.body;
     let response: CreateCustomerResDTO = {
@@ -126,7 +124,6 @@ class CustomerService implements IService {
           res.status(500).json(response);
         }
       }
-
     } catch (error) {
       next(error);
     }

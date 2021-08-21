@@ -3,7 +3,7 @@ import sessionRouter from './SessionRouter';
 import customerRouter from './CustomerRouter';
 import myTimeSheetRouter from './MyTimeSheetRouter';
 import timeSheetRouter from './TimeSheetRouter';
-import ProjectRouter from './ProjectRouter';
+import projectRouter from './ProjectRouter';
 import taskRouter from './TaskRouter';
 import userRouter from './UserRouter';
 import configurationRouter from './ConfigurationRouter';
@@ -25,7 +25,7 @@ class ServiceRouter extends BaseRouter {
     this.router.use('/Customer', customerRouter);
     this.router.use('/MyTimesheets', myTimeSheetRouter);
     this.router.use('/Timesheet', timeSheetRouter);
-    this.router.use('/Project', ProjectRouter);
+    this.router.use('/Project', projectRouter);
     this.router.use('/Task', taskRouter);
     this.router.use('/User', userRouter);
     this.router.use('/TimeKeeping', timekeepingRouter);
